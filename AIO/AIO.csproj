@@ -51,9 +51,14 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Druidsettings.cs" />
     <Compile Include="Deathknight.cs" />
     <Compile Include="DKSettings.cs" />
+    <Compile Include="Druid.cs" />
+    <Compile Include="Extension.cs" />
     <Compile Include="Main.cs" />
+    <Compile Include="Priest.cs" />
+    <Compile Include="Priestsettings.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -58,6 +58,9 @@
     <Compile Include="Extension.cs" />
     <Compile Include="Hunter.cs" />
     <Compile Include="Huntersettings.cs" />
+    <Compile Include="Mage.cs" />
+    <Compile Include="MageFoodManager.cs" />
+    <Compile Include="Magesettings.cs" />
     <Compile Include="Main.cs" />
     <Compile Include="Paladin.cs" />
     <Compile Include="Paladinsettings.cs" />

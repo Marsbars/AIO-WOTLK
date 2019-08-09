@@ -60,23 +60,23 @@ public class Main : ICustomClass
 
     public static void LogFight(string message)
     {
-        Logging.Write($"[WholesomeFCWOTLK - {wowClass}]: { message}", Logging.LogType.Fight, Color.ForestGreen);
+        Logging.Write($"[WOTLK - {wowClass}]: { message}", Logging.LogType.Fight, Color.ForestGreen);
     }
 
     public static void LogError(string message)
     {
-        Logging.Write($"[WholesomeFCWOTLK - {wowClass}]: {message}", Logging.LogType.Error, Color.DarkRed);
+        Logging.Write($"[WOTLK - {wowClass}]: {message}", Logging.LogType.Error, Color.DarkRed);
     }
 
     public static void Log(string message)
     {
-        Logging.Write($"[WholesomeFCWOTLK - {wowClass}]: {message}");
+        Logging.Write($"[WOTLK - {wowClass}]: {message}");
     }
 
     public static void LogDebug(string message)
     {
         if (_debug)
-            Logging.WriteDebug($"[WholesomeFCWOTLK - {wowClass}]: { message}");
+            Logging.WriteDebug($"[WOTLK - {wowClass}]: { message}");
     }
 
     private string GetSpec()

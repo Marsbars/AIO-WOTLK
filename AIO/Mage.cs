@@ -20,8 +20,6 @@ public static class Mage
     private static MageFoodManager _foodManager = new MageFoodManager();
     public static WoWUnit MyTarget { get { return ObjectManager.Target; } }
     public static WoWPlayer Me { get { return ObjectManager.Me; } }
-
-    public static float Range { get { return 30f; } }
     public static bool _isLaunched;
     //Damage SPells
     public static Spell IceLance = new Spell("Ice Lance");
@@ -81,6 +79,7 @@ public static class Mage
         {
             try
             {
+                Main.settingRange = 33f;
                 if (Conditions.InGameAndConnectedAndAliveAndProductStartedNotInPause && !Fight.InFight)
                 {
                     if (Magesettings.CurrentSetting.Framelock)

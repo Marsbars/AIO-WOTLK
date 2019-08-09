@@ -10,7 +10,6 @@ using System.Linq;
 
 public static class Paladin
 {
-    public static float Range { get { return 5.0f; } }
     private static bool _isLaunched;
     public static WoWUnit MyTarget { get { return ObjectManager.Target; } }
     public static WoWPlayer Me { get { return ObjectManager.Me; } }
@@ -96,6 +95,7 @@ public static class Paladin
         {
             try
             {
+                Main.settingRange = 5f;
                 if (!(Fight.InFight))
                 {
                     BuffRotation();

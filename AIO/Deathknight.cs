@@ -15,7 +15,6 @@ using wManager;
 
 public static class Deathknight
 {
-    public static float Range { get { return 5.0f; } }
     private static bool _isLaunched;
 
     public static Spell IcyTouch = new Spell("Icy Touch");
@@ -80,6 +79,7 @@ public static class Deathknight
         {
             try
             {
+                Main.settingRange = 5f;
                 if (!Fight.InFight)
                 {
                     BuffRotation();

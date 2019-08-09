@@ -10,17 +10,7 @@ using System.Linq;
 
 public static class Druid
 {
-    public static float Range 
-    {
-        get
-        {
-            if (lowlevel)
-            {
-                return 29f;
-            }
-            return 5f;
-        }
-    }
+
     public static bool lowlevel;
     private static bool _isLaunched;
     public static WoWUnit MyTarget { get { return ObjectManager.Target; } }
@@ -140,6 +130,11 @@ public static class Druid
         {
             try
             {
+                if(lowlevel)
+                {
+                    Main.settingRange = 33f;
+                }
+                Main.settingRange = 5f;
                 if (!(Fight.InFight))
                 {
                     Healing();

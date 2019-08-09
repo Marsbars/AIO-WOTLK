@@ -13,7 +13,6 @@ using wManager.Events;
 
 public static class Hunter
 {
-    public static float Range { get { return 25f; } }
     private static bool _isLaunched;
     public static WoWUnit MyTarget { get { return ObjectManager.Target; } }
     public static WoWPlayer Me { get { return ObjectManager.Me; } }
@@ -59,6 +58,7 @@ public static class Hunter
     {
         Multitarget();
         RangeManager();
+
         //HunterSettings.Load(); //to add  Settings later
         if (ObjectManager.Me.WowClass == WoWClass.Hunter)
         {

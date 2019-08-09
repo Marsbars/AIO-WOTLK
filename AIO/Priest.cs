@@ -19,8 +19,6 @@ public static class Priest
 
     public static WoWUnit MyTarget { get { return ObjectManager.Target; } }
     public static WoWPlayer Me { get { return ObjectManager.Me; } }
-
-    public static float Range { get { return 25f; } }
     private static bool _isLaunched;
     //Damage Spells
     public static Spell Smite = new Spell("Smite");//lvl 1
@@ -110,6 +108,7 @@ public static class Priest
         {
             try
             {
+                Main.settingRange = 33f;
                 if (Conditions.InGameAndConnectedAndAliveAndProductStartedNotInPause && !Fight.InFight)
                 {
                     if (Priestsettings.CurrentSetting.Framelock)

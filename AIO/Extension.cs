@@ -16,13 +16,6 @@ using wManager.Events;
 class Extension
 {
 
-    /// <summary>
-    ///FighSpellClass
-    /// </summary>  
-    ///Spell is the actually used Spell in this Context
-    ///Focus if the Spell should be casted on Focus
-    ///Force the Spell to be cast, all other channeing Spells will be disrupted
-    ///Casting FightSpell: Extension.FightSpell(test, false, false);
 
     public static bool FightSpell(Spell spell, bool focus = false, bool force = false, bool stopMoving = false)
     {
@@ -54,14 +47,7 @@ class Extension
         return false;
     }
 
-    /// <summary>
-    ///BuffSpellClass
-    /// </summary>    
-    ///Spell is the actually used Spell in this Context
-    ///CanBeMounted gives true/false if this Spell can be used on Mount
-    ///Casting BuffSpell: Extension.BuffSpell(test, false);
-    ///Example for CrusaderAura:
-    ///Casting BuffSpell: Extension.BuffSpell(test, true);
+
     public static bool BuffSpell(Spell spell, bool CanBeMounted = false, bool force = false)
     {
         if (spell.KnownSpell && spell.IsSpellUsable && !ObjectManager.Me.HaveBuff(spell.Name))
@@ -80,11 +66,7 @@ class Extension
         }
         return false;
     }
-    /// <summary>
-    ///PetSpellClass
-    /// </summary>
-    /// Validates Summonings for Hunter and Warlocks
-    ///Casting PetSpell: Extension.PetSpell(test);
+
     public static bool PetSpell(Spell spell)
     {
         if (spell.KnownSpell && spell.IsSpellUsable && !ObjectManager.Me.IsMounted && !ObjectManager.Pet.IsValid && !ObjectManager.Pet.IsAlive)
@@ -96,10 +78,7 @@ class Extension
         }
         return false;
     }
-    /// <summary>
-    ///SelfHealSpells
-    /// </summary>	
-    ///Cast 
+
     public static bool HealSpell(Spell spell, bool CanBeMounted = false, bool force = false, bool focus = false)
     {
         if (spell.KnownSpell && spell.IsSpellUsable && !ObjectManager.Me.HaveBuff(spell.Name))
@@ -128,17 +107,7 @@ class Extension
         }
         return false;
     }
-    /// <summary>
-    /// Cast a Groupheal
-    /// </s﻿ummary>
-    ///﻿ <param name="spell">The heal you want to cast</param>
-    /// <param name="target">The target you want to heal</param>
-    /// <param name="healthProcent">The health procent we want to heal</param>
-    /// <param name="buffTimeLeft">Recast if buff is under the given time</param>
-    /// <param name="stacks">How much stacks you want at the target</param>
-    /// <param name="debuff">The debuff we are looking for</param>
-    /// <param name="owner">Flag that determines if we need to be the owner</param>
-    /// <returns>Returns true if we can cast the spell otherwise false</returns>
+
     public static bool GroupHealSpell(Spell spell, WoWUnit target, int buffTimeLeft = 0, int stacks = 0, Spel﻿l debuff = null, bool owner = true)
     {
         bool hasDebuff;
@@ -177,15 +146,7 @@ class Extension
         // Return
         return false;
     }
-    /// <summary>
-    /// Determines if the given target has the buff with the given conditions
-    /// </summary>
-    /// ﻿<param name="spell">The spell you want to check</param>
-    /// <﻿param name="target">The target you want to check</param>
-    /// <param name="buffTimeLeft">Recast if buff time is under the given time</param>
-    /// <param name="stacks">How much stacks you want at the target</param>
-    /// <param name="owner">Flag that determines if we need to be the owner</param>
-    /// <returns>Returns true if the target has the spell on it with the given conditions otherwise false</returns>
+
     public static bool HasBuff(Spell spell, WoWUnit target, double buffTimeLeft = 0, int stacks = 0, bool owner = true)
     {
         // Get target auras
@@ -218,42 +179,12 @@ class Extension
         // Return
         return false;
     }
-    /// <summary>
-    ///Multidot
-    /// </summary>
-	//public static bool MultiDot(string spell, int distance)
-    //{
-    //    WoWUnit dotTarget = ObjectManager﻿.GetWoWUnitHostile()
-    //     .Where(o => o.IsAlive && o.IsValid && !o.HaveBuff(spell) && o.GetDistance <= distance)
-    //     .OrderBy(o => o.Health)
-    //     .FirstOrDefault();
-    //   var oldFocus = ObjectManager.Me.FocusGuid;
-    //    ObjectManager.Me.FocusGuid = dotTarget.Guid;
-    //    if (dotTarget != null)
-    //    {
-    //        if (!MovementManager.IsFacing(ObjectManager.Me.Position, ObjectManager.Me.Rotation, dotTarget.Position, 1.6f)) return false;
-    //        Extension.FightSpell(spell, true);
-    //        ObjectManager.Me.FocusGuid = oldFocus;
-    //        return true;
-    //    }
-    //    return false;
-    //}
 
-    /// <summary>
-    ///Attackerscount
-    /// </summary>
-    /// To get the Number of Attackers in a Range of 10 to Me
-    /// Extension.GetAttackingUnits(10)
     public static IEnumerable<WoWUnit> GetAttackingUnits(int range)
     {
         return ObjectManager.GetUnitAttackPlayer().Where(u => u.Position.DistanceTo(ObjectManager.Target.Position) <= range);
     }
-    /// <summary>
-    /// Get attacking units from another unit
-    /// </summary>
-    /// <param name="from">Take hostile units from this unit</param>
-    /// <param name="maxRange">Take hostile units within this range</param>
-    /// Use: if(Condition1 && AttackingUnits(ObjectManager.Me, 15).Count < 3)
+
     public List<WoWUnit> AttackingUnits(WoWUnit from, float maxRange = 10)
     {
         return ObjectManager.GetWoWUnitHostile().Where(i =>
@@ -261,10 +192,7 @@ class Extension
             && from.Position.DistanceTo(i.Position) <= maxRange
         ).ToList();
     }
-    /// <summary>
-    ///Framelock Helpers for Activating and Deactivating Framelock
-    /// </summary>
-    /// To prevent Failed loops because of Movement Input LuaToMove will be activated
+
     public static void Frameunlock()
     {
         if (Memory.WowMemory.FrameIsLocked && Hook.AllowFrameLock)
@@ -286,11 +214,7 @@ class Extension
             Thread.Sleep(10);
         }
     }
-    /// <summary>
-    /// Used to get the item quantity by name.
-    /// </summary>
-    ///The item name
-    ///Replacement for GetItemCount.
+
     public static int GetItemQuantity(string itemName)
     {
         var execute =
@@ -312,15 +236,8 @@ class Extension
         return Lua.LuaDoString<int>(execute);
     }
 
-    /// <summary>
-    /// Used to delete all items by name.
-    /// </summary>
-	///Example for how to use with SoulShards
-    /// if (ItemsManager.GetItemCountByIdLUA(6265) >= 5)
-    /// {
-    ///    Extension.DeleteItems("Soul Shard", 5);
-    /// }
-    #region
+
+
     public static void DeleteItems(string itemName, int leaveAmount)
     {
         var itemQuantity = GetItemQuantity(itemName) - leaveAmount;
@@ -359,11 +276,7 @@ class Extension
             "end; ";
         Lua.LuaDoString(execute);
     }
-    #endregion
-    /// <summary>
-    /// Returns the talent tree with the most invested points
-    /// </summary>
-    /// <returns>Returns the tree index</returns>
+
     public static int GetSpecialization()
     {
         KeyValuePair<int, int> highestPointTree = new KeyValuePair<int, int>(0, 0);
@@ -386,20 +299,7 @@ class Extension
         return highestPointTree.Key;
     }
 
-    /// <summary>
-    /// Checks if Enemyplayer are around
-    /// </summary>
-    ///Use of Code:
-    ///
-    //if (nearestPlayerEnemy.IsValid && nearestPlayerEnemy.IsAlive && nearestPlayerEnemy.GetDistance < 50 && nearestPlayerEnemy.IsTargetingMe)
-    //{
-    //    Interact.InteractGameObject(nearestPlayerEnemy.GetBaseAddress);
 
-    //    if (ObjectManager.Me.Target == nearestPlayerEnemy.Guid)
-    //    {
-    //        return; 
-    //    }
-    //}
     private void PlayerCheck()
     {
         List<WoWPlayer> enemyPlayerList;
@@ -412,9 +312,6 @@ class Extension
         WoWPlayer nearestPlayerEnemy = ObjectManager.GetNearestWoWPlayer(enemyPlayerList);
 
     }
-    /// <summary>
-    /// Checks if me behind my Target
-    /// </summary>	
 
     public static bool meBehindTarget()
     {

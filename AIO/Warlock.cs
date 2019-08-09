@@ -17,8 +17,6 @@ using wManager.Events;
 public static class Warlock
 {
 
-    private static string productName = "Talamin Warlock Routine";
-    private static string productVersion = "1.0.0";
 
     public static WoWUnit MyTarget { get { return ObjectManager.Target; } }
     public static WoWPlayer Me { get { return ObjectManager.Me; } }

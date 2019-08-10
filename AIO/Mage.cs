@@ -79,7 +79,7 @@ public static class Mage
         {
             try
             {
-                Main.settingRange = 33f;
+                Main.settingRange = 25f;
                 if (Conditions.InGameAndConnectedAndAliveAndProductStartedNotInPause && !Fight.InFight)
                 {
                     if (Magesettings.CurrentSetting.Framelock)
@@ -153,10 +153,10 @@ public static class Mage
         {
             Extension.FightSpell(Fireball);
         }
-        Extension.FightSpell(Frostbolt);
+        Extension.FightSpell(Frostbolt, false,false,false,false);
         if(MyTarget.HealthPercent < 10)
         {
-            Extension.FightSpell(FireBlast,false,false,true);
+            Extension.FightSpell(FireBlast);
         }
  
         Extension.Frameunlock();

@@ -17,10 +17,17 @@ class Extension
 {
 
 
-    public static bool FightSpell(Spell spell, bool focus = false, bool force = false, bool stopMoving = false)
+    public static bool FightSpell(Spell spell, bool focus = false, bool force = false, bool stopMoving = false, bool debuff = true)
     {
-        if (spell.KnownSpell && spell.IsSpellUsable && spell.IsDistanceGood && ObjectManager.Me.HasTarget && ObjectManager.Target.IsAttackable && !ObjectManager.Target.HaveBuff(spell.Name))
+        if (spell.KnownSpell && spell.IsSpellUsable && spell.IsDistanceGood && ObjectManager.Me.HasTarget && ObjectManager.Target.IsAttackable)
         {
+            if(debuff)
+            {
+                if(ObjectManager.Target.HaveBuff(spell.Name))
+                {
+                    return false;
+                }
+            }
             if (force)
             {
                 Lua.LuaDoString("SpellStopCasting();");

@@ -161,13 +161,13 @@ public static class Hunter
                 Extension.BuffSpell(AspecoftheViper);
             }
 
-            if (Me.ManaPercentage > 90)
+            if (Me.ManaPercentage > 30)
             {
                 Extension.BuffSpell(AspecoftheDragonhawk);
             }
 
             if (!AspecoftheDragonhawk.KnownSpell
-                && Me.ManaPercentage > 90)
+                && Me.ManaPercentage > 30)
             {
                 Extension.BuffSpell(AspecoftheHawk);
             }

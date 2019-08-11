@@ -34,6 +34,7 @@ public static class Warrior
     public static Spell Execute = new Spell("Execute");
     public static Spell SweepingStrikes = new Spell("Sweeping Strikes");
     public static Spell Bloodthirst = new Spell("Bloodthirst");
+    public static Spell VictoryRush = new Spell("Victory Rush");
     
        
 
@@ -109,6 +110,7 @@ public static class Warrior
     }
     private static void CombatRotation()
     {
+        Extension.FightSpell(VictoryRush);
         Extension.FightSpell(Rend);
         if(MyTarget.GetDistance >7)
         {

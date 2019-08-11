@@ -158,7 +158,10 @@ public static class Mage
         {
             Extension.FightSpell(FireBlast);
         }
- 
+        if(MyTarget.GetDistance <7)
+        {
+            Extension.FightSpell(FrostNova);
+        }
         Extension.Frameunlock();
     }
 
@@ -240,11 +243,7 @@ public static class Mage
     private static void RangeManager()
     {
         wManager.Events.FightEvents.OnFightLoop += (unit, cancelable) => {
-            if (MyTarget.GetDistance < 6 && FrostNova.KnownSpell)
-            {
-                Extension.FightSpell(FrostNova);
-            }
-            if(MyTarget.HaveBuff(FrostNova.Id))
+            if (MyTarget.GetDistance < 6 && MyTarget.HaveBuff(FrostNova.Id))
                 {
 
                     var xvector = (ObjectManager.Me.Position.X) - (ObjectManager.Target.Position.X);
@@ -252,8 +251,8 @@ public static class Mage
 
                     Vector3 newpos = new Vector3()
                     {
-                        X = ObjectManager.Me.Position.X + (float)((xvector * (15 / ObjectManager.Target.GetDistance) - xvector)),
-                        Y = ObjectManager.Me.Position.Y + (float)((yvector * (15 / ObjectManager.Target.GetDistance) - yvector)),
+                        X = ObjectManager.Me.Position.X + (float)((xvector * (20 / ObjectManager.Target.GetDistance) - xvector)),
+                        Y = ObjectManager.Me.Position.Y + (float)((yvector * (20 / ObjectManager.Target.GetDistance) - yvector)),
                         Z = ObjectManager.Me.Position.Z
                     };
                     MovementManager.Go(PathFinder.FindPath(newpos), false);

@@ -92,6 +92,7 @@ public static class Hunter
         {
             try
             {
+                Main.settingRange = 25f;
                 if (Conditions.InGameAndConnectedAndAliveAndProductStartedNotInPause && !(Fight.InFight))
                 {
                     BuffRotation(); // Out of Combat buffing

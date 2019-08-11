@@ -19,7 +19,7 @@ class Extension
 
     public static bool FightSpell(Spell spell, bool focus = false, bool force = false, bool stopMoving = false, bool debuff = true)
     {
-        if (spell.KnownSpell && spell.IsSpellUsable && spell.IsDistanceGood && ObjectManager.Me.HasTarget && ObjectManager.Target.IsAttackable)
+        if (spell.KnownSpell && spell.IsSpellUsable && spell.IsDistanceGood && ObjectManager.Me.HasTarget && ObjectManager.Target.IsAttackable && !TraceLine.TraceLineGo(ObjectManager.Me.Position, ObjectManager.Target.Position))
         {
             if(debuff)
             {

@@ -347,7 +347,7 @@ public static class Hunter
     }
 
     //FoodPart for Pet
-    public static void Feed()
+    private static void Feed()
     {
         if (ObjectManager.Pet.IsAlive && PetFeedTimer.IsReady && Lua.LuaDoString<int>("happiness, damagePercentage, loyaltyRate = GetPetHappiness() return happiness", "") < 3)
             FeedPet();
@@ -355,12 +355,12 @@ public static class Hunter
         return;
     }
 
-    public static string PetFoodType()
+    private static string PetFoodType()
     {
         return (string)Lua.LuaDoString<string>("return GetPetFoodTypes();", "");
     }
 
-    public static List<string> FoodList()
+    private static List<string> FoodList()
     {
         return new List<string>()
     {
@@ -379,12 +379,12 @@ public static class Hunter
     };
     }
 
-    public static List<string> Fungus()
+    private static List<string> Fungus()
     {
         return new List<string>() { "Raw Black Truffle" };
     }
 
-    public static List<string> FishList()
+    private static List<string> FishList()
     {
         return new List<string>()
     {
@@ -401,7 +401,7 @@ public static class Hunter
     };
     }
 
-    public static List<string> FruitList()
+    private static List<string> FruitList()
     {
         return new List<string>()
     {
@@ -419,7 +419,7 @@ public static class Hunter
     };
     }
 
-    public static List<string> BreadList()
+    private static List<string> BreadList()
     {
         return new List<string>()
     {
@@ -434,7 +434,7 @@ public static class Hunter
     };
     }
 
-    public static void FeedByType(List<string> list)
+    private static void FeedByType(List<string> list)
     {
         foreach (string str in list)
         {
@@ -446,7 +446,7 @@ public static class Hunter
             }
         }
     }
-    public static void FeedPet()
+    private static void FeedPet()
     {
         if (PetFoodType().Contains("Meat"))
             FeedByType(FoodList());

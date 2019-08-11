@@ -15,8 +15,9 @@ using wManager;
 
 public static class Warrior
 {
-    private static bool _isLaunched;
-
+    public static bool _isLaunched;
+    public static WoWUnit MyTarget { get { return ObjectManager.Target; } }
+    public static WoWPlayer Me { get { return ObjectManager.Me; } }
     public static Spell Attack = new Spell("Attack");
     public static Spell HeroicStrike = new Spell("Heroic Strike");
     public static Spell BattleShout = new Spell("Battle Shout");
@@ -108,6 +109,10 @@ public static class Warrior
     }
     private static void CombatRotation()
     {
+        if(MyTarget.GetDistance >7)
+        {
+            Extension.FightSpell(Charge);
+        }
         Extension.FightSpell(HeroicStrike);
     }
 

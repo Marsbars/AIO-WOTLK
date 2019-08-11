@@ -17,34 +17,29 @@ public static class Warrior
 {
     private static bool _isLaunched;
 
-    public static Spell IcyTouch = new Spell("Icy Touch");
-    public static Spell ChainsOfIce = new Spell("Chains of Ice");
-    public static Spell PlagueStrike = new Spell("Plague Strike");
-    public static Spell BloodStrike = new Spell("Blood Strike");
-    public static Spell HeartSTrike = new Spell("Heartstrike");
-    public static Spell DeathCoil = new Spell("Death Coil");
-    public static Spell DeathGrip = new Spell("Death Grip");
-    public static Spell BloodBoil = new Spell("Blood Boil");
-    public static Spell Pestilence = new Spell("Pestilence");
-    public static Spell Strangulate = new Spell("Strangulate");
-    public static Spell MindFreeze = new Spell("Mind Freeze");
-    public static Spell DeathAndDecay = new Spell("Death and Decay");
-    public static Spell DeathStrike = new Spell("Death Strike");
-    public static Spell Obliterate = new Spell("Obliterate");
-    public static Spell BloodPresence = new Spell("Blood Presence");
-    public static Spell FrostPresence = new Spell("Frost Presence");
-    public static Spell IceBoundFortitude = new Spell("Icebound Fortitude");
-    public static Spell RuneStrike = new Spell("Rune Strike");
-    public static Spell HornofWinter = new Spell("Horn of Winter");
-    public static Timer Pestilencetimer = new Timer();
-
-
-
+    public static Spell Attack = new Spell("Attack");
+    public static Spell HeroicStrike = new Spell("Heroic Strike");
+    public static Spell BattleShout = new Spell("Battle Shout");
+    public static Spell Charge = new Spell("Charge");
+    public static Spell Rend = new Spell("Rend");
+    public static Spell Hamstring = new Spell("Hamstring");
+    public static Spell BloodRage = new Spell("Bloodrage");
+    public static Spell Overpower = new Spell("Overpower");
+    public static Spell DemoralizingShout = new Spell("Demoralizing Shout");
+    public static Spell Throw = new Spell("Throw");
+    public static Spell Shoot = new Spell("Shoot");
+    public static Spell Retaliation = new Spell("Retaliation");
+    public static Spell Cleave = new Spell("Cleave");
+    public static Spell Execute = new Spell("Execute");
+    public static Spell SweepingStrikes = new Spell("Sweeping Strikes");
+    public static Spell Bloodthirst = new Spell("Bloodthirst");
+    
+       
 
     public static void Initialize()
     {
 
-        DKSettings.Load();
+        Warriorsettings.Load();
         {
             _isLaunched = true;
 
@@ -113,13 +108,13 @@ public static class Warrior
     }
     private static void CombatRotation()
     {
-
+        Extension.FightSpell(HeroicStrike);
     }
 
 
     private static void BuffRotation()
     {
-
+        Extension.BuffSpell(BattleShout);
 
     }
 

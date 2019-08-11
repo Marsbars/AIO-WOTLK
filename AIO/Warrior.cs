@@ -109,6 +109,7 @@ public static class Warrior
     }
     private static void CombatRotation()
     {
+        Extension.FightSpell(Rend);
         if(MyTarget.GetDistance >7)
         {
             Extension.FightSpell(Charge);

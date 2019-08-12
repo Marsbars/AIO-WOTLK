@@ -21,9 +21,9 @@ class Extension
     {
         if (spell.KnownSpell && spell.IsSpellUsable && spell.IsDistanceGood && ObjectManager.Me.HasTarget && ObjectManager.Target.IsAttackable && !TraceLine.TraceLineGo(ObjectManager.Me.Position, ObjectManager.Target.Position))
         {
-            if(debuff)
+            if (debuff)
             {
-                if(ObjectManager.Target.HaveBuff(spell.Name))
+                if (ObjectManager.Target.HaveBuff(spell.Name))
                 {
                     return false;
                 }
@@ -187,6 +187,50 @@ class Extension
         return false;
     }
 
+    #region Check Interruptspell Casting
+    public static bool InterruptSpell(Spell spell, bool CanBeMounted = false)
+    {
+        var resultLua = Lua.LuaDoString("ret = \"false\"; spell, rank, displayName, icon, startTime, endTime, isTradeSkill, ca﻿stID, interrupt = UnitCastingInfo(\"target\"); if interrupt then ret ﻿= \"true\" end", "ret");
+        if (spell.KnownSpell
+            && spell.IsSpellUsable
+            && resultLua == "true")
+        {
+            if (ObjectManager.Me.IsMounted == CanBeMounted)
+            {
+                Frameunlock();
+                spell.Launch();
+                Usefuls.WaitIsCasting();
+                return true;
+            }
+        }
+        return false;
+    }
+    #endregion
+
+    public static bool HasPoisonDebuff()
+    {
+        bool hasPoisonDebuff = Lua.LuaDoString<bool>
+            (@"for i=1,25 do 
+	            local _, _, _, _, d  = UnitDebuff('player',i);
+	            if d == 'Poison' then
+                return true
+                end
+            end");
+        return hasPoisonDebuff;
+    }
+
+    public static bool HasDiseaseDebuff()
+    {
+        bool hasDiseaseDebuff = Lua.LuaDoString<bool>
+            (@"for i=1,25 do 
+	            local _, _, _, _, d  = UnitDebuff('player',i);
+	            if d == 'Disease' then
+                return true
+                end
+            end");
+        return hasDiseaseDebuff;
+    }
+
     public static IEnumerable<WoWUnit> GetAttackingUnits(int range)
     {
         return ObjectManager.GetUnitAttackPlayer().Where(u => u.Position.DistanceTo(ObjectManager.Target.Position) <= range);
@@ -243,6 +287,26 @@ class Extension
         return Lua.LuaDoString<int>(execute);
     }
 
+    public static int GetItemCount(string itemName)
+    {
+        string countLua =
+            $@"
+        local fullCount = 0;
+        for bag=0,4 do
+            for slot=1,36 do
+                local itemLink = GetContainerItemLink(bag, slot);
+                if (itemLink) then
+                    local _,_, itemId = string.find(itemLink, 'item:(%d+):');
+                    if (GetItemInfo(itemId) == ""{itemName}"") then
+                        local texture, count = GetContainerItemInfo(bag, slot);
+                        fullCount = fullCount + count;
+                    end
+                end
+            end
+        end
+        return fullCount;";
+        return Lua.LuaDoString<int>(countLua);
+    }
 
 
     public static void DeleteItems(string itemName, int leaveAmount)

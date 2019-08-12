@@ -51,26 +51,32 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Druidsettings.cs" />
-    <Compile Include="Deathknight.cs" />
-    <Compile Include="DKSettings.cs" />
-    <Compile Include="Druid.cs" />
-    <Compile Include="Extension.cs" />
-    <Compile Include="Hunter.cs" />
-    <Compile Include="Huntersettings.cs" />
-    <Compile Include="Mage.cs" />
-    <Compile Include="MageFoodManager.cs" />
-    <Compile Include="Magesettings.cs" />
+    <Compile Include="Druid\Druidsettings.cs" />
+    <Compile Include="Deathknight\Deathknight.cs" />
+    <Compile Include="Deathknight\DKSettings.cs" />
+    <Compile Include="Druid\Druid.cs" />
+    <Compile Include="Helpers\Extension.cs" />
+    <Compile Include="Hunter\Hunter.cs" />
+    <Compile Include="Hunter\Huntersettings.cs" />
+    <Compile Include="Mage\Mage.cs" />
+    <Compile Include="Mage\MageFoodManager.cs" />
+    <Compile Include="Mage\Magesettings.cs" />
     <Compile Include="Main.cs" />
-    <Compile Include="Paladin.cs" />
-    <Compile Include="Paladinsettings.cs" />
-    <Compile Include="Priest.cs" />
-    <Compile Include="Priestsettings.cs" />
+    <Compile Include="Paladin\Paladin.cs" />
+    <Compile Include="Paladin\Paladinsettings.cs" />
+    <Compile Include="Priest\Priest.cs" />
+    <Compile Include="Priest\Priestsettings.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Warlock.cs" />
-    <Compile Include="Warlocksettings.cs" />
-    <Compile Include="Warrior.cs" />
-    <Compile Include="Warriorsettingscs.cs" />
+    <Compile Include="Rogue\Rogue.cs" />
+    <Compile Include="Rogue\Roguesettings.cs" />
+    <Compile Include="Shaman\Shaman.cs" />
+    <Compile Include="Shaman\Shamansettings.cs" />
+    <Compile Include="Shaman\TotemManager.cs" />
+    <Compile Include="Warlock\Warlock.cs" />
+    <Compile Include="Warlock\Warlocksettings.cs" />
+    <Compile Include="Warrior\Warrior.cs" />
+    <Compile Include="Warrior\Warriorsettingscs.cs" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

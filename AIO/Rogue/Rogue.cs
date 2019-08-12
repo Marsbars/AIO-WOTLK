@@ -36,6 +36,7 @@ public static class Rogue
     public static Spell AdrenalineRush = new Spell("Adrenaline Rush");
     public static Spell Eviscerate = new Spell("Eviscerate");
     public static Spell TricksoftheTrade = new Spell("Tricks of the Trade");
+    public static Spell Evasion = new Spell("Evasion");
     //interrupt
     public static Spell Kick = new Spell("Kick");
     public static Spell Blind = new Spell("Blind");
@@ -113,7 +114,21 @@ public static class Rogue
 
     public static void CombatRotation()
     {
-
+        if(MyTarget.IsCast)
+        {
+            Extension.FightSpell(Kick);
+        }
+        Extension.FightSpell(KillingSpree);
+        Extension.FightSpell(SinisterStrike);
+        if(Me.ComboPoint > 1)
+        {
+            Extension.BuffSpell(SliceandDice);
+        }
+        if(Extension.GetAttackingUnits(2).Count() > 1)
+        {
+            Extension.BuffSpell(Evasion);
+            Extension.BuffSpell(BladeFlurry);
+        }
 
     }
 
@@ -183,7 +198,7 @@ public static class Rogue
                 OHPoison = OP.First();
                 ItemsManager.UseItem(MHPoison);
                 Thread.Sleep(10);
-                Lua.LuaDoString("/click PickupInventoryItem(17)﻿");
+                Lua.LuaDoString("/click PickupInventoryItem(18)﻿");
                 Thread.Sleep(5000);
                 return;
             }

@@ -17,6 +17,8 @@ public static class Rogue
     public static WoWPlayer Me { get { return ObjectManager.Me; } }
     public static int MP;
     public static int OP;
+    public static uint MHPoison;
+    public static uint OHPoison;
     //Damage Spells
     public static Spell Garrotte = new Spell("Garrotte");
     public static Spell SinisterStrike = new Spell("Sinister Strike");
@@ -155,6 +157,38 @@ public static class Rogue
 
         bool hasoffHandWeapon = Lua.LuaDoString<bool>(@"local hasWeapon = OffhandHasWeapon()
             return hasWeapon");
+        
+        if(!hasMainHandEnchant)
+        {
+            
+            IEnumerable<uint>MP = InstantPoisonDictionary.Where(i => i.Key <= Me.Level && ItemsManager.HasItemById(i.Value)).OrderByDescending(i=> i.Key).Select(i=>i.Value);
+
+            if (MP.Any())
+            {
+                MHPoison = MP.First();
+                ItemsManager.UseItem(MHPoison);
+                Thread.Sleep(10);
+                Lua.LuaDoString("/click PickupInventoryItem(17)﻿");
+                Thread.Sleep(5000);
+                return;
+            }
+        }
+        if (!hasOffHandEnchant)
+        {
+
+            IEnumerable<uint> OP = InstantPoisonDictionary.Where(i => i.Key <= Me.Level && ItemsManager.HasItemById(i.Value)).OrderByDescending(i => i.Key).Select(i => i.Value);
+
+            if (OP.Any())
+            {
+                OHPoison = OP.First();
+                ItemsManager.UseItem(MHPoison);
+                Thread.Sleep(10);
+                Lua.LuaDoString("/click PickupInventoryItem(17)﻿");
+                Thread.Sleep(5000);
+                return;
+            }
+        }
+    }
         /* Poisons:
 
         Instant Poison 		Level 20	6947	Deadly Poison 		Level 30	2892
@@ -166,72 +200,55 @@ public static class Rogue
         Instant Poison VII	Level 68	21927	Deadly Poison VII	Level 70	22054
         Instant Poison VIII	Level 73	43230	Deadly Poison VIII	Level 76	43232
         Instant Poison IX	Level 79	43231	Deadly Poison IX	Level 80	43233
-
-                if (!ObjectManager.Me.HaveBuff(Rogue.CurrentSetting.p2) && ItemsManager.GetItemCountByNameLUA(Rogue.CurrentSetting.p2) < 1 && !(Rogue.CurrentSetting.p2 == string.Empty))
-                {
-                    ItemsManager.UseItem(Rogue.CurrentSetting.p2);
-                    Thread.Sleep(10);
-                    Lua.LuaDoString("/click PickupInventoryItem(17)﻿");
-                    Thread.Sleep(5000);
-                    return;
-                }
-
-                    if(Me.Level >= 20 && Me.Level <28)
-                    {
-                        MP = 6947;				
-                    } 
-                    if(Me.Level >= 28 && Me.Level <36)
-                    {
-                        MP = 6949;				
-                    } 
-                    if(Me.Level >= 36 && Me.Level <44)
-                    {
-                        MP = 6950;				
-                    } 			
-                    if(Me.Level >= 44 && Me.Level <52)
-                    {
-                        MP = 8926;				
-                    } 
-                    if(Me.Level >= 52 && Me.Level <60)
-                    {
-                        MP = 8927;				
-                    } 	
-                    if(Me.Level >= 60 && Me.Level <68)
-                    {
-                        MP = 8928;				
-                    } 
-                    if(Me.Level >= 68 && Me.Level <73)
-                    {
-                        MP = 21927;				
-                    } 
-                    if(Me.Level >= 73 && Me.Level <79)
-                    {
-                        MP = 43230;				
-                    } 
-                    if(Me.Level >= 79)
-                    {
-                        MP = 43231;				
-                    } 
-                if (!hasMainHandEnchant)
-                {
-                    ItemsManager.UseItemById(MP);
-                    Thread.Sleep(10);
-                    Lua.LuaDoString("/click PickupInventoryItem(17)﻿");
-                    Thread.Sleep(5000);
-                    return;					
-                }
-                if (!hasoffHandEnchant && hasoffHandWeapon)
-                {
-                    if(Me.Level )
-                }	
         */
-        if (Extension.GetItemCount("Instant Poison") > 1 && !hasMainHandEnchant)
-        {
+    private static Dictionary<int, uint> InstantPoisonDictionary = new Dictionary<int, uint>
+    {
+        { 20, 6947 },
+        { 28, 6949 },
+        { 36, 6950 },
+        { 44, 8926 },
+        { 52, 8927 },
+        { 60, 8928 },
+        { 68, 21927 },
+        { 73, 43230 },
+        { 79, 43231 },
+    };
 
-        }
-        if (Extension.GetItemCount("Deadly Poison") > 1 && hasoffHandWeapon && !hasOffHandEnchant)
-        {
+    private static Dictionary<int, uint> DeadlyPoisonDictionary = new Dictionary<int, uint>
+    {
+        { 30, 2892 },
+        { 38, 2893 },
+        { 46, 8984 },
+        { 54, 8985 },
+        { 60, 20844 },
+        { 62, 22053 },
+        { 70, 22054 },
+        { 76, 43232 },
+        { 80, 43233 },
+    };
 
-        }
-    }
+
+
+    /*         if (!hasMainHandEnchant)
+             {
+                 ItemsManager.UseItemById(MP);
+                 Thread.Sleep(10);
+                 Lua.LuaDoString("/click PickupInventoryItem(17)﻿");
+                 Thread.Sleep(5000);
+                 return;					
+             }
+             if (!hasoffHandEnchant && hasoffHandWeapon)
+             {
+                 if(Me.Level )
+             }	
+
+     if (Extension.GetItemCount("Instant Poison") > 1 && !hasMainHandEnchant)
+     {
+
+     }
+     if (Extension.GetItemCount("Deadly Poison") > 1 && hasoffHandWeapon && !hasOffHandEnchant)
+     {
+
+     }
+ }*/
 }

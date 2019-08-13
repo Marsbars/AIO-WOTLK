@@ -29,12 +29,12 @@ public static class Rogue
     public static Spell Envenom = new Spell("Envenom");
     public static Spell DeadlyThrow = new Spell("Deadly Throw");
     public static Spell FanofKnives = new Spell("Fan of Knives");
+    public static Spell Eviscerate = new Spell("Eviscerate");
     //Buff Spells
     public static Spell SliceandDice = new Spell("Slice and Dice");
     public static Spell BladeFlurry = new Spell("Blade Flurry");
     public static Spell Sprint = new Spell("Sprint");
     public static Spell AdrenalineRush = new Spell("Adrenaline Rush");
-    public static Spell Eviscerate = new Spell("Eviscerate");
     public static Spell TricksoftheTrade = new Spell("Tricks of the Trade");
     public static Spell Evasion = new Spell("Evasion");
     //interrupt
@@ -114,31 +114,38 @@ public static class Rogue
 
     public static void CombatRotation()
     {
-        if(MyTarget.IsCast)
+        if (MyTarget.HealthPercent < 20 && Me.ComboPoint <= 4)
         {
-            Extension.FightSpell(Kick);
+            Extension.FightSpell(Eviscerate);
         }
+        Extension.FightSpell(Riposte);
+        if (Me.ComboPoint <= 5)
+        {
+            Extension.FightSpell(Eviscerate);
+        }
+        if (MyTarget.GetDistance > 10)
+        {
+            Extension.BuffSpell(Sprint);
+        }
+        Extension.InterruptSpell(Kick);
         Extension.FightSpell(KillingSpree);
         Extension.FightSpell(SinisterStrike);
-        if(Me.ComboPoint > 1)
+        if (Me.ComboPoint > 1)
         {
             Extension.BuffSpell(SliceandDice);
         }
-        if(Extension.GetAttackingUnits(2).Count() > 1)
+        if (Extension.GetAttackingUnits(5).Count() > 1)
         {
             Extension.BuffSpell(Evasion);
             Extension.BuffSpell(BladeFlurry);
+            Extension.BuffSpell(AdrenalineRush);
         }
 
     }
 
     private static void Pull()
     {
-        if (Me.Level > 9 && Me.Level < 20)
-        {
 
-
-        }
     }
 
     private static void BuffRotation()
@@ -172,11 +179,11 @@ public static class Rogue
 
         bool hasoffHandWeapon = Lua.LuaDoString<bool>(@"local hasWeapon = OffhandHasWeapon()
             return hasWeapon");
-        
-        if(!hasMainHandEnchant)
+
+        if (!hasMainHandEnchant)
         {
-            
-            IEnumerable<uint>MP = InstantPoisonDictionary.Where(i => i.Key <= Me.Level && ItemsManager.HasItemById(i.Value)).OrderByDescending(i=> i.Key).Select(i=>i.Value);
+
+            IEnumerable<uint> MP = InstantPoisonDictionary.Where(i => i.Key <= Me.Level && ItemsManager.HasItemById(i.Value)).OrderByDescending(i => i.Key).Select(i => i.Value);
 
             if (MP.Any())
             {
@@ -188,7 +195,7 @@ public static class Rogue
                 return;
             }
         }
-        if (!hasOffHandEnchant)
+        if (!hasOffHandEnchant && hasoffHandWeapon)
         {
 
             IEnumerable<uint> OP = InstantPoisonDictionary.Where(i => i.Key <= Me.Level && ItemsManager.HasItemById(i.Value)).OrderByDescending(i => i.Key).Select(i => i.Value);
@@ -204,18 +211,18 @@ public static class Rogue
             }
         }
     }
-        /* Poisons:
+    /* Poisons:
 
-        Instant Poison 		Level 20	6947	Deadly Poison 		Level 30	2892
-        Instant Poison II	Level 28	6949	Deadly Poison II	Level 38	2893
-        Instant Poison III	Level 36	6950	Deadly Poison III	Level 46	8984
-        Instant Poison IV	Level 44	8926	Deadly Poison IV	Level 54	8985
-        Instant Poison V	Level 52	8927	Deadly Poison V		Level 60	20844
-        Instant Poison VI	Level 60	8928	Deadly Poison VI	Level 62	22053
-        Instant Poison VII	Level 68	21927	Deadly Poison VII	Level 70	22054
-        Instant Poison VIII	Level 73	43230	Deadly Poison VIII	Level 76	43232
-        Instant Poison IX	Level 79	43231	Deadly Poison IX	Level 80	43233
-        */
+    Instant Poison 		Level 20	6947	Deadly Poison 		Level 30	2892
+    Instant Poison II	Level 28	6949	Deadly Poison II	Level 38	2893
+    Instant Poison III	Level 36	6950	Deadly Poison III	Level 46	8984
+    Instant Poison IV	Level 44	8926	Deadly Poison IV	Level 54	8985
+    Instant Poison V	Level 52	8927	Deadly Poison V		Level 60	20844
+    Instant Poison VI	Level 60	8928	Deadly Poison VI	Level 62	22053
+    Instant Poison VII	Level 68	21927	Deadly Poison VII	Level 70	22054
+    Instant Poison VIII	Level 73	43230	Deadly Poison VIII	Level 76	43232
+    Instant Poison IX	Level 79	43231	Deadly Poison IX	Level 80	43233
+    */
     private static Dictionary<int, uint> InstantPoisonDictionary = new Dictionary<int, uint>
     {
         { 20, 6947 },
@@ -243,27 +250,4 @@ public static class Rogue
     };
 
 
-
-    /*         if (!hasMainHandEnchant)
-             {
-                 ItemsManager.UseItemById(MP);
-                 Thread.Sleep(10);
-                 Lua.LuaDoString("/click PickupInventoryItem(17)﻿");
-                 Thread.Sleep(5000);
-                 return;					
-             }
-             if (!hasoffHandEnchant && hasoffHandWeapon)
-             {
-                 if(Me.Level )
-             }	
-
-     if (Extension.GetItemCount("Instant Poison") > 1 && !hasMainHandEnchant)
-     {
-
-     }
-     if (Extension.GetItemCount("Deadly Poison") > 1 && hasoffHandWeapon && !hasOffHandEnchant)
-     {
-
-     }
- }*/
 }

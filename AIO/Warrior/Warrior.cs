@@ -35,8 +35,12 @@ public static class Warrior
     public static Spell SweepingStrikes = new Spell("Sweeping Strikes");
     public static Spell Bloodthirst = new Spell("Bloodthirst");
     public static Spell VictoryRush = new Spell("Victory Rush");
-    
-       
+    public static Spell ThunderClap = new Spell("Thunder Clap");
+    public static Spell Intercept = new Spell("Intercept");
+    public static Spell Whirlwind = new Spell("Whirlwind");
+    public static Spell Pummel = new Spell("Pummel");
+
+
 
     public static void Initialize()
     {
@@ -110,11 +114,24 @@ public static class Warrior
     }
     private static void CombatRotation()
     {
+        Extension.InterruptSpell(Pummel);
+        if (MyTarget.HealthPercent < 20)
+        {
+            Extension.FightSpell(Execute);
+        }
         Extension.FightSpell(VictoryRush);
         Extension.FightSpell(Rend);
-        if(MyTarget.GetDistance >7)
+        if (MyTarget.GetDistance > 7)
         {
+            Extension.FightSpell(Intercept);
             Extension.FightSpell(Charge);
+        }
+        if (Extension.GetAttackingUnits(5).Count() > 1)
+        {
+            Extension.FightSpell(ThunderClap);
+            Extension.FightSpell(Cleave);
+            Extension.FightSpell(Whirlwind);
+            Extension.BuffSpell(Bloodthirst);
         }
         Extension.FightSpell(HeroicStrike);
     }

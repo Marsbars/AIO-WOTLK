@@ -13,7 +13,7 @@ using Timer = robotManager.Helpful.Timer;
 using wManager.Wow;
 using wManager;
 
-public static class Deathknight
+public static class DeathKnight
 {
     private static bool _isLaunched;
 

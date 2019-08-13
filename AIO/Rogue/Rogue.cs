@@ -183,7 +183,10 @@ public static class Rogue
         if (!hasMainHandEnchant)
         {
 
-            IEnumerable<uint> MP = DeadlyPoisonDictionary.Where(i => i.Key <= Me.Level && ItemsManager.HasItemById(i.Value)).OrderByDescending(i => i.Key).Select(i => i.Value);
+            IEnumerable<uint> MP = DeadlyPoisonDictionary
+                .Where(i => i.Key <= Me.Level && ItemsManager.HasItemById(i.Value))
+                .OrderByDescending(i => i.Key)
+                .Select(i => i.Value);
 
             if (MP.Any())
             {
@@ -198,7 +201,10 @@ public static class Rogue
         if (!hasOffHandEnchant && hasoffHandWeapon)
         {
 
-            IEnumerable<uint> OP = InstantPoisonDictionary.Where(i => i.Key <= Me.Level && ItemsManager.HasItemById(i.Value)).OrderByDescending(i => i.Key).Select(i => i.Value);
+            IEnumerable<uint> OP = InstantPoisonDictionary
+                .Where(i => i.Key <= Me.Level && ItemsManager.HasItemById(i.Value))
+                .OrderByDescending(i => i.Key)
+                .Select(i => i.Value);
 
             if (OP.Any())
             {

@@ -183,7 +183,7 @@ public static class Rogue
         if (!hasMainHandEnchant)
         {
 
-            IEnumerable<uint> MP = InstantPoisonDictionary.Where(i => i.Key <= Me.Level && ItemsManager.HasItemById(i.Value)).OrderByDescending(i => i.Key).Select(i => i.Value);
+            IEnumerable<uint> MP = DeadlyPoisonDictionary.Where(i => i.Key <= Me.Level && ItemsManager.HasItemById(i.Value)).OrderByDescending(i => i.Key).Select(i => i.Value);
 
             if (MP.Any())
             {

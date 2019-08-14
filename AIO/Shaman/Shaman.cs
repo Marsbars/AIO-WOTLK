@@ -146,6 +146,10 @@ public static class Shaman
         if (Me.Level > 9 && Me.Level < 20)
         {
             lowlevel = true;
+            if (MyTarget.GetDistance < 20)
+            {
+                TotemManager.CastTotems();
+            }
             Extension.FightSpell(LightningBolt);
             Extension.FightSpell(EarthShock);
             if (Me.ManaPercentage > 40)
@@ -156,6 +160,10 @@ public static class Shaman
         if (Me.Level > 19 && Me.Level < 40)
         {
             lowlevel = false;
+            if (MyTarget.GetDistance < 20)
+            {
+                TotemManager.CastTotems();
+            }
             if (MyTarget.GetDistance > 20)
             {
                 Extension.FightSpell(LightningBolt);
@@ -172,6 +180,10 @@ public static class Shaman
         }
         if (Me.Level > 39 && Me.Level < 50)
         {
+            if (MyTarget.GetDistance < 20)
+            {
+                TotemManager.CastTotems();
+            }
             lowlevel = false;
             if (MyTarget.GetDistance > 20)
             {
@@ -180,7 +192,7 @@ public static class Shaman
             Extension.FightSpell(Stormstrike);
             Extension.FightSpell(EarthShock);
             Extension.FightSpell(LavaLash);
-			if (Me.ManaPercentage < 20)
+            if (Me.ManaPercentage < 20)
             {
                 Extension.BuffSpell(WaterShield);
             }
@@ -193,6 +205,10 @@ public static class Shaman
         if (Me.Level > 49 && Me.Level <= 80)
         {
             lowlevel = false;
+            if (MyTarget.GetDistance < 20)
+            {
+                TotemManager.CastTotems();
+            }
             if (MyTarget.GetDistance > 20)
             {
                 Extension.FightSpell(LightningBolt);
@@ -215,7 +231,7 @@ public static class Shaman
             Extension.FightSpell(Stormstrike);
             Extension.FightSpell(EarthShock);
             Extension.FightSpell(LavaLash);
-			if (Me.ManaPercentage < 20)
+            if (Me.ManaPercentage < 20)
             {
                 Extension.BuffSpell(WaterShield);
             }

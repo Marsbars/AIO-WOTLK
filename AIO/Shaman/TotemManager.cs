@@ -1,7 +1,17 @@
-﻿using robotManager.Helpful;
+﻿using System;
+using System.Threading;
+using robotManager.MemoryClass;
+using robotManager.Helpful;
+using wManager;
+using wManager.Wow;
 using wManager.Wow.Class;
+using wManager.Wow.Enums;
 using wManager.Wow.Helpers;
 using wManager.Wow.ObjectManager;
+using Timer = robotManager.Helpful.Timer;
+using System.Collections.Generic;
+using System.Linq;
+using wManager.Events;
 
 class TotemManager
 {
@@ -18,7 +28,7 @@ class TotemManager
     private static Spell WrathOfAirTotem = new Spell("Wrath of Air Totem");
     private static Spell EarthElementalTotem = new Spell("Earth Elemental Totem");
 
-    internal bool CastTotems()
+    internal static bool CastTotems()
     {
         if (CastWaterTotem())
             return true;
@@ -35,6 +45,8 @@ class TotemManager
     {
         if (Shamansettings.CurrentSetting.UseTotemicCall)
         {
+            //IEnumerable<WoWUnit> units =  ObjectManager.GetObjectWoWUnit().Where(u => u.UnitFlags == wManager.Wow.Enums.UnitFlags.Totem);
+
             bool haveEarthTotem = Lua.LuaDoString<string>(@"local _, totemName, _, _ = GetTotemInfo(2); return totemName;").Contains("Totem");
             bool haveFireTotem = Lua.LuaDoString<string>(@"local _, totemName, _, _ = GetTotemInfo(1); return totemName;").Contains("Totem");
             bool haveWindTotem = Lua.LuaDoString<string>(@"local _, totemName, _, _ = GetTotemInfo(4); return totemName;").Contains("Totem");

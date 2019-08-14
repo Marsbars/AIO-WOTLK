@@ -44,6 +44,7 @@ public static class Warlock
     public static Spell unstableaffliction = new Spell("Unstable Affliction");
     public static Spell shadowtrance = new Spell("Shadow Trance");
     public static Timer PetPullTimer = new Timer();
+    private static int SaveDrink = wManager.wManagerSetting.CurrentSetting.DrinkPercent;
 
     public static void Initialize()
     {
@@ -70,6 +71,7 @@ public static class Warlock
     public static void Dispose()
     {
         _isLaunched = false;
+        wManager.wManagerSetting.CurrentSetting.DrinkPercent = SaveDrink;
     }
 
 
@@ -90,6 +92,7 @@ public static class Warlock
                     Pethandler();
                     Pull();
                     Soulshard();
+                    Healthstone();
                 }
                 else
                 {
@@ -136,8 +139,8 @@ public static class Warlock
             {
                 Extension.Frameunlock();
                 Logging.Write("2 Attackers, one will get Feared");
-                WoWUnit mainTarget = Extension.GetAttackingUnits(5).Where(u => u.HealthPercent == Extension.GetAttackingUnits(5).Min(x => x.HealthPercent)).FirstOrDefault();
-                WoWUnit fearTarget = Extension.GetAttackingUnits(5).Where(u => u.HealthPercent == Extension.GetAttackingUnits(5).Max(x => x.HealthPercent)).FirstOrDefault();
+                WoWUnit mainTarget = Extension.GetAttackingUnits(10).Where(u => u.HealthPercent == Extension.GetAttackingUnits(10).Min(x => x.HealthPercent)).FirstOrDefault();
+                WoWUnit fearTarget = Extension.GetAttackingUnits(10).Where(u => u.HealthPercent == Extension.GetAttackingUnits(10).Max(x => x.HealthPercent)).FirstOrDefault();
                 if (fearTarget != mainTarget && !fearTarget.HaveBuff("Fear"))
                 {
                     ObjectManager.Me.FocusGuid = fearTarget.Guid;
@@ -170,6 +173,10 @@ public static class Warlock
         }
         Extension.FightSpell(corruption);
         Extension.FightSpell(curseofagony);
+        if (Warlocksettings.CurrentSetting.unstableaffl)
+        {
+            Extension.FightSpell(unstableaffliction);
+        }
         if (!curseofagony.KnownSpell)
         {
             Extension.FightSpell(immolate);
@@ -204,9 +211,17 @@ public static class Warlock
     #region Pethandler
     private static void Pethandler()
     {
-        if (!ObjectManager.Pet.IsAlive)
+        if (!ObjectManager.Pet.IsValid && !Me.IsMounted)
         {
-            Thread.Sleep(500); //workaround for recast after dismount
+            if (Me.ManaPercentage < 80 && !Me.HaveBuff("Drink"))
+            {
+                wManager.wManagerSetting.CurrentSetting.DrinkPercent = 95;
+                Thread.Sleep(1000);
+                return;
+            }
+            else
+                wManager.wManagerSetting.CurrentSetting.DrinkPercent = SaveDrink;
+            Thread.Sleep(100); //workaround for recast after dismount
             if (!summonvoid.KnownSpell || !summonvoid.IsSpellUsable)
             {
                 Extension.PetSpell(summonimp);
@@ -238,22 +253,19 @@ public static class Warlock
 
     private static void Healthstone()
     {
-        if (ItemsManager.GetItemCountByNameLUA("Lesser Healthstone") < 1
-            || ItemsManager.GetItemCountByNameLUA("Minor Healthstone") < 1
-            && createhealthstone.KnownSpell
-            && createhealthstone.IsSpellUsable)
+        if (!Consumables.HaveHealthstone())
         {
+            Extension.Frameunlock();
             Extension.BuffSpell(createhealthstone);
         }
     }
 
     private static void UseHealthstone()
     {
-        if (ItemsManager.GetItemCountByNameLUA("Lesser Healthstone") >= 1
-            && Me.HealthPercent < 20)
+        if (Me.HealthPercent < 20)
         {
             Extension.Frameunlock();
-            ItemsManager.UseItem(5512);
+            Consumables.UseHealthstone();
         }
     }
 

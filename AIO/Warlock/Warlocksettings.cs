@@ -48,6 +48,13 @@ public class Warlocksettings : Settings
     [Description("Tells on which PetHealth % to use Health Funnel")]
     public int Healthfunnel { get; set; }
 
+    [Setting]
+    [DefaultValue(true)]
+    [Category("Fight")]
+    [DisplayName("Unstable Affliction")]
+    [Description("Use Unstable Affliction in Fight?")]
+    public bool unstableaffl { get; set; }
+
     private Warlocksettings()
     {
         Framelock = false;
@@ -55,6 +62,7 @@ public class Warlocksettings : Settings
         Lifetap = 20;
         Drainlife = 40;
         Healthfunnel = 50;
+        unstableaffl = true;
     }
 
 

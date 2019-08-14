@@ -72,6 +72,7 @@
     <Compile Include="Shaman\Shaman.cs" />
     <Compile Include="Shaman\Shamansettings.cs" />
     <Compile Include="Shaman\TotemManager.cs" />
+    <Compile Include="Warlock\Consumables.cs" />
     <Compile Include="Warlock\Warlock.cs" />
     <Compile Include="Warlock\Warlocksettings.cs" />
     <Compile Include="Warrior\Warrior.cs" />

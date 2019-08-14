@@ -127,7 +127,12 @@ public static class Rogue
         {
             Extension.BuffSpell(Sprint);
         }
-        Extension.InterruptSpell(Kick);
+        if (Extension.InterruptableUnit(5f) != null && Kick.KnownSpell)
+        {
+            ObjectManager.Me.FocusGuid = Extension.InterruptableUnit(5f).Guid;
+            Extension.FightSpell(Kick, true);
+        }
+        //Extension.InterruptSpell(Kick);
         Extension.FightSpell(KillingSpree);
         Extension.FightSpell(SinisterStrike);
         if (Me.ComboPoint > 1)

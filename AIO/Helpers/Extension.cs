@@ -187,6 +187,7 @@ class Extension
         return false;
     }
 
+    //Old Version
     #region Check Interruptspell Casting
     public static bool InterruptSpell(Spell spell, bool CanBeMounted = false)
     {
@@ -230,12 +231,24 @@ class Extension
             end");
         return hasDiseaseDebuff;
     }
+    //Gives Attackingunits which are Casting, interrupt after 30% Casttime
+    public static WoWUnit InterruptableUnit(float distance)
+    {
+        return ObjectManager.GetWoWUnitAttackables(distance).Where(x =>
+                                                                    x.InCombat &&
+                                                                    x.HasTarget &&
+                                                                    x.IsCast &&
+                                                                    x.CanInterruptCasting &&
+                                                                    (((x.CastingTimeLeft / 1000) / x.CastingSpell.CastTime) * 100) < 70 &&
+                                                                    !TraceLine.TraceLineGo(ObjectManager.Me.Position, x.Position, CGWorldFrameHitFlags.HitTestSpellLoS)).OrderBy(x => x.GetDistance).FirstOrDefault();
+    }
 
+    //Gives Attackingunits in given Range
     public static IEnumerable<WoWUnit> GetAttackingUnits(int range)
     {
         return ObjectManager.GetUnitAttackPlayer().Where(u => u.Position.DistanceTo(ObjectManager.Target.Position) <= range);
     }
-
+    //Gives a List of attacking Units
     public List<WoWUnit> AttackingUnits(WoWUnit from, float maxRange = 10)
     {
         return ObjectManager.GetWoWUnitHostile().Where(i =>
@@ -243,7 +256,7 @@ class Extension
             && from.Position.DistanceTo(i.Position) <= maxRange
         ).ToList();
     }
-
+    //Unlocks Framelock
     public static void Frameunlock()
     {
         if (Memory.WowMemory.FrameIsLocked && Hook.AllowFrameLock)
@@ -254,7 +267,7 @@ class Extension
             Thread.Sleep(10);
         }
     }
-
+    //Locks Framelock
     public static void Framelock()
     {
         if (!Memory.WowMemory.FrameIsLocked && Hook.AllowFrameLock)
@@ -265,7 +278,7 @@ class Extension
             Thread.Sleep(10);
         }
     }
-
+    //Get Item Amount
     public static int GetItemQuantity(string itemName)
     {
         var execute =
@@ -286,7 +299,7 @@ class Extension
             "return itemCount; ";
         return Lua.LuaDoString<int>(execute);
     }
-
+    //Get Item Amount
     public static int GetItemCount(string itemName)
     {
         string countLua =
@@ -308,7 +321,7 @@ class Extension
         return Lua.LuaDoString<int>(countLua);
     }
 
-
+    //deletes items until the given Amount
     public static void DeleteItems(string itemName, int leaveAmount)
     {
         var itemQuantity = GetItemQuantity(itemName) - leaveAmount;
@@ -370,7 +383,7 @@ class Extension
         return highestPointTree.Key;
     }
 
-
+    //Checks if there are Players around me !equal my Faction
     private void PlayerCheck()
     {
         List<WoWPlayer> enemyPlayerList;
@@ -383,7 +396,7 @@ class Extension
         WoWPlayer nearestPlayerEnemy = ObjectManager.GetNearestWoWPlayer(enemyPlayerList);
 
     }
-
+    // Determines if me is behind the Target
     public static bool meBehindTarget()
     {
         var target = ObjectManager.Target;
@@ -403,6 +416,56 @@ class Extension
         if (r > 1.5 * Pi) backLeft = true;
         if (r < 0.5 * Pi) backRight = true;
         if (backLeft || backRight) return true; else return false;
+    }
+
+    // Uses the first item found in your bags that matches any element from the list
+    public static void UseFirstMatchingItem(List<string> list)
+    {
+        List<WoWItem> _bagItems = Bag.GetBagItem();
+        foreach (WoWItem item in _bagItems)
+        {
+            if (list.Contains(item.Name))
+            {
+                ItemsManager.UseItemByNameOrId(item.Name);
+                Main.Log("Using " + item.Name);
+                return;
+            }
+        }
+    }
+
+    // Checks if you have any of the listed items in your bags
+    public static bool HaveOneInList(List<string> list)
+    {
+        List<WoWItem> _bagItems = Bag.GetBagItem();
+        bool _haveItem = false;
+        foreach (WoWItem item in _bagItems)
+        {
+            if (list.Contains(item.Name))
+                _haveItem = true;
+        }
+        return _haveItem;
+    }
+
+    // Get item ID in bag from a list passed as argument (good to check CD)
+    public static int GetItemID(List<string> list)
+    {
+        List<WoWItem> _bagItems = Bag.GetBagItem();
+        foreach (WoWItem item in _bagItems)
+            if (list.Contains(item.Name))
+                return item.Entry;
+
+        return 0;
+    }
+
+    // Get item ID in bag from a string passed as argument (good to check CD)
+    public static int GetItemID(string itemName)
+    {
+        List<WoWItem> _bagItems = Bag.GetBagItem();
+        foreach (WoWItem item in _bagItems)
+            if (itemName.Equals(item))
+                return item.Entry;
+
+        return 0;
     }
 
 }

@@ -136,7 +136,14 @@ public static class Shaman
         if (Me.Level < 10)
         {
             lowlevel = true;
-            Extension.FightSpell(LightningBolt);
+            if (MyTarget.GetDistance < 20)
+            {
+                TotemManager.CastTotems();
+            }
+            if (MyTarget.GetDistance > 7)
+            {
+                Extension.FightSpell(LightningBolt);
+            }
             Extension.FightSpell(EarthShock);
             if (Me.ManaPercentage > 40)
             {

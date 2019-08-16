@@ -61,7 +61,6 @@ public static class Shaman
         {
             _isLaunched = false;
         }
-
     }
 
     public static void ShowConfiguration()

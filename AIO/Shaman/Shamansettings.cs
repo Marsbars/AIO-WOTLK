@@ -75,6 +75,13 @@ public class Shamansettings : Settings
     [Description("Use Water totems")]
     public bool UseWaterTotems { get; set; }
 
+    [Setting]
+    [DefaultValue(true)]
+    [Category("Totem")]
+    [DisplayName("Fire Nova")]
+    [Description("Use Fire Nova?")]
+    public bool UseFireNova { get; set; }
+
     private Shamansettings()
     {
         Framelock = false;
@@ -86,6 +93,7 @@ public class Shamansettings : Settings
         UseMagmaTotem = false;
         UseAirTotems = true;
         UseWaterTotems = true;
+        UseFireNova = true;
     }
 
 

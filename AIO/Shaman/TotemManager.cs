@@ -54,7 +54,7 @@ class TotemManager
             bool haveTotem = haveEarthTotem || haveFireTotem || haveWaterTotem || haveWindTotem;
 
             if (_lastTotemPosition != null && haveTotem && _lastTotemPosition.DistanceTo(ObjectManager.Me.Position) > 17
-                && !ObjectManager.Me.HaveBuff("Ghost Wolf") && !ObjectManager.Me.IsMounted && !ObjectManager.Me.IsCast)
+                && !ObjectManager.Me.HaveBuff("Ghost Wolf") && !ObjectManager.Me.IsMounted && !ObjectManager.Me.IsCast && TotemicCall.KnownSpell)
                 Cast(TotemicCall);
         }
     }

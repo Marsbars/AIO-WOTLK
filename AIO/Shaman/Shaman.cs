@@ -31,10 +31,12 @@ public static class Shaman
     private static Spell LavaLash = new Spell("Lava Lash");
     private static Spell ChainLightning = new Spell("Chain Lightning");
     private static Spell Attack = new Spell("Attack");
+    private static Spell FireNova = new Spell("Fire Nova");
+    private static Spell WindShear = new Spell("Wind Shear");
     //HealSpells
     private static Spell HealingWave = new Spell("Healing Wave");
     private static Spell LesserHealingWave = new Spell("Lesser Healing Wave");
-    private static Spell CurePoison = new Spell("Cure Poison");
+    private static Spell CurePoison = new Spell("Cure Toxins");
     private static Spell CureDisease = new Spell("Cure Disease");
 
     //BuffSpells
@@ -43,6 +45,7 @@ public static class Shaman
     private static Spell GhostWolf = new Spell("Ghost Wolf");
     private static Spell WindfuryWeapon = new Spell("Windfury Weapon");
     private static Spell RockbiterWeapon = new Spell("Rockbiter Weapon");
+    private static Spell FlametongueWeapon = new Spell("Flametongue Weapon");
 
 
     public static void Initialize()
@@ -119,8 +122,15 @@ public static class Shaman
     {
         bool Poison = Extension.HasPoisonDebuff();
         bool Disease = Extension.HasDiseaseDebuff();
+        if (Extension.InterruptableUnit(10f) != null && WindShear.KnownSpell)
+        {
+            Logging.Write("Interrupt Target found");
+            ObjectManager.Me.FocusGuid = Extension.InterruptableUnit(10f).Guid;
+            Logging.Write("Interrupt Target Set" + Extension.InterruptableUnit(10f).Guid);
+            Extension.FightSpell(WindShear, true);
+        }
 
-        if (Me.HealthPercent < 20)
+        if (Me.HealthPercent < 30)
         {
             Extension.HealSpell(HealingWave);
         }
@@ -139,6 +149,10 @@ public static class Shaman
             {
                 TotemManager.CastTotems();
             }
+            if(Me.Level < 4)
+            {
+                Extension.FightSpell(LightningBolt);
+            }
             if (MyTarget.GetDistance > 7)
             {
                 Extension.FightSpell(LightningBolt);
@@ -156,8 +170,23 @@ public static class Shaman
             {
                 TotemManager.CastTotems();
             }
-            Extension.FightSpell(LightningBolt);
-            Extension.FightSpell(EarthShock);
+            //_lastTotemPosition.DistanceTo(ObjectManager.Me.Position)
+            if (_fireTotemPosition.DistanceTo(Me.Position) < 10 && Extension.GetAttackingUnits(5).Count() > 1 && Shamansettings.CurrentSetting.UseFireNova)
+            {
+                Extension.FightSpell(FireNova);
+            }
+            if(MyTarget.GetDistance > 7)
+            {
+                Extension.FightSpell(LightningBolt);
+            }
+                if(!FlameShock.KnownSpell)
+                {
+                Extension.FightSpell(EarthShock);
+                }
+                else
+                {
+                    Extension.FightSpell(FlameShock);
+                }
             if (Me.ManaPercentage > 40)
             {
                 Extension.BuffSpell(LightningShield);
@@ -252,6 +281,7 @@ public static class Shaman
 
     private static void BuffRotation()
     {
+
         if (Me.ManaPercentage > 50 && Shamansettings.CurrentSetting.Ghostwolf && !Me.IsMounted)
         {
             Extension.BuffSpell(GhostWolf);
@@ -260,7 +290,24 @@ public static class Shaman
         {
             Extension.BuffSpell(WaterShield);
         }
-
+        if(Me.ManaPercentage > 90)
+        {
+            Extension.BuffSpell(LightningShield);
+        }
+        if(Me.HealthPercent < 40 && !Me.IsMounted)
+        {
+            Extension.HealSpell(HealingWave);
+        }
+        bool Poison = Extension.HasPoisonDebuff();
+        bool Disease = Extension.HasDiseaseDebuff();
+        if (Poison)
+        {
+            Extension.BuffSpell(CurePoison);
+        }
+        if (Disease)
+        {
+            Extension.BuffSpell(CureDisease);
+        }
     }
 
     #region Pull
@@ -294,11 +341,19 @@ public static class Shaman
 
         if (!hasMainHandEnchant || (hasoffHandWeapon && !hasOffHandEnchant))
         {
-            if (!WindfuryWeapon.KnownSpell && RockbiterWeapon.KnownSpell)
+            if (!WindfuryWeapon.KnownSpell && RockbiterWeapon.KnownSpell && !FlametongueWeapon.KnownSpell)
+            {
                 Extension.BuffSpell(RockbiterWeapon);
+            }
+            if(!WindfuryWeapon.KnownSpell && FlametongueWeapon.KnownSpell)
+            {
+                Extension.BuffSpell(FlametongueWeapon);
+            }
 
             if (WindfuryWeapon.KnownSpell)
+            {
                 Extension.BuffSpell(WindfuryWeapon);
+            }
         }
     }
 

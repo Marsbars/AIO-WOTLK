@@ -232,13 +232,14 @@ class Extension
         return hasDiseaseDebuff;
     }
     //Gives Attackingunits which are Casting, interrupt after 30% Casttime
+
     public static WoWUnit InterruptableUnit(float distance)
     {
         return ObjectManager.GetWoWUnitAttackables(distance).Where(x =>
                                                                     x.InCombat &&
                                                                     x.HasTarget &&
                                                                     x.IsCast &&
-                                                                    x.CanInterruptCasting &&
+                                                                    /*x.CanInterruptCasting &&*/
                                                                     (((x.CastingTimeLeft / 1000) / x.CastingSpell.CastTime) * 100) < 70 &&
                                                                     !TraceLine.TraceLineGo(ObjectManager.Me.Position, x.Position, CGWorldFrameHitFlags.HitTestSpellLoS)).OrderBy(x => x.GetDistance).FirstOrDefault();
     }

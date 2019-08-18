@@ -115,13 +115,23 @@ public static class DeathKnight
     {
         bool ffcheck = ObjectManager.Target.HaveBuff("Frost Fever");
         bool bpcheck = ObjectManager.Target.HaveBuff("Blood Plague");
-        if (ObjectManager.Target.IsCast && ObjectManager.Target.IsValid)
+        if (Extension.InterruptableUnit(5f) != null && MindFreeze.KnownSpell && MindFreeze.IsSpellUsable)
         {
-            InterruptSpell(MindFreeze);
-            if (!MindFreeze.IsSpellUsable)
-            {
-                InterruptSpell(Strangulate);
-            }
+            Logging.Write("Interrupt Target found");
+            ObjectManager.Me.FocusGuid = Extension.InterruptableUnit(5f).Guid;
+            Logging.Write("Interrupt Target Set" + Extension.InterruptableUnit(5f).Guid);
+            Extension.FightSpell(MindFreeze, true);
+        }
+        if (Extension.InterruptableUnit(20f) != null && Strangulate.KnownSpell && Strangulate.IsSpellUsable)
+        {
+            Logging.Write("Interrupt Target found");
+            ObjectManager.Me.FocusGuid = Extension.InterruptableUnit(20f).Guid;
+            Logging.Write("Interrupt Target Set" + Extension.InterruptableUnit(20f).Guid);
+            Extension.FightSpell(Strangulate, true);
+        }
+        if (DKSettings.CurrentSetting.DeathGrip && ObjectManager.Target.GetDistance > 10)
+        {
+            FightSpell(DeathGrip);
         }
         FightSpell(RuneStrike);
         if (!ffcheck)

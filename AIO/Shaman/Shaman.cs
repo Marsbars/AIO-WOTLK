@@ -122,7 +122,7 @@ public static class Shaman
     {
         bool Poison = Extension.HasPoisonDebuff();
         bool Disease = Extension.HasDiseaseDebuff();
-        if (Extension.InterruptableUnit(10f) != null && WindShear.KnownSpell)
+        if (Extension.InterruptableUnit(10f) != null && WindShear.KnownSpell && WindShear.IsSpellUsable)
         {
             Logging.Write("Interrupt Target found");
             ObjectManager.Me.FocusGuid = Extension.InterruptableUnit(10f).Guid;

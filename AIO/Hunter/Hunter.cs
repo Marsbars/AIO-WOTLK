@@ -288,21 +288,21 @@ public static class Hunter
 
     private static void PetRevivehandler()
     {
-        if (RevivePet.IsSpellUsable
-            && RevivePet.KnownSpell
-            && ObjectManager.Pet.IsDead
-            && !ObjectManager.Me.IsMounted)
-        {
-            RevivePet.Launch();
-            Usefuls.WaitIsCasting();
-            return;
-        }
         if (CallPet.IsSpellUsable
             && CallPet.KnownSpell
             && !ObjectManager.Pet.IsValid
             && !ObjectManager.Me.IsMounted)
         {
             CallPet.Launch();
+            Usefuls.WaitIsCasting();
+            return;
+        }
+        if (RevivePet.IsSpellUsable
+            && RevivePet.KnownSpell
+            && ObjectManager.Pet.IsDead
+            && !ObjectManager.Me.IsMounted)
+        {
+            RevivePet.Launch();
             Usefuls.WaitIsCasting();
             return;
         }
@@ -329,8 +329,13 @@ public static class Hunter
         if (Huntersettings.CurrentSetting.Checkpet)
         {
             if (ObjectManager.Pet.IsAlive && ObjectManager.Pet.IsValid && ObjectManager.Pet.HealthPercent < Huntersettings.CurrentSetting.PetHealth)
+                if(PetHealTimer.IsReady)
+                {
+                    Extension.PetSpell(MendPet);
+                    PetHealTimer = new Timer(1000 * 15);
+                }
                 System.Threading.Thread.Sleep(1000);
-            return;
+                return;
         }
 
         if (!AspecoftheHawk.KnownSpell)

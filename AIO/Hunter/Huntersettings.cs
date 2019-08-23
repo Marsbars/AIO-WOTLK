@@ -20,12 +20,28 @@ public class Huntersettings : Settings
     [Description("activate Framelock")]
     public bool Framelock { get; set; }
 
+    [Setting]
+    [DefaultValue(true)]
+    [Category("Pet")]
+    [DisplayName("Pet Health")]
+    [Description("Should Check Pet Health beore attack?")]
+    public bool Checkpet { get; set; }
+
+    [Setting]
+    [DefaultValue(80)]
+    [Category("Pet")]
+    [DisplayName("Pet Health")]
+    [Description("Set Treshhold for Petattack?")]
+    public int PetHealth { get; set; }
+
     public static Huntersettings CurrentSetting { get; set; }
 
     private Huntersettings()
     {
 
         Framelock = false;
+        PetHealth = 80;
+        Checkpet = true;
 
     }
 

@@ -19,6 +19,7 @@ public static class Hunter
     public static Timer PetFeedTimer = new Timer();
     public static Timer PetHealTimer = new Timer();
     public static Timer PetPullTimer = new Timer();
+    public static Timer MultiShotFeigndeath = new Timer();
 
     //range Combat Spells
     public static Spell HuntersMark = new Spell("Hunter's Mark"); //added
@@ -148,7 +149,10 @@ public static class Hunter
             }
             Extension.FightSpell(SerpentSting);
             Extension.FightSpell(ArcaneShot);
-            Extension.FightSpell(MultiShot);
+            if (MultiShotFeigndeath.IsReady)
+            {
+                Extension.FightSpell(MultiShot);
+            }
             Extension.FightSpell(SteadyShot, false, false, true);
 
             if (MyTarget.HealthPercent < 20)
@@ -188,6 +192,8 @@ public static class Hunter
             {
                 Extension.BuffSpell(FeignDeath);
                 Thread.Sleep(1500);
+                MultiShotFeigndeath = new Timer(1000 * 5);
+                return;
             }
             if (!AspecoftheDragonhawk.KnownSpell)
             {
@@ -320,6 +326,13 @@ public static class Hunter
 
     private static void BuffRotation()
     {
+        if (Huntersettings.CurrentSetting.Checkpet)
+        {
+            if (ObjectManager.Pet.IsAlive && ObjectManager.Pet.IsValid && ObjectManager.Pet.HealthPercent < Huntersettings.CurrentSetting.PetHealth)
+                System.Threading.Thread.Sleep(1000);
+            return;
+        }
+
         if (!AspecoftheHawk.KnownSpell)
         {
             Extension.BuffSpell(AspecoftheMonkey);

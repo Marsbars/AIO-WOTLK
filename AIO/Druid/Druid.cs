@@ -161,7 +161,7 @@ public static class Druid
             {
                 Logging.Write("error" + e);
             }
-            Thread.Sleep(Usefuls.Latency);
+            Thread.Sleep(Druidsettings.CurrentSetting.Delay);
         }
     }
 

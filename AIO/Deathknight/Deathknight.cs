@@ -107,7 +107,7 @@ public static class DeathKnight
             {
                 Logging.Write("error" + e);
             }
-            Thread.Sleep(Usefuls.Latency);
+            Thread.Sleep(DKSettings.CurrentSetting.Delay);
         }
 
     }

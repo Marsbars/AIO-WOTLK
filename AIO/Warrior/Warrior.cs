@@ -108,7 +108,7 @@ public static class Warrior
             {
                 Logging.Write("error" + e);
             }
-            Thread.Sleep(Usefuls.Latency);
+            Thread.Sleep(Warriorsettings.CurrentSetting.Delay);
         }
 
     }

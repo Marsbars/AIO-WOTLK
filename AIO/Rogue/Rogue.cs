@@ -108,7 +108,7 @@ public static class Rogue
             {
                 Logging.Write("error" + e);
             }
-            Thread.Sleep(Usefuls.Latency);
+            Thread.Sleep(Roguesettings.CurrentSetting.Delay);
         }
     }
 

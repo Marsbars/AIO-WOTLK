@@ -27,6 +27,9 @@ class TotemManager
     private static Spell MagmaTotem = new Spell("Magma Totem");
     private static Spell WrathOfAirTotem = new Spell("Wrath of Air Totem");
     private static Spell EarthElementalTotem = new Spell("Earth Elemental Totem");
+    private static Spell CalloftheElements = new Spell("Call of the Elements");
+
+
 
     internal static bool CastTotems()
     {
@@ -41,6 +44,20 @@ class TotemManager
         return false;
     }
 
+    internal static void CotE()
+    {
+
+        bool haveEarthTotem = Lua.LuaDoString<string>(@"local _, totemName, _, _ = GetTotemInfo(2); return totemName;").Contains("Totem");
+        bool haveFireTotem = Lua.LuaDoString<string>(@"local _, totemName, _, _ = GetTotemInfo(1); return totemName;").Contains("Totem");
+        bool haveWindTotem = Lua.LuaDoString<string>(@"local _, totemName, _, _ = GetTotemInfo(4); return totemName;").Contains("Totem");
+        bool haveWaterTotem = Lua.LuaDoString<string>(@"local _, totemName, _, _ = GetTotemInfo(3); return totemName;").Contains("Totem");
+        bool haveTotem = haveEarthTotem || haveFireTotem || haveWaterTotem || haveWindTotem;
+
+        if (CalloftheElements.KnownSpell && !haveTotem)
+        {
+            Cast(CalloftheElements);
+        }
+    }
     internal static void CheckForTotemicCall()
     {
         if (Shamansettings.CurrentSetting.UseTotemicCall)
@@ -53,8 +70,8 @@ class TotemManager
             bool haveWaterTotem = Lua.LuaDoString<string>(@"local _, totemName, _, _ = GetTotemInfo(3); return totemName;").Contains("Totem");
             bool haveTotem = haveEarthTotem || haveFireTotem || haveWaterTotem || haveWindTotem;
 
-            if (_lastTotemPosition != null && haveTotem && _lastTotemPosition.DistanceTo(ObjectManager.Me.Position) > 17
-                && !ObjectManager.Me.HaveBuff("Ghost Wolf") && !ObjectManager.Me.IsMounted && !ObjectManager.Me.IsCast && TotemicCall.KnownSpell)
+            if (_lastTotemPosition != null && haveTotem && !ObjectManager.Me.IsMounted && _lastTotemPosition.DistanceTo(ObjectManager.Me.Position) > 17
+                && !ObjectManager.Me.IsCast && TotemicCall.KnownSpell)
                 Cast(TotemicCall);
         }
     }
@@ -182,6 +199,9 @@ class TotemManager
         s.Launch();
 
         if (s.Name.Contains(" Totem"))
+            _lastTotemPosition = ObjectManager.Me.Position;
+
+        if (s.Name.Contains(" Elements"))
             _lastTotemPosition = ObjectManager.Me.Position;
 
         return true;

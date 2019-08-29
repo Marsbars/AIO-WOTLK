@@ -23,6 +23,13 @@ public class Shamansettings : Settings
     public bool Framelock { get; set; }
 
     [Setting]
+    [DefaultValue(50)]
+    [Category("General")]
+    [DisplayName("Delay")]
+    [Description("Set your Delay in MS (for bad PC´s) ")]
+    public int Delay { get; set; }
+
+    [Setting]
     [DefaultValue(true)]
     [Category("Combat")]
     [DisplayName("Ghostwolf")]
@@ -85,6 +92,7 @@ public class Shamansettings : Settings
     private Shamansettings()
     {
         Framelock = false;
+        Delay = 50;
         Ghostwolf = true;
         UseTotemicCall = true;
         UseEarthTotems = true;

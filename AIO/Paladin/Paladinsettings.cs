@@ -21,6 +21,13 @@ public class Paladinsettings : Settings
     public bool Framelock { get; set; }
 
     [Setting]
+    [DefaultValue(50)]
+    [Category("General")]
+    [DisplayName("Delay")]
+    [Description("Set your Delay in MS (for bad PC´s) ")]
+    public int Delay { get; set; }
+
+    [Setting]
     [DefaultValue(false)]
     [Category("General")]
     [DisplayName("Crusader")]
@@ -103,6 +110,7 @@ public class Paladinsettings : Settings
         HL = 50;
         FL = 30;
         RA = false;
+        Delay = 50;
     }
 
 

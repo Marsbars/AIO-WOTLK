@@ -114,7 +114,7 @@ public static class Warlock
                 Logging.WriteError("error" + e);
             }
 
-            Thread.Sleep(10);
+            Thread.Sleep(Warlocksettings.CurrentSetting.Delay);
         }
         Logging.Write("STOPPED");
         wManagerSetting.CurrentSetting.UseLuaToMove = false;

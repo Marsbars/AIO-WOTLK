@@ -20,12 +20,20 @@ public class Priestsettings : Settings
     [Description("activate Framelock")]
     public bool Framelock { get; set; }
 
+    [Setting]
+    [DefaultValue(50)]
+    [Category("General")]
+    [DisplayName("Delay")]
+    [Description("Set your Delay in MS (for bad PC´s) ")]
+    public int Delay { get; set; }
+
     public static Priestsettings CurrentSetting { get; set; }
 
     private Priestsettings()
     {
 
         Framelock = false;
+        Delay = 50;
 
     }
 

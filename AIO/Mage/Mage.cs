@@ -112,7 +112,7 @@ public static class Mage
                 Logging.WriteError("error" + e);
             }
 
-            Thread.Sleep(10);
+            Thread.Sleep(Magesettings.CurrentSetting.Delay);
         }
         Logging.Write("STOPPED");
         wManagerSetting.CurrentSetting.UseLuaToMove = false;

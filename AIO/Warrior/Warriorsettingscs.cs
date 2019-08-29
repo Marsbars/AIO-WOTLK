@@ -28,10 +28,18 @@ public class Warriorsettings : Settings
     [Description("switch Framelock if the fightingclass misses Spells")]
     public bool Framelock { get; set; }
 
+    [Setting]
+    [DefaultValue(50)]
+    [Category("General")]
+    [DisplayName("Delay")]
+    [Description("Set your Delay in MS (for bad PC´s) ")]
+    public int Delay { get; set; }
+
     private Warriorsettings()
     {
         DeathGrip = true;
         Framelock = false;
+        Delay = 50;
     }
 
 

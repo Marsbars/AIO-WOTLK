@@ -121,7 +121,7 @@ public static class Hunter
                 Logging.WriteError("error" + e);
             }
 
-            Thread.Sleep(10); // little sleep for 10ms
+            Thread.Sleep(Huntersettings.CurrentSetting.Delay); 
         }
         Logging.Write("STOPPED");
     }

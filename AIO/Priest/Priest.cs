@@ -138,7 +138,7 @@ public static class Priest
                 Logging.WriteError("error" + e);
             }
 
-            Thread.Sleep(10);
+            Thread.Sleep(Priestsettings.CurrentSetting.Delay);
         }
         Logging.Write("STOPPED");
         wManagerSetting.CurrentSetting.UseLuaToMove = false;

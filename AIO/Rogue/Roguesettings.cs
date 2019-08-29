@@ -21,6 +21,13 @@ public class Roguesettings : Settings
     public bool Framelock { get; set; }
 
     [Setting]
+    [DefaultValue(50)]
+    [Category("General")]
+    [DisplayName("Delay")]
+    [Description("Set your Delay in MS (for bad PC´s) ")]
+    public int Delay { get; set; }
+
+    [Setting]
     [DefaultValue(true)]
     [Category("Fighting")]
     [DisplayName("Stealth")]
@@ -35,6 +42,7 @@ public class Roguesettings : Settings
 
         Framelock = false;
         Stealth = true;
+        Delay = 50;
 
     }
 

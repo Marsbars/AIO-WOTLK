@@ -114,7 +114,7 @@ public static class Shaman
             {
                 Logging.Write("error" + e);
             }
-            Thread.Sleep(Usefuls.Latency);
+            Thread.Sleep(Shamansettings.CurrentSetting.Delay);
         }
 
     }
@@ -197,6 +197,7 @@ public static class Shaman
             lowlevel = false;
             if (MyTarget.GetDistance < 20)
             {
+                TotemManager.CotE();
                 TotemManager.CastTotems();
             }
             if (MyTarget.GetDistance > 20)
@@ -217,6 +218,7 @@ public static class Shaman
         {
             if (MyTarget.GetDistance < 20)
             {
+                TotemManager.CotE();
                 TotemManager.CastTotems();
             }
             lowlevel = false;
@@ -242,6 +244,7 @@ public static class Shaman
             lowlevel = false;
             if (MyTarget.GetDistance < 20)
             {
+                TotemManager.CotE();
                 TotemManager.CastTotems();
             }
             if (MyTarget.GetDistance > 20)

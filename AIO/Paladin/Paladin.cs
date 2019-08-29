@@ -130,7 +130,7 @@ public static class Paladin
             {
                 Logging.Write("error" + e);
             }
-            Thread.Sleep(Usefuls.Latency);
+            Thread.Sleep(Paladinsettings.CurrentSetting.Delay);
         }
     }
 

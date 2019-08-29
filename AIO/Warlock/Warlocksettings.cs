@@ -21,6 +21,13 @@ public class Warlocksettings : Settings
     public bool Framelock { get; set; }
 
     [Setting]
+    [DefaultValue(50)]
+    [Category("General")]
+    [DisplayName("Delay")]
+    [Description("Set your Delay in MS (for bad PC´s) ")]
+    public int Delay { get; set; }
+
+    [Setting]
     [DefaultValue(false)]
     [Category("Fight")]
     [DisplayName("Fear")]
@@ -58,6 +65,7 @@ public class Warlocksettings : Settings
     private Warlocksettings()
     {
         Framelock = false;
+        Delay = 50;
         Fear = false;
         Lifetap = 20;
         Drainlife = 40;

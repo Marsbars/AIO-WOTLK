@@ -21,6 +21,13 @@ public class Magesettings : Settings
     public bool Framelock { get; set; }
 
     [Setting]
+    [DefaultValue(50)]
+    [Category("General")]
+    [DisplayName("Delay")]
+    [Description("Set your Delay in MS (for bad PC´s) ")]
+    public int Delay { get; set; }
+
+    [Setting]
     [DefaultValue(false)]
     [Category("Fight")]
     [DisplayName("Sheep")]
@@ -32,7 +39,7 @@ public class Magesettings : Settings
     {
         Framelock = false;
         Sheep = false;
-
+        Delay = 50;
     }
 
 

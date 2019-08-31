@@ -37,7 +37,6 @@ public static class Shaman
     private static Spell HealingWave = new Spell("Healing Wave");
     private static Spell LesserHealingWave = new Spell("Lesser Healing Wave");
     private static Spell CurePoison = new Spell("Cure Toxins");
-    private static Spell CureDisease = new Spell("Cure Disease");
 
     //BuffSpells
     private static Spell LightningShield = new Spell("Lightning Shield");
@@ -140,7 +139,7 @@ public static class Shaman
         }
         if (Disease)
         {
-            Extension.BuffSpell(CureDisease);
+            Extension.BuffSpell(CurePoison);
         }
         if (Me.Level < 10)
         {
@@ -309,7 +308,7 @@ public static class Shaman
         }
         if (Disease)
         {
-            Extension.BuffSpell(CureDisease);
+            Extension.BuffSpell(CurePoison);
         }
     }
 

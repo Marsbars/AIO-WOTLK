@@ -114,7 +114,14 @@ public static class Warrior
     }
     private static void CombatRotation()
     {
-        Extension.InterruptSpell(Pummel);
+
+        if (Extension.InterruptableUnit(10f) != null && Pummel.KnownSpell && Pummel.IsSpellUsable)
+        {
+            Logging.Write("Interrupt Target found");
+            ObjectManager.Me.FocusGuid = Extension.InterruptableUnit(5f).Guid;
+            Logging.Write("Interrupt Target Set" + Extension.InterruptableUnit(5f).Guid);
+            Extension.FightSpell(Pummel, true);
+        }
         if (MyTarget.HealthPercent < 20)
         {
             Extension.FightSpell(Execute);
@@ -133,7 +140,10 @@ public static class Warrior
             Extension.FightSpell(Whirlwind);
             Extension.BuffSpell(Bloodthirst);
         }
-        Extension.FightSpell(HeroicStrike);
+        if (ObjectManager.Me.Rage >= 40)
+        {
+            Extension.FightSpell(HeroicStrike);
+        }
     }
 
 

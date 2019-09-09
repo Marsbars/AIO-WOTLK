@@ -29,6 +29,13 @@ public class Huntersettings : Settings
 
     [Setting]
     [DefaultValue(true)]
+    [Category("Fight")]
+    [DisplayName("Aspect of the Cheetah")]
+    [Description("Should use ASpect of Cheetah before level 20?")]
+    public bool Cheetah { get; set; }
+
+    [Setting]
+    [DefaultValue(true)]
     [Category("Pet")]
     [DisplayName("Pet Health")]
     [Description("Should Check Pet Health beore attack?")]
@@ -49,6 +56,7 @@ public class Huntersettings : Settings
         Framelock = false;
         PetHealth = 80;
         Checkpet = true;
+        Cheetah = true;
         Delay = 50;
 
     }

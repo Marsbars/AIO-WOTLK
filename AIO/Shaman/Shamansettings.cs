@@ -37,6 +37,13 @@ public class Shamansettings : Settings
     public bool Ghostwolf { get; set; }
 
     [Setting]
+    [DefaultValue(10)]
+    [Category("Combat")]
+    [DisplayName("Selfheal")]
+    [Description("Set the Enemytreshold in % when to heal?")]
+    public int Enemylife { get; set; }
+
+    [Setting]
     [DefaultValue(true)]
     [Category("Totem")]
     [DisplayName("Totemic Revall")]
@@ -94,6 +101,7 @@ public class Shamansettings : Settings
         Framelock = false;
         Delay = 50;
         Ghostwolf = true;
+        Enemylife = 10;
         UseTotemicCall = true;
         UseEarthTotems = true;
         UseStoneSkinTotem = true;

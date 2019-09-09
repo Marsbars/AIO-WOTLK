@@ -129,7 +129,7 @@ public static class Shaman
             Extension.FightSpell(WindShear, true);
         }
 
-        if (Me.HealthPercent < 30)
+        if (Me.HealthPercent < 30 && MyTarget.HealthPercent > Shamansettings.CurrentSetting.Enemylife)
         {
             Extension.HealSpell(HealingWave);
         }
@@ -148,7 +148,7 @@ public static class Shaman
             {
                 TotemManager.CastTotems();
             }
-            if(Me.Level < 4)
+            if (Me.Level < 4)
             {
                 Extension.FightSpell(LightningBolt);
             }
@@ -174,18 +174,18 @@ public static class Shaman
             {
                 Extension.FightSpell(FireNova);
             }
-            if(MyTarget.GetDistance > 7)
+            if (MyTarget.GetDistance > 7)
             {
                 Extension.FightSpell(LightningBolt);
             }
-                if(!FlameShock.KnownSpell)
-                {
+            if (!FlameShock.KnownSpell)
+            {
                 Extension.FightSpell(EarthShock);
-                }
-                else
-                {
-                    Extension.FightSpell(FlameShock);
-                }
+            }
+            else
+            {
+                Extension.FightSpell(FlameShock);
+            }
             if (Me.ManaPercentage > 40)
             {
                 Extension.BuffSpell(LightningShield);
@@ -292,11 +292,11 @@ public static class Shaman
         {
             Extension.BuffSpell(WaterShield);
         }
-        if(Me.ManaPercentage > 90)
+        if (Me.ManaPercentage > 90)
         {
             Extension.BuffSpell(LightningShield);
         }
-        if(Me.HealthPercent < 40 && !Me.IsMounted)
+        if (Me.HealthPercent < 40 && !Me.IsMounted)
         {
             Extension.HealSpell(HealingWave);
         }
@@ -347,7 +347,7 @@ public static class Shaman
             {
                 Extension.BuffSpell(RockbiterWeapon);
             }
-            if(!WindfuryWeapon.KnownSpell && FlametongueWeapon.KnownSpell)
+            if (!WindfuryWeapon.KnownSpell && FlametongueWeapon.KnownSpell)
             {
                 Extension.BuffSpell(FlametongueWeapon);
             }

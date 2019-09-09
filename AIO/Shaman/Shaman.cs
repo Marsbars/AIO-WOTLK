@@ -246,7 +246,7 @@ public static class Shaman
                 TotemManager.CotE();
                 TotemManager.CastTotems();
             }
-            if (MyTarget.GetDistance > 20)
+            if (MyTarget.GetDistance > 20 && Shamansettings.CurrentSetting.LNB)
             {
                 Extension.FightSpell(LightningBolt);
             }
@@ -315,7 +315,11 @@ public static class Shaman
     #region Pull
     private static void Pull()
     {
-        Extension.FightSpell(LightningBolt);
+        if(Shamansettings.CurrentSetting.LNB)
+        {
+            Extension.FightSpell(LightningBolt);
+        }
+
     }
 
     #endregion

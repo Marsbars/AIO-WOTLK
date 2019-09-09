@@ -44,6 +44,13 @@ public class Shamansettings : Settings
     public int Enemylife { get; set; }
 
     [Setting]
+    [DefaultValue(false)]
+    [Category("Combat")]
+    [DisplayName("Lightning Bolt")]
+    [Description("Use LNB for Pull?")]
+    public bool LNB { get; set; }
+
+    [Setting]
     [DefaultValue(true)]
     [Category("Totem")]
     [DisplayName("Totemic Revall")]
@@ -102,6 +109,7 @@ public class Shamansettings : Settings
         Delay = 50;
         Ghostwolf = true;
         Enemylife = 10;
+        LNB = false;
         UseTotemicCall = true;
         UseEarthTotems = true;
         UseStoneSkinTotem = true;

@@ -149,7 +149,7 @@ public static class Paladin
                 Thread.Sleep(500);
             }
         }
-        if (MyTarget.GetDistance <= 25 && MyTarget.GetDistance >= 7)
+        if (MyTarget.GetDistance <= 25 && MyTarget.GetDistance >= 7 && Paladinsettings.CurrentSetting.HOR)
         {
             Extension.FightSpell(HandofReckoning, false);
         }
@@ -235,21 +235,15 @@ public static class Paladin
 
     private static void Healing()
     {
-        bool poison = Lua.LuaDoString<bool>("for i=1,40 do local texture, count, debuffType = UnitDebuff('player', i); if debuffType == 'poison' then return true break; end end");
-        if (poison && Paladinsettings.CurrentSetting.Purify)
+        bool Poison = Extension.HasPoisonDebuff();
+        bool Disease = Extension.HasDiseaseDebuff();
+        if (Poison && Paladinsettings.CurrentSetting.Purify)
         {
-            ObjectManager.Me.FocusGuid = Me.Guid;
-            Extension.HealSpell(Purify, false, true, true);
-            poison = false;
-            return;
+            Extension.BuffSpell(Purify);
         }
-        bool disease = Lua.LuaDoString<bool>("for i=1,40 do local texture, count, debuffType = UnitDebuff('player', i); if debuffType == 'disease' then return true break; end end");
-        if (disease && Paladinsettings.CurrentSetting.Purify)
+        if (Disease && Paladinsettings.CurrentSetting.Purify)
         {
-            ObjectManager.Me.FocusGuid = Me.Guid;
-            Extension.HealSpell(Purify, false, true, true);
-            poison = false;
-            return;
+            Extension.BuffSpell(Purify);
         }
         if (Me.HaveBuff(TheartofWar.Id) && Me.HealthPercent <= 75)
         {

@@ -42,6 +42,13 @@ public class Paladinsettings : Settings
     public bool HammerofJustice { get; set; }
 
     [Setting]
+    [DefaultValue(true)]
+    [Category("Fighting")]
+    [DisplayName("Hand of Reckoning")]
+    [Description("Use Hand of Reckoning in Rotation?")]
+    public bool HOR { get; set; }
+
+    [Setting]
     [DefaultValue(50)]
     [Category("Healing")]
     [DisplayName("Holy Light")]
@@ -102,6 +109,7 @@ public class Paladinsettings : Settings
         Framelock = false;
         Crusader = false;
         HammerofJustice = true;
+        HOR = true;
         Purify = true;
         SShield = true;
         HoProtection = true;

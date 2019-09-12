@@ -108,7 +108,7 @@ public static class Priest
         {
             try
             {
-                Main.settingRange = 33f;
+                Main.settingRange = 29f;
                 if (Conditions.InGameAndConnectedAndAliveAndProductStartedNotInPause && !Fight.InFight)
                 {
                     if (Priestsettings.CurrentSetting.Framelock)

@@ -469,4 +469,9 @@ class Extension
         return 0;
     }
 
+    public static bool HaveRangedWeaponEquipped()
+    {
+        return ObjectManager.Me.GetEquipedItemBySlot(wManager.Wow.Enums.InventorySlot.INVSLOT_RANGED) != 0;
+    }
+
 }

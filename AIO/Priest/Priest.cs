@@ -20,6 +20,7 @@ public static class Priest
     public static WoWUnit MyTarget { get { return ObjectManager.Target; } }
     public static WoWPlayer Me { get { return ObjectManager.Me; } }
     private static bool _isLaunched;
+    private static bool _icanusewand = Extension.HaveRangedWeaponEquipped();
     //Damage Spells
     public static Spell Smite = new Spell("Smite");//lvl 1
     public static Spell ShadowWordPain = new Spell("Shadow Word: Pain");//lvl 4
@@ -72,7 +73,7 @@ public static class Priest
     public static Spell Dispersion = new Spell("Dispersion"); //lvl60
     public static Spell ShadowFiend = new Spell("Shadow Fiend"); //lvl66
     public static Spell MassDispel = new Spell("Mass Dispel"); //lvl70
-
+    private static Spell UseWand = new Spell("Shoot");
 
 
 
@@ -155,6 +156,11 @@ public static class Priest
 
     private static void CombatRotation()
     {
+        if(_icanusewand && Me.ManaPercentage < 5)
+        {
+            Extension.FightSpell(UseWand);
+        }
+
         if (Me.Level < 10)
         {
             Extension.FightSpell(ShadowWordPain);
@@ -308,6 +314,11 @@ public static class Priest
         {
             Extension.BuffSpell(Dispersion, false, true);
         }
+
+        if(Me.HealthPercent < 85)
+        {
+            Extension.HealSpell(LesserHeal);
+        }
     }
 
     private static void HealRotation()
@@ -319,6 +330,10 @@ public static class Priest
         if (Me.HealthPercent < 90 && Extension.GetAttackingUnits(20).Count() > 1)
         {
             Extension.HealSpell(Renew);
+        }
+        if (Me.HealthPercent < 20 && Extension.GetAttackingUnits(20).Count() > 0 && MyTarget.HealthPercent > 10)
+        {
+            Extension.HealSpell(LesserHeal);
         }
     }
 

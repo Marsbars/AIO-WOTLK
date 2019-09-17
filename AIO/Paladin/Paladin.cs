@@ -49,6 +49,7 @@ public static class Paladin
     public static Spell SacredShield = new Spell("Sacred Shield");
     public static Spell RighteousFury = new Spell("Righteous Fury");
     public static Spell HandofFreedom = new Spell("Hand of Freedom");
+    public static Spell GreaterBlessingOfMight = new Spell("Greater Blessing of Might");
     //Healing Spells
     public static Spell HolyLight = new Spell("Holy Light");
     public static Spell FlashofLight = new Spell("Flash of Light");
@@ -189,7 +190,11 @@ public static class Paladin
         {
             Extension.BuffSpell(CrusaderAura, true);
         }
-        Extension.BuffSpell(BlessingofMight, false);
+        if(!Me.HaveBuff(GreaterBlessingOfMight.Id))
+        {
+            Extension.BuffSpell(BlessingofMight, false);
+        }
+
         if (Paladinsettings.CurrentSetting.RA)
         {
             Extension.BuffSpell(RetributionAura, false);

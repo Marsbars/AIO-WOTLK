@@ -290,7 +290,6 @@ public static class Hunter
         if (CallPet.IsSpellUsable
             && CallPet.KnownSpell
             && !ObjectManager.Pet.IsValid
-            && !ObjectManager.Pet.IsDead
             && !ObjectManager.Me.IsMounted)
         {
             CallPet.Launch();

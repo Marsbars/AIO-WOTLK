@@ -287,15 +287,6 @@ public static class Hunter
 
     private static void PetRevivehandler()
     {
-        if (CallPet.IsSpellUsable
-            && CallPet.KnownSpell
-            && !ObjectManager.Pet.IsValid
-            && !ObjectManager.Me.IsMounted)
-        {
-            CallPet.Launch();
-            Usefuls.WaitIsCasting();
-            return;
-        }
         if (RevivePet.IsSpellUsable
             && RevivePet.KnownSpell
             && ObjectManager.Pet.IsDead
@@ -303,8 +294,17 @@ public static class Hunter
         {
             RevivePet.Launch();
             Usefuls.WaitIsCasting();
-            return;
         }
+
+        if (CallPet.IsSpellUsable
+            && CallPet.KnownSpell
+            && !ObjectManager.Pet.IsValid
+            && !ObjectManager.Me.IsMounted)
+        {
+            CallPet.Launch();
+            Usefuls.WaitIsCasting();
+        }
+
     }
 
     #region Pull

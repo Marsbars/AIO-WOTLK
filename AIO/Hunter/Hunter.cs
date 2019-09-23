@@ -193,7 +193,8 @@ public static class Hunter
             Extension.FightSpell(RaptorStrike);
 
             if (!MyTarget.IsTargetingMe
-                && ObjectManager.Pet.IsAlive)
+                && ObjectManager.Pet.IsAlive
+                && Huntersettings.CurrentSetting.Dis)
             {
                 Extension.BuffSpell(Disengage);
             }
@@ -229,7 +230,7 @@ public static class Hunter
     private static void RangeManager()
     {
         wManager.Events.FightEvents.OnFightLoop += (unit, cancelable) => {
-            if (ObjectManager.Target.GetDistance < 11 && ObjectManager.Target.IsTargetingMyPet)
+            if (ObjectManager.Target.GetDistance < 7 && ObjectManager.Target.IsTargetingMyPet)
             {
 
                 var xvector = (ObjectManager.Me.Position.X) - (ObjectManager.Target.Position.X);
@@ -237,8 +238,8 @@ public static class Hunter
 
                 Vector3 newpos = new Vector3()
                 {
-                    X = ObjectManager.Me.Position.X + (float)((xvector * (20 / ObjectManager.Target.GetDistance) - xvector)),
-                    Y = ObjectManager.Me.Position.Y + (float)((yvector * (20 / ObjectManager.Target.GetDistance) - yvector)),
+                    X = ObjectManager.Me.Position.X + (float)((xvector * (10 / ObjectManager.Target.GetDistance) - xvector)),
+                    Y = ObjectManager.Me.Position.Y + (float)((yvector * (10 / ObjectManager.Target.GetDistance) - yvector)),
                     Z = ObjectManager.Me.Position.Z
                 };
                 MovementManager.Go(PathFinder.FindPath(newpos), false);

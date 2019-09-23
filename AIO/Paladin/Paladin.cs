@@ -186,55 +186,56 @@ public static class Paladin
 
     private static void BuffRotation()
     {
-        if (Me.IsMounted && Paladinsettings.CurrentSetting.Crusader)
+        if (Paladinsettings.CurrentSetting.Buffing)
         {
-            Extension.BuffSpell(CrusaderAura, true);
+            if (Me.IsMounted && Paladinsettings.CurrentSetting.Crusader)
+            {
+                Extension.BuffSpell(CrusaderAura, true);
+            }
+            if (!Me.HaveBuff(GreaterBlessingOfMight.Id))
+            {
+                Extension.BuffSpell(BlessingofMight, false);
+            }
+            if (Paladinsettings.CurrentSetting.RA)
+            {
+                Extension.BuffSpell(RetributionAura, false);
+            }
+            if (!Paladinsettings.CurrentSetting.RA)
+            {
+                Extension.BuffSpell(DevotionAura, false);
+            }
+            if (Extension.GetAttackingUnits(5).Count() >= 3)
+            {
+                Extension.BuffSpell(SealofCommand, false);
+            }
+            if (Extension.GetAttackingUnits(5).Count() <= 2)
+            {
+                Extension.BuffSpell(SealofRighteousness, false);
+            }
+            if (Me.ManaPercentage < 80 && !Fight.InFight)
+            {
+                Extension.BuffSpell(DivinePlea, false);
+            }
+            if (Me.HealthPercent < 20 && !Me.HaveBuff("Forbearance") && Paladinsettings.CurrentSetting.SShield)
+            {
+                Extension.BuffSpell(SacredShield, false);
+                return;
+            }
+            if (Me.HealthPercent < 20 && Paladinsettings.CurrentSetting.HoProtection)
+            {
+                Extension.BuffSpell(HandofProtection, false);
+                return;
+            }
+            if (Me.HealthPercent < 40 && Me.HaveBuff("Forbearance") && Extension.GetAttackingUnits(5).Count() >= 2 && Paladinsettings.CurrentSetting.DivProtection)
+            {
+                Extension.BuffSpell(DivineProtection, false);
+                return;
+            }
+            if (Me.Rooted)
+            {
+                Extension.BuffSpell(HandofFreedom);
+            }
         }
-        if(!Me.HaveBuff(GreaterBlessingOfMight.Id))
-        {
-            Extension.BuffSpell(BlessingofMight, false);
-        }
-
-        if (Paladinsettings.CurrentSetting.RA)
-        {
-            Extension.BuffSpell(RetributionAura, false);
-        }
-        if (!Paladinsettings.CurrentSetting.RA)
-        {
-            Extension.BuffSpell(DevotionAura, false);
-        }
-        if (Extension.GetAttackingUnits(5).Count() >= 3)
-        {
-            Extension.BuffSpell(SealofCommand, false);
-        }
-        if (Extension.GetAttackingUnits(5).Count() <= 2)
-        {
-            Extension.BuffSpell(SealofRighteousness, false);
-        }
-        if (Me.ManaPercentage < 80 && !Fight.InFight)
-        {
-            Extension.BuffSpell(DivinePlea, false);
-        }
-        if (Me.HealthPercent < 20 && !Me.HaveBuff("Forbearance") && Paladinsettings.CurrentSetting.SShield)
-        {
-            Extension.BuffSpell(SacredShield, false);
-            return;
-        }
-        if (Me.HealthPercent < 20 && Paladinsettings.CurrentSetting.HoProtection)
-        {
-            Extension.BuffSpell(HandofProtection, false);
-            return;
-        }
-        if (Me.HealthPercent < 40 && Me.HaveBuff("Forbearance") && Extension.GetAttackingUnits(5).Count() >= 2 && Paladinsettings.CurrentSetting.DivProtection)
-        {
-            Extension.BuffSpell(DivineProtection, false);
-            return;
-        }
-        if (Me.Rooted)
-        {
-            Extension.BuffSpell(HandofFreedom);
-        }
-
 
     }
 

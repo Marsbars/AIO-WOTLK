@@ -35,6 +35,13 @@ public class Huntersettings : Settings
     public bool Cheetah { get; set; }
 
     [Setting]
+    [DefaultValue(false)]
+    [Category("Fight")]
+    [DisplayName("Disengage")]
+    [Description("Use  Disengage?")]
+    public bool Dis { get; set; }
+
+    [Setting]
     [DefaultValue(true)]
     [Category("Pet")]
     [DisplayName("Pet Health")]
@@ -57,6 +64,7 @@ public class Huntersettings : Settings
         PetHealth = 80;
         Checkpet = true;
         Cheetah = true;
+        Dis = false;
         Delay = 50;
 
     }

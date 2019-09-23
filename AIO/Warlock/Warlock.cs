@@ -81,7 +81,7 @@ public static class Warlock
         {
             try
             {
-                Main.settingRange = 33f;
+                Main.settingRange = 29f;
                 if (Conditions.InGameAndConnectedAndAliveAndProductStartedNotInPause && !Fight.InFight)
                 {
                     if (Warlocksettings.CurrentSetting.Framelock)

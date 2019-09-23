@@ -76,7 +76,7 @@ class Extension
 
     public static bool PetSpell(Spell spell)
     {
-        if (spell.KnownSpell && spell.IsSpellUsable && !ObjectManager.Me.IsMounted && !ObjectManager.Pet.IsValid && !ObjectManager.Pet.IsAlive)
+        if (spell.KnownSpell && spell.IsSpellUsable && !ObjectManager.Me.IsMounted && ObjectManager.Pet.IsValid && ObjectManager.Pet.IsAlive)
         {
             spell.Launch();
             Usefuls.WaitIsCasting();

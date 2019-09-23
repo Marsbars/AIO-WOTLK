@@ -37,6 +37,13 @@ public class Paladinsettings : Settings
     [Setting]
     [DefaultValue(true)]
     [Category("Fighting")]
+    [DisplayName("Auto Buffing")]
+    [Description("use Autobuffing while leveling?")]
+    public bool Buffing { get; set; }
+
+    [Setting]
+    [DefaultValue(true)]
+    [Category("Fighting")]
     [DisplayName("Hammer of Justice")]
     [Description("Hammer of Justice when more then 1 Target")]
     public bool HammerofJustice { get; set; }
@@ -108,6 +115,7 @@ public class Paladinsettings : Settings
     {
         Framelock = false;
         Crusader = false;
+        Buffing = true;
         HammerofJustice = true;
         HOR = true;
         Purify = true;

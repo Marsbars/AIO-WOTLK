@@ -178,7 +178,7 @@ public static class Mage
         if (!ObjectManager.Pet.IsAlive && SummonWaterElemental.KnownSpell)
         {
             Thread.Sleep(500); //workaround for recast after dismount
-            Extension.PetSpell(SummonWaterElemental);
+            Extension.BuffSpell(SummonWaterElemental);
         }
     }
     #endregion

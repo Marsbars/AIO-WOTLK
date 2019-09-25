@@ -114,6 +114,10 @@ public static class Rogue
 
     public static void CombatRotation()
     {
+        if (Me.ComboPoint > 1)
+        {
+            Extension.BuffSpell(SliceandDice);
+        }
         if (MyTarget.HealthPercent < 20 && Me.ComboPoint <= 4)
         {
             Extension.FightSpell(Eviscerate);
@@ -135,10 +139,6 @@ public static class Rogue
         //Extension.InterruptSpell(Kick);
         Extension.FightSpell(KillingSpree);
         Extension.FightSpell(SinisterStrike);
-        if (Me.ComboPoint > 1)
-        {
-            Extension.BuffSpell(SliceandDice);
-        }
         if (Extension.GetAttackingUnits(5).Count() > 1)
         {
             Extension.BuffSpell(Evasion);

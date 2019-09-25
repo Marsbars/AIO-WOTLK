@@ -217,16 +217,15 @@ public static class Warlock
             {
                 wManager.wManagerSetting.CurrentSetting.DrinkPercent = 95;
                 Thread.Sleep(1000);
-                return;
             }
-            else
-                wManager.wManagerSetting.CurrentSetting.DrinkPercent = SaveDrink;
+            wManager.wManagerSetting.CurrentSetting.DrinkPercent = SaveDrink;
             Thread.Sleep(100); //workaround for recast after dismount
+
             if (!summonvoid.KnownSpell || !summonvoid.IsSpellUsable)
             {
                 Extension.PetSpell(summonimp);
             }
-            Extension.PetSpell(summonvoid);
+            Extension.BuffSpell(summonvoid);
             if (ObjectManager.Pet.HealthPercent < 30
                 && ObjectManager.Pet.IsAlive
                 && Me.HealthPercent > 50)

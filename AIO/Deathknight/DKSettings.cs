@@ -16,10 +16,17 @@ public class DKSettings : Settings
 {
     [Setting]
     [DefaultValue(true)]
-    [Category("Pull")]
+    [Category("Fight")]
     [DisplayName("Deathgrip")]
     [Description("use Deathgrip for Pull?")]
     public bool DeathGrip { get; set; }
+
+    [Setting]
+    [DefaultValue(true)]
+    [Category("Fight")]
+    [DisplayName("BloodPresence")]
+    [Description("Autobuff BloodPresence?")]
+    public bool BloodPresence { get; set; }
 
     [Setting]
     [DefaultValue(false)]
@@ -38,6 +45,7 @@ public class DKSettings : Settings
     private DKSettings()
     {
         DeathGrip = true;
+        BloodPresence = true;
         Framelock = false;
         Delay = 50;
     }

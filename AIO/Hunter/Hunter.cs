@@ -98,7 +98,10 @@ public static class Hunter
                 {
                     BuffRotation(); // Out of Combat buffing
                     PetRevivehandler(); //Handles Petrezz
+                    if(Huntersettings.CurrentSetting.Petfeed)
+                    {
                     Feed(); //Sub for Petfeeding
+                    }
                     Pull();
                 }
                 else
@@ -137,7 +140,7 @@ public static class Hunter
     {
 
         //Pethandle in Fight
-        if (ObjectManager.Pet.HealthPercent < 90
+        if (ObjectManager.Pet.HealthPercent < Huntersettings.CurrentSetting.PetmendInFight
             && PetHealTimer.IsReady)
         {
             Extension.PetSpell(MendPet);
@@ -170,7 +173,7 @@ public static class Hunter
                 Extension.FightSpell(KillShot);
             }
 
-            if (Me.ManaPercentage < 10)
+            if (Me.ManaPercentage < Huntersettings.CurrentSetting.AspecofViper)
             {
                 Extension.BuffSpell(AspecoftheViper);
             }
@@ -343,7 +346,7 @@ public static class Hunter
             Extension.BuffSpell(AspecoftheMonkey);
         }
 
-        if (Me.ManaPercentage < 25)
+        if (Me.ManaPercentage < Huntersettings.CurrentSetting.AspecofViper)
         {
             Extension.BuffSpell(AspecoftheViper);
         }

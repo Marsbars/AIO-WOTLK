@@ -35,6 +35,13 @@ public class Huntersettings : Settings
     public bool Cheetah { get; set; }
 
     [Setting]
+    [DefaultValue(20)]
+    [Category("Fight")]
+    [DisplayName("Aspect of the Viper")]
+    [Description("Set the your  Mana  Treshold when to use AotV")]
+    public int AspecofViper { get; set; }
+
+    [Setting]
     [DefaultValue(false)]
     [Category("Fight")]
     [DisplayName("Disengage")]
@@ -42,16 +49,30 @@ public class Huntersettings : Settings
     public bool Dis { get; set; }
 
     [Setting]
+    [DefaultValue(99)]
+    [Category("Fight")]
+    [DisplayName("Pet Health in Fight")]
+    [Description("Define when to heal Pet Infight!")]
+    public int PetmendInFight { get; set; }
+
+    [Setting]
     [DefaultValue(true)]
     [Category("Pet")]
-    [DisplayName("Pet Health")]
-    [Description("Should Check Pet Health beore attack?")]
+    [DisplayName("Pet Feeding")]
+    [Description("Want the Pet get Autofeeded?")]
+    public bool Petfeed { get; set; }
+
+    [Setting]
+    [DefaultValue(true)]
+    [Category("Pet")]
+    [DisplayName("Pet Health OOC")]
+    [Description("Should Check Pet Health before attack?")]
     public bool Checkpet { get; set; }
 
     [Setting]
     [DefaultValue(80)]
     [Category("Pet")]
-    [DisplayName("Pet Health")]
+    [DisplayName("Pet Health OOC")]
     [Description("Set Treshhold for Petattack?")]
     public int PetHealth { get; set; }
 
@@ -62,8 +83,11 @@ public class Huntersettings : Settings
 
         Framelock = false;
         PetHealth = 80;
+        AspecofViper = 20;
+        PetmendInFight = 99;
         Checkpet = true;
         Cheetah = true;
+        Petfeed = true;
         Dis = false;
         Delay = 50;
 

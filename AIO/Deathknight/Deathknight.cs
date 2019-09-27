@@ -186,7 +186,10 @@ public static class DeathKnight
         {
             BuffSpell(IceBoundFortitude);
         }
+        if(DKSettings.CurrentSetting.BloodPresence)
+        {
         BuffSpell(BloodPresence);
+        }
         BuffSpell(HornofWinter);
 
     }

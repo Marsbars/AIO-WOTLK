@@ -48,6 +48,7 @@ public static class Hunter
     public static Spell CallPet = new Spell("Call Pet");
     public static Spell MendPet = new Spell("Mend Pet");
     public static Spell Intimidation = new Spell("Intimidation");
+    public static Spell BestialWrath = new Spell("Bestial Wrath");
 
     //custom Spells
     public static Spell Disengage = new Spell("Disengage");
@@ -146,6 +147,22 @@ public static class Hunter
             Extension.PetSpell(MendPet);
             PetHealTimer = new Timer(1000 * 15);
             return;
+        }
+
+        if (Extension.InterruptableUnit(20f) != null && Intimidation.KnownSpell && Intimidation.IsSpellUsable)
+        {
+            Logging.Write("Interrupt Target found");
+            ObjectManager.Me.Target = Extension.InterruptableUnit(20f).Guid;
+            Logging.Write("Interrupt Target Set" + Extension.InterruptableUnit(20f).Guid);
+            Extension.FightSpell(Intimidation);
+        }
+        if(ObjectManager.Target.IsElite || Extension.GetAttackingUnits(20).Count() > 1)
+        {
+            Extension.FightSpell(BestialWrath);
+        }
+        if (ObjectManager.Target.IsElite || Extension.GetAttackingUnits(20).Count() > 2)
+        {
+            Extension.BuffSpell(RapidFire);
         }
 
         //Ranged Attacks

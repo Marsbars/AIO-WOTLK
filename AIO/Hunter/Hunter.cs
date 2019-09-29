@@ -177,7 +177,10 @@ public static class Hunter
             {
                 Extension.FightSpell(KillCommand);
             }
-            Extension.FightSpell(SerpentSting);
+            if(MyTarget.HealthPercent > 40)
+            {
+                Extension.FightSpell(SerpentSting);
+            }
             Extension.FightSpell(ArcaneShot);
             if (MultiShotFeigndeath.IsReady)
             {

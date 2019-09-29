@@ -36,6 +36,8 @@ public static class DeathKnight
     public static Spell IceBoundFortitude = new Spell("Icebound Fortitude");
     public static Spell RuneStrike = new Spell("Rune Strike");
     public static Spell HornofWinter = new Spell("Horn of Winter");
+    public static Spell MarkofBlood = new Spell("Mark of Blood");
+    public static Spell DancingRuneWeapon = new Spell("Dancing Rune Weapon");
     public static Timer Pestilencetimer = new Timer();
 
 
@@ -128,6 +130,14 @@ public static class DeathKnight
             ObjectManager.Me.FocusGuid = Extension.InterruptableUnit(20f).Guid;
             Logging.Write("Interrupt Target Set" + Extension.InterruptableUnit(20f).Guid);
             Extension.FightSpell(Strangulate, true);
+        }
+        if(ObjectManager.Target.IsElite)
+        {
+            Extension.FightSpell(MarkofBlood);
+        }
+        if (ObjectManager.Target.IsElite)
+        {
+            Extension.FightSpell(DancingRuneWeapon);
         }
         if (DKSettings.CurrentSetting.DeathGrip && ObjectManager.Target.GetDistance > 10)
         {

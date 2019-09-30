@@ -33,6 +33,7 @@ public static class Shaman
     private static Spell Attack = new Spell("Attack");
     private static Spell FireNova = new Spell("Fire Nova");
     private static Spell WindShear = new Spell("Wind Shear");
+    private static Spell FeralSpirit = new Spell("Feral Spirit");
     //HealSpells
     private static Spell HealingWave = new Spell("Healing Wave");
     private static Spell LesserHealingWave = new Spell("Lesser Healing Wave");
@@ -141,6 +142,11 @@ public static class Shaman
         {
             Extension.BuffSpell(CurePoison);
         }
+        if(Extension.GetAttackingUnits(20).Count() > 1)
+        {
+            Extension.FightSpell(FeralSpirit);
+        }
+
         if (Me.Level < 10)
         {
             lowlevel = true;
@@ -250,7 +256,7 @@ public static class Shaman
             {
                 Extension.FightSpell(LightningBolt);
             }
-            if (Me.BuffStack(51532) >= 4)
+            if (Me.BuffStack(53817) >= 4)
             {
                 if (Extension.GetAttackingUnits(5).Count() == 1)
                 {
@@ -261,18 +267,18 @@ public static class Shaman
                     Extension.FightSpell(ChainLightning);
                 }
             }
-            if (MyTarget.GetDistance < 6)
+            if (MyTarget.GetDistance < 7)
             {
                 Extension.BuffSpell(ShamanisticRage);
             }
             Extension.FightSpell(Stormstrike);
             Extension.FightSpell(EarthShock);
             Extension.FightSpell(LavaLash);
-            if (Me.ManaPercentage < 20)
+            if (Me.ManaPercentage < 30)
             {
                 Extension.BuffSpell(WaterShield);
             }
-            if (Me.ManaPercentage > 20 && !Me.HaveBuff(WaterShield.Id))
+            if (Me.ManaPercentage > 30 && !Me.HaveBuff(WaterShield.Id))
 
             {
                 Extension.BuffSpell(LightningShield);

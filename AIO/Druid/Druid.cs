@@ -144,7 +144,6 @@ public static class Druid
                 else
                  if (Me.Target > 0)
                 {
-                    BuffRotation();
                     if (Druidsettings.CurrentSetting.Framelock)
                     {
                         Extension.Framelock();
@@ -228,8 +227,8 @@ public static class Druid
                 if(Me.Rage > 16)
                 {
                     Extension.FightSpell(Maul);
-                }
-                Extension.FightSpell(MangleBear);
+                }           
+                Extension.FightSpell(MangleBear, false, false, false, false);
                 if(Extension.GetAttackingUnits(10).Count() >3)
                 {
                     Extension.FightSpell(DemoralizingRoar);
@@ -339,7 +338,11 @@ public static class Druid
     private static void BuffRotation()
     {
         Extension.BuffSpell(MarkoftheWild);
+        if(Me.Rage < 20)
+        {
         Extension.BuffSpell(Thorns);
+        }
+
     }
 
     private static void Healing()

@@ -264,15 +264,15 @@ public static class Druid
                 {
                     Extension.BuffSpell(TigersFury);
                 }
-                if (Me.ComboPoint <= 4 && MyTarget.HealthPercent <= 40)
+                if (Me.ComboPoint <= 4 && MyTarget.HealthPercent >= 40)
                 {
                     Extension.FightSpell(Rake);
                 }
-                if (!MangleCat.KnownSpell)
+                if (!MangleCat.KnownSpell && Me.ComboPoint <= 4)
                 {
                     Extension.FightSpell(Claw);
                 }
-                if (MangleCat.KnownSpell)
+                if (MangleCat.KnownSpell && Me.ComboPoint <= 4)
                 {
                     Extension.FightSpell(MangleCat);
                 }

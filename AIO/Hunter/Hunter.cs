@@ -182,7 +182,7 @@ public static class Hunter
                 Extension.FightSpell(SerpentSting);
             }
             Extension.FightSpell(ArcaneShot);
-            if (MultiShotFeigndeath.IsReady)
+            if (MultiShotFeigndeath.IsReady && Huntersettings.CurrentSetting.MultiS)
             {
                 Extension.FightSpell(MultiShot);
             }

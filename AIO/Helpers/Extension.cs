@@ -208,6 +208,11 @@ class Extension
     }
     #endregion
 
+    public static bool CanBleed(WoWUnit unit)
+    {
+        return unit.CreatureTypeTarget != "Elemental";
+    }
+
     public static bool HasPoisonDebuff()
     {
         bool hasPoisonDebuff = Lua.LuaDoString<bool>

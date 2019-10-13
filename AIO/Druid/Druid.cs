@@ -207,53 +207,85 @@ public static class Druid
         if (Me.Level > 19 && Me.Level < 81)
         {
             lowlevel = false;
-            if (!Me.HaveBuff(CatForm.Id))
+            if(Me.HealthPercent < 92 && Me.ManaPercentage > 40 && Me.HaveBuff("Predator's Swiftness"))
             {
-                Extension.BuffSpell(CatForm);
+                Extension.HealSpell(Regrowth);
             }
-            if (Me.HaveBuff(CatForm.Id) && !Me.HaveBuff(Prowl.Id) && Druidsettings.CurrentSetting.Prowl)
+            if(Me.Energy > 40 && Me.ComboPoint > 1 && MyTarget.HealthPercent > 40)
             {
-                Extension.BuffSpell(Prowl);
+                Extension.BuffSpell(TigersFury);
             }
-            if (Me.HaveBuff(Prowl.Id))
+            if (Extension.GetAttackingUnits(10).Count() > 1 && MyTarget.HealthPercent > 20)
             {
-                if (Druidsettings.CurrentSetting.Dash)
+                if (!Me.HaveBuff(BearForm.Id))
                 {
-                    Extension.BuffSpell(Dash);
+                    Extension.BuffSpell(BearForm);
                 }
-                Extension.FightSpell(Ravage);
-                Extension.FightSpell(Pounce);
-                Extension.FightSpell(Shred);
+                if(Me.Rage > 16)
+                {
+                    Extension.FightSpell(Maul);
+                }
+                Extension.FightSpell(MangleBear);
+                if(Extension.GetAttackingUnits(10).Count() >3)
+                {
+                    Extension.FightSpell(DemoralizingRoar);
+                }
+                        
             }
-            if (Druidsettings.CurrentSetting.FFF && !Me.HaveBuff(Prowl.Id))
+            if(Extension.GetAttackingUnits(10).Count() >0)
             {
-                Extension.FightSpell(FaerieFireFeral);
+                if (!Me.HaveBuff(CatForm.Id))
+                {
+                    Extension.BuffSpell(CatForm);
+                }
+                if (Me.HaveBuff(CatForm.Id) && !Me.HaveBuff(Prowl.Id) && Druidsettings.CurrentSetting.Prowl)
+                {
+                    Extension.BuffSpell(Prowl);
+                }
+                if (Me.HaveBuff(Prowl.Id))
+                {
+                    if (Druidsettings.CurrentSetting.Dash)
+                    {
+                        Extension.BuffSpell(Dash);
+                    }
+                    Extension.FightSpell(Ravage);
+                    Extension.FightSpell(Pounce);
+                    Extension.FightSpell(Shred);
+                }
+                if (Druidsettings.CurrentSetting.FFF && !Me.HaveBuff(Prowl.Id))
+                {
+                    Extension.FightSpell(FaerieFireFeral);
+                }
+                if (Extension.GetAttackingUnits(10).Count() > 1 && !Druidsettings.CurrentSetting.TF)
+                {
+                    Extension.BuffSpell(TigersFury);
+                }
+                if (Druidsettings.CurrentSetting.TF && !Me.HaveBuff(Prowl.Id))
+                {
+                    Extension.BuffSpell(TigersFury);
+                }
+                if (Me.ComboPoint <= 4 && MyTarget.HealthPercent <= 40)
+                {
+                    Extension.FightSpell(Rake);
+                }
+                if (!MangleCat.KnownSpell)
+                {
+                    Extension.FightSpell(Claw);
+                }
+                if (MangleCat.KnownSpell)
+                {
+                    Extension.FightSpell(MangleCat);
+                }
+                if (MyTarget.HealthPercent < Druidsettings.CurrentSetting.FBH && Me.ComboPoint >= Druidsettings.CurrentSetting.FBC)
+                {
+                    Extension.FightSpell(FerociousBite);
+                }
+                if (Me.ComboPoint >= 4 && MyTarget.HealthPercent > 50)
+                {
+                    Extension.FightSpell(Rip);
+                }
             }
-            if (Extension.GetAttackingUnits(10).Count() > 1 && !Druidsettings.CurrentSetting.TF)
-            {
-                Extension.BuffSpell(TigersFury);
-            }
-            if (Druidsettings.CurrentSetting.TF && !Me.HaveBuff(Prowl.Id))
-            {
-                Extension.BuffSpell(TigersFury);
-            }
-            Extension.FightSpell(Rake);
-            if (!MangleCat.KnownSpell)
-            {
-                Extension.FightSpell(Claw);
-            }
-            if (MangleCat.KnownSpell)
-            {
-                Extension.FightSpell(MangleCat);
-            }
-            if (MyTarget.HealthPercent < Druidsettings.CurrentSetting.FBH && Me.ComboPoint >= Druidsettings.CurrentSetting.FBC)
-            {
-                Extension.FightSpell(FerociousBite);
-            }
-            if (Me.ComboPoint >= 4 && MyTarget.HealthPercent < 50)
-            {
-                Extension.FightSpell(Rip);
-            }
+
         }
 
     }

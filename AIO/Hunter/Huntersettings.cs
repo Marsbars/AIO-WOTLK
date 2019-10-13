@@ -49,6 +49,13 @@ public class Huntersettings : Settings
     public bool Dis { get; set; }
 
     [Setting]
+    [DefaultValue(false)]
+    [Category("Fight")]
+    [DisplayName("Multishot")]
+    [Description("Use  Multishot?")]
+    public bool MultiS { get; set; }
+
+    [Setting]
     [DefaultValue(99)]
     [Category("Fight")]
     [DisplayName("Pet Health in Fight")]
@@ -85,6 +92,7 @@ public class Huntersettings : Settings
         PetHealth = 80;
         AspecofViper = 20;
         PetmendInFight = 99;
+        MultiS = false;
         Checkpet = true;
         Cheetah = true;
         Petfeed = true;

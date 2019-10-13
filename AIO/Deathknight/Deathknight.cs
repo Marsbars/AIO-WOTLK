@@ -10,13 +10,14 @@ using System.Collections.Generic;
 using System.Linq;
 using wManager.Wow.Enums;
 using Timer = robotManager.Helpful.Timer;
+using System.ComponentModel;
 using wManager.Wow;
 using wManager;
 
 public static class DeathKnight
 {
     private static bool _isLaunched;
-
+    public static WoWUnit MyTarget { get { return ObjectManager.Target; } }
     public static Spell IcyTouch = new Spell("Icy Touch");
     public static Spell ChainsOfIce = new Spell("Chains of Ice");
     public static Spell PlagueStrike = new Spell("Plague Strike");
@@ -144,7 +145,7 @@ public static class DeathKnight
             FightSpell(DeathGrip);
         }
         FightSpell(RuneStrike);
-        if (!ffcheck)
+        if (!ffcheck && Extension.CanBleed(MyTarget))
         {
             FightSpell(IcyTouch);
         }

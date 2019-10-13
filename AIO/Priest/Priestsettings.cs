@@ -21,6 +21,55 @@ public class Priestsettings : Settings
     public bool Framelock { get; set; }
 
     [Setting]
+    [DefaultValue(true)]
+    [Category("Fight")]
+    [DisplayName("Use Wand?")]
+    [Description("Use Wand in General?")]
+    public bool UseWand { get; set; }
+
+    [Setting]
+    [DefaultValue(20)]
+    [Category("Fight")]
+    [DisplayName("Use Wand Treshold?")]
+    [Description("Enemy Life Treshold for Wandusage?")]
+    public int UseWandTresh { get; set; }
+
+    [Setting]
+    [DefaultValue(true)]
+    [Category("Fight")]
+    [DisplayName("Use Devouring Plague?")]
+    [Description("Use DP up to level 80?")]
+    public bool DPUse { get; set; }
+
+    [Setting]
+    [DefaultValue(75)]
+    [Category("Fight")]
+    [DisplayName("Use Shield Treshold?")]
+    [Description("Own life for Shield Usage?")]
+    public int UseShieldTresh { get; set; }
+
+    [Setting]
+    [DefaultValue(90)]
+    [Category("Fight")]
+    [DisplayName("Use Renew Treshold?")]
+    [Description("Own life for Renew Usage?")]
+    public int UseRenewTresh { get; set; }
+
+    [Setting]
+    [DefaultValue(20)]
+    [Category("Fight")]
+    [DisplayName("Use Lesser Heal/Flash Heal Treshold?")]
+    [Description("Own life for Lesser Heal/Flash Heal Usage?")]
+    public int UseLessFlashTresh { get; set; }
+
+    [Setting]
+    [DefaultValue(true)]
+    [Category("Fight")]
+    [DisplayName("Use Mindflay?")]
+    [Description("Use Mindflay in General?")]
+    public bool UseMindflay { get; set; }
+
+    [Setting]
     [DefaultValue(50)]
     [Category("General")]
     [DisplayName("Delay")]
@@ -31,7 +80,13 @@ public class Priestsettings : Settings
 
     private Priestsettings()
     {
-
+        UseWand = true;
+        UseWandTresh = 20;
+        UseShieldTresh = 75;
+        UseRenewTresh = 90;
+        UseLessFlashTresh = 20;
+        UseMindflay = true;
+        DPUse = true;
         Framelock = false;
         Delay = 50;
 

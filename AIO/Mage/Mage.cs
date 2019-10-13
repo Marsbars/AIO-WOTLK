@@ -149,9 +149,9 @@ public static class Mage
                 }
             }
         }
-        if(Me.Level < 4)
+        if(!Frostbolt.KnownSpell)
         {
-            Extension.FightSpell(Fireball);
+            Extension.FightSpell(Fireball, false, false, false, false);
         }
         Extension.FightSpell(Frostbolt, false,false,false,false);
         if(MyTarget.HealthPercent < 10)

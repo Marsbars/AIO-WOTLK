@@ -185,7 +185,7 @@ public static class Warlock
         {
             Extension.FightSpell(drainsoul);
         }
-        if (MyTarget.HealthPercent > 25)
+        if (MyTarget.HealthPercent > 15)
         {
             Extension.FightSpell(shadowbolt);
         }
@@ -223,7 +223,7 @@ public static class Warlock
 
             if (!summonvoid.KnownSpell || !summonvoid.IsSpellUsable)
             {
-                Extension.PetSpell(summonimp);
+                Extension.BuffSpell(summonimp);
             }
             Extension.BuffSpell(summonvoid);
             if (ObjectManager.Pet.HealthPercent < 30

@@ -41,7 +41,7 @@ public static class Priest
     public static Spell SoulWarding = new Spell("Soul Warding"); //lvl30
     public static Spell VampiricEmbrace = new Spell("Vampiric Embrace"); //lvl30
     public static Spell PowerInfusion = new Spell("Power Infusion"); //lvl40
-    public static Spell ShadowForm = new Spell("Shadow Form"); //lvl40
+    public static Spell ShadowForm = new Spell("Shadowform"); //lvl40
     //Heal Spells
     public static Spell LesserHeal = new Spell("Lesser Heal");//lvl 1
     public static Spell Renew = new Spell("Renew");//lvl 8
@@ -156,11 +156,26 @@ public static class Priest
 
     private static void CombatRotation()
     {
-        if(_icanusewand && Me.ManaPercentage < 5)
+        Extension.BuffSpell(ShadowForm);
+        if(Extension.GetAttackingUnits(6).Count() > 1)
+        {
+            Extension.FightSpell(PsychicScream);
+        }
+        if (Extension.GetAttackingUnits(6).Count() > 1)
+        {
+            Extension.BuffSpell(InnerFire);
+        }
+        if (_icanusewand && Me.ManaPercentage < 5)
         {
             Extension.FightSpell(UseWand);
         }
-
+        if(_icanusewand 
+            && Priestsettings.CurrentSetting.UseWand 
+            && MyTarget.HealthPercent < Priestsettings.CurrentSetting.UseWandTresh)
+        {
+            Extension.FightSpell(UseWand);
+            return;
+        }
         if (Me.Level < 10)
         {
             Extension.FightSpell(ShadowWordPain);
@@ -195,7 +210,7 @@ public static class Priest
             Extension.FightSpell(HolyFire);
             Extension.FightSpell(DevouringPlague);
             Extension.FightSpell(ShadowWordPain);
-            if (MyTarget.HaveBuff(DevouringPlague.Id) && MyTarget.HaveBuff(ShadowWordPain.Id))
+            if (MyTarget.HaveBuff(DevouringPlague.Id) && MyTarget.HaveBuff(ShadowWordPain.Id) && Priestsettings.CurrentSetting.UseMindflay)
             {
                 Extension.FightSpell(MindFlay);
             }
@@ -223,7 +238,7 @@ public static class Priest
                 Extension.BuffSpell(VampiricEmbrace);
             }
             Extension.FightSpell(ShadowWordPain);
-            if (MyTarget.HaveBuff(DevouringPlague.Id) && MyTarget.HaveBuff(ShadowWordPain.Id))
+            if (MyTarget.HaveBuff(DevouringPlague.Id) && MyTarget.HaveBuff(ShadowWordPain.Id) && Priestsettings.CurrentSetting.UseMindflay)
             {
                 Extension.FightSpell(MindFlay);
             }
@@ -244,13 +259,20 @@ public static class Priest
                     Thread.Sleep(50);
                 }
             }
+            if (Priestsettings.CurrentSetting.DPUse)
+            {
+                Extension.FightSpell(DevouringPlague);
+            }
             Extension.FightSpell(ShadowWordPain);
             if (MyTarget.HaveBuff(ShadowWordPain.Id))
             {
                 Extension.BuffSpell(VampiricEmbrace);
             }
             Extension.FightSpell(MindBlast);
+            if(MyTarget.HaveBuff(ShadowWordPain.Id) && Priestsettings.CurrentSetting.UseMindflay)
+            {
             Extension.FightSpell(MindFlay);
+            }
         }
         if (Me.Level > 49 && Me.Level < 60)
         {
@@ -267,13 +289,22 @@ public static class Priest
                     Thread.Sleep(50);
                 }
             }
+            if (Priestsettings.CurrentSetting.DPUse)
+            {
+                Extension.FightSpell(DevouringPlague);
+            }
             Extension.FightSpell(VampiricTouch);
             if (MyTarget.HaveBuff(VampiricTouch.Id))
             {
                 Extension.FightSpell(ShadowWordPain);
             }
             Extension.BuffSpell(VampiricEmbrace);
-            Extension.FightSpell(MindFlay);
+            Extension.FightSpell(MindBlast);
+            if (MyTarget.HaveBuff(VampiricTouch.Id)
+                && MyTarget.HaveBuff(ShadowWordPain.Id) && Priestsettings.CurrentSetting.UseMindflay)
+            {
+                Extension.FightSpell(MindFlay);
+            }
         }
         if (Me.Level > 59)
         {
@@ -290,6 +321,10 @@ public static class Priest
                     Thread.Sleep(50);
                 }
             }
+            if (Priestsettings.CurrentSetting.DPUse)
+            {
+                Extension.FightSpell(DevouringPlague);
+            }
             Extension.FightSpell(VampiricTouch);
             if (MyTarget.HaveBuff(VampiricTouch.Id))
             {
@@ -300,7 +335,12 @@ public static class Priest
             {
                 Extension.FightSpell(ShadowFiend);
             }
+            Extension.FightSpell(MindBlast);
+            if (MyTarget.HaveBuff(VampiricTouch.Id) 
+                && MyTarget.HaveBuff(ShadowWordPain.Id) && Priestsettings.CurrentSetting.UseMindflay)
+            {
             Extension.FightSpell(MindFlay);
+            }
         }
         Extension.Frameunlock();
     }
@@ -310,30 +350,39 @@ public static class Priest
     {
         Extension.BuffSpell(Fortitude);
         Extension.BuffSpell(ShadowForm);
+        Extension.BuffSpell(DivineSpirit);
         if (Me.ManaPercentage < 25)
         {
             Extension.BuffSpell(Dispersion, false, true);
         }
 
-        if(Me.HealthPercent < 85)
+        if (Me.HealthPercent < 20 && Extension.GetAttackingUnits(20).Count() > 0 && MyTarget.HealthPercent > 10 && !FlashHeal.KnownSpell)
         {
             Extension.HealSpell(LesserHeal);
+        }
+        if (Me.HealthPercent < 20 && Extension.GetAttackingUnits(20).Count() > 0 && MyTarget.HealthPercent > 10 && FlashHeal.KnownSpell)
+        {
+            Extension.HealSpell(FlashHeal);
         }
     }
 
     private static void HealRotation()
     {
-        if (Me.HealthPercent < 99 && Extension.GetAttackingUnits(20).Count() > 0)
+        if (Me.HealthPercent < Priestsettings.CurrentSetting.UseShieldTresh && Extension.GetAttackingUnits(20).Count() > 0)
         {
             Extension.BuffSpell(Shield);
         }
-        if (Me.HealthPercent < 90 && Extension.GetAttackingUnits(20).Count() > 1)
+        if (Me.HealthPercent < Priestsettings.CurrentSetting.UseRenewTresh && Extension.GetAttackingUnits(20).Count() >= 1)
         {
             Extension.HealSpell(Renew);
         }
-        if (Me.HealthPercent < 20 && Extension.GetAttackingUnits(20).Count() > 0 && MyTarget.HealthPercent > 10)
+        if (Me.HealthPercent < Priestsettings.CurrentSetting.UseLessFlashTresh && Extension.GetAttackingUnits(20).Count() > 0 && MyTarget.HealthPercent > 10 && !FlashHeal.KnownSpell)
         {
             Extension.HealSpell(LesserHeal);
+        }
+        if (Me.HealthPercent < Priestsettings.CurrentSetting.UseLessFlashTresh && Extension.GetAttackingUnits(20).Count() > 0 && MyTarget.HealthPercent > 10 && FlashHeal.KnownSpell)
+        {
+            Extension.HealSpell(FlashHeal);
         }
     }
 

@@ -211,16 +211,20 @@ public static class Druid
             {
                 Extension.HealSpell(Regrowth);
             }
-            if(Me.Energy > 40 && Me.ComboPoint > 1 && MyTarget.HealthPercent > 40)
+            if(Me.Energy < 40 && Me.ComboPoint > 1 && MyTarget.HealthPercent > 40)
             {
                 Extension.BuffSpell(TigersFury);
             }
             if (Extension.GetAttackingUnits(10).Count() > 1 && MyTarget.HealthPercent > 20)
             {
-                if (!Me.HaveBuff(BearForm.Id))
+                if (!Me.HaveBuff(BearForm.Id) && !DireBearForm.KnownSpell)
                 {
                     Extension.BuffSpell(BearForm);
                 }
+                if(!Me.HaveBuff(DireBearForm.Id))
+                    {
+                    Extension.BuffSpell(DireBearForm);
+                    }
                 if(Me.Rage > 16)
                 {
                     Extension.FightSpell(Maul);
@@ -232,7 +236,7 @@ public static class Druid
                 }
                         
             }
-            if(Extension.GetAttackingUnits(10).Count() >0)
+            if(Extension.GetAttackingUnits(10).Count() < 2)
             {
                 if (!Me.HaveBuff(CatForm.Id))
                 {
@@ -274,7 +278,7 @@ public static class Druid
                 }
                 if (MangleCat.KnownSpell && Me.ComboPoint <= 4)
                 {
-                    Extension.FightSpell(MangleCat);
+                    Extension.FightSpell(MangleCat,false,false,false,false);
                 }
                 if (MyTarget.HealthPercent < Druidsettings.CurrentSetting.FBH && Me.ComboPoint >= Druidsettings.CurrentSetting.FBC)
                 {

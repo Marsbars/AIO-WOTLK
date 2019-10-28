@@ -15,6 +15,7 @@ public static class Druid
     private static bool _isLaunched;
     public static WoWUnit MyTarget { get { return ObjectManager.Target; } }
     public static WoWPlayer Me { get { return ObjectManager.Me; } }
+    public static string Groundmount;
 
     //Damage Spells
     public static Spell Wrath = new Spell("Wrath"); //lvl1
@@ -105,6 +106,11 @@ public static class Druid
             _isLaunched = true;
             Druidsettings.Load();
             Logging.Write("Settings Loaded");
+            Groundmount = wManager.wManagerSetting.CurrentSetting.GroundMountName;
+            if(wManager.wManagerSetting.CurrentSetting.GroundMountName == string.Empty)
+            {
+                wManager.wManagerSetting.CurrentSetting.GroundMountName = "Travel Form";
+            }
             Rotation();
         }
     }
@@ -112,6 +118,7 @@ public static class Druid
     public static void Dispose() // When product stopped
     {
         {
+            wManager.wManagerSetting.CurrentSetting.GroundMountName = Groundmount;
             _isLaunched = false;
         }
     }
@@ -130,11 +137,15 @@ public static class Druid
         {
             try
             {
-                if(lowlevel)
+                if(Me.Level < 20 && !BearForm.KnownSpell)
                 {
-                    Main.settingRange = 33f;
+                    Main.settingRange = 29f;
                 }
-                Main.settingRange = 5f;
+                if(BearForm.KnownSpell)
+                {
+                    Main.settingRange = 5f;
+                }
+
                 if (!(Fight.InFight))
                 {
                     Healing();
@@ -144,7 +155,7 @@ public static class Druid
                 else
                  if (Me.Target > 0)
                 {
-                    if (Druidsettings.CurrentSetting.Framelock)
+                     if (Druidsettings.CurrentSetting.Framelock)
                     {
                         Extension.Framelock();
                     }
@@ -168,13 +179,11 @@ public static class Druid
     {
         if (Me.Level < 10)
         {
-            lowlevel = true;
             Extension.FightSpell(Wrath);
             Extension.FightSpell(Moonfire);
         }
         if (Me.Level > 9 && Me.Level < 20)
         {
-            lowlevel = true;
             if (BearForm.KnownSpell)
             {
                 Extension.BuffSpell(BearForm);
@@ -205,8 +214,17 @@ public static class Druid
         }
         if (Me.Level > 19 && Me.Level < 81)
         {
-            lowlevel = false;
-            if(Me.HealthPercent < 92 && Me.ManaPercentage > 40 && Me.HaveBuff("Predator's Swiftness"))
+            // Heal in Combat
+            if (Me.HealthPercent < 36 && Me.ManaPercentage > 30 && MyTarget.HealthPercent > 13)
+            {
+                Extension.BuffSpell(Barkskin);
+                Extension.HealSpell(Regrowth);
+                if (!Regrowth.KnownSpell)
+                {
+                    Extension.HealSpell(HealingTouch);
+                }
+            }
+            if (Me.HealthPercent < 92 && Me.ManaPercentage > 40 && Me.HaveBuff("Predator's Swiftness"))
             {
                 Extension.HealSpell(Regrowth);
             }
@@ -214,8 +232,12 @@ public static class Druid
             {
                 Extension.BuffSpell(TigersFury);
             }
-            if (Extension.GetAttackingUnits(10).Count() > 1 && MyTarget.HealthPercent > 20)
+            if (Extension.GetAttackingUnits(20).Count() > 1 && MyTarget.HealthPercent > 20)
             {
+                if (Extension.GetAttackingUnits(20).Count() == 1 && Me.ManaPercentage > 40) //for Rejuve after bearform and one target died
+                {
+                    Extension.HealSpell(Rejuvenation);
+                }
                 if (!Me.HaveBuff(BearForm.Id) && !DireBearForm.KnownSpell)
                 {
                     Extension.BuffSpell(BearForm);
@@ -229,13 +251,14 @@ public static class Druid
                     Extension.FightSpell(Maul);
                 }           
                 Extension.FightSpell(MangleBear, false, false, false, false);
-                if(Extension.GetAttackingUnits(10).Count() >3)
+                Extension.FightSpell(FaerieFireFeral);
+                if(Extension.GetAttackingUnits(10).Count() > 3)
                 {
                     Extension.FightSpell(DemoralizingRoar);
                 }
                         
             }
-            if(Extension.GetAttackingUnits(10).Count() < 2)
+            if(Extension.GetAttackingUnits(20).Count() < 2)
             {
                 if (!Me.HaveBuff(CatForm.Id))
                 {
@@ -338,11 +361,19 @@ public static class Druid
     private static void BuffRotation()
     {
         Extension.BuffSpell(MarkoftheWild);
-        if(Me.Rage < 20)
+        if (Me.Rage < 20)
+        {
+            Extension.BuffSpell(Thorns);
+        }
+        if (Me.Rage < 20)
         {
         Extension.BuffSpell(Thorns);
         }
-
+        if (!Me.HaveBuff(CatForm.Id) && Me.HaveBuff(Thorns.Id) && Me.HaveBuff(MarkoftheWild.Id) && !Me.IsMounted && wManager.wManagerSetting.CurrentSetting.GroundMountName == string.Empty)
+        {
+            Logging.Write("Using  Catform, traveltime");
+            Extension.BuffSpell(CatForm);
+        }
     }
 
     private static void Healing()
@@ -356,7 +387,7 @@ public static class Druid
             }
         }
 
-        if (Me.HealthPercent < 60 && Me.ManaPercentage > 30)
+        if (Me.HealthPercent < 60 && Me.ManaPercentage > 10)
         {
             Extension.HealSpell(Rejuvenation);
             Extension.HealSpell(Lifebloom);

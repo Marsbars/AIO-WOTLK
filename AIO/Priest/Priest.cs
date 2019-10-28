@@ -384,6 +384,12 @@ public static class Priest
         {
             Extension.HealSpell(FlashHeal);
         }
+        if(Me.HealthPercent < 90 && Extension.GetAttackingUnits(20).Count() == 0)
+        {
+            
+            Extension.HealSpell(Renew);
+            Extension.HealSpell(FlashHeal);
+        }
     }
 
 

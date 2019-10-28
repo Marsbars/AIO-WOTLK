@@ -25,7 +25,7 @@ public class Main : ICustomClass
 
     public void Initialize()
     {
-        Log("Started. Discovering class and finding rotation...");
+        Log("Started V. 1.0.27. Discovering class and finding rotation...");
         var type = Type.GetType(wowClass);
 
         if (type != null)

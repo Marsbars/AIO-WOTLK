@@ -28,6 +28,13 @@ public class Magesettings : Settings
     public int Delay { get; set; }
 
     [Setting]
+    [DefaultValue(10)]
+    [Category("Fight")]
+    [DisplayName("Manstone")]
+    [Description("Treshhold for Manastone")]
+    public int Manastone { get; set; }
+
+    [Setting]
     [DefaultValue(false)]
     [Category("Fight")]
     [DisplayName("Sheep")]
@@ -39,6 +46,7 @@ public class Magesettings : Settings
     {
         Framelock = false;
         Sheep = false;
+        Manastone = 10;
         Delay = 50;
     }
 

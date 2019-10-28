@@ -104,12 +104,12 @@ public class Paladinsettings : Settings
     [Description("Set Retribution Aura over Devition Aura")]
     public bool RA { get; set; }
 
-    [Setting]
-    [DefaultValue(false)]
-    [Category("Other")]
-    [DisplayName("Drawing on Screen")]
-    [Description("Allow the Use of Circles and Drawing Lines to Enemy Players")]
-    public bool Draw { get; set; }
+    //[Setting]
+    //[DefaultValue(false)]
+    //[Category("Other")]
+    //[DisplayName("Drawing on Screen")]
+    //[Description("Allow the Use of Circles and Drawing Lines to Enemy Players")]
+    //public bool Draw { get; set; }
 
     private Paladinsettings()
     {
@@ -122,7 +122,7 @@ public class Paladinsettings : Settings
         SShield = true;
         HoProtection = true;
         DivProtection = true;
-        Draw = false;
+        //Draw = false;
         HL = 50;
         FL = 30;
         RA = false;

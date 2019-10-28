@@ -29,12 +29,15 @@ public static class Mage
     public static Spell Fireball = new Spell("Fireball");
     public static Spell Frostbolt = new Spell("Frostbolt");
     public static Spell FireBlast = new Spell("Fire Blast");
+    public static Spell DeepFreeze = new Spell("Deep Freeze");
+    public static Spell FrostFirebolt = new Spell("Frostfire Bolt");
     //Buffs
     public static Spell ArcaneIntellect = new Spell("Arcane Intellect");
     public static Spell Evocation = new Spell("Evocation");
     public static Spell FrostArmor = new Spell("Frost Armor");
     public static Spell IceBarrier = new Spell("Ice Barrier");
     public static Spell ColdSnap = new Spell("Cold Snap");
+    public static Spell IceArmor = new Spell("Ice Armor");
     //CC
     public static Spell Polymorph = new Spell("Polymorph");
     public static Spell FrostNova = new Spell("Frost Nova");
@@ -43,7 +46,8 @@ public static class Mage
     //Usefuls
     public static Spell RemoveCurse = new Spell("Remove Curse");
     public static Spell CounterSpell = new Spell("Counterspell");
-
+    public static Spell MirrorImage = new Spell("Mirror Image");
+    public static Spell IceBlock = new Spell("Ice Block");
     public static Timer PetPullTimer = new Timer();
 
     public static void Initialize()
@@ -87,7 +91,6 @@ public static class Mage
                         Extension.Frameunlock();
                     }
                     BuffRotation();
-                    Pethandler();
                     _foodManager.CheckIfEnoughFoodAndDrinks();
                     _foodManager.CheckIfThrowFoodAndDrinks();
                     _foodManager.CheckIfHaveManaStone();
@@ -129,6 +132,10 @@ public static class Mage
 
     private static void CombatRotation()
     {
+        if(Me.ManaPercentage < Magesettings.CurrentSetting.Manastone)
+        {
+            _foodManager.UseManaStone();
+        }
 
         if (Magesettings.CurrentSetting.Sheep)
         {
@@ -148,6 +155,48 @@ public static class Mage
 
                 }
             }
+        }
+        if (Extension.InterruptableUnit(20f) != null && CounterSpell.KnownSpell && CounterSpell.IsSpellUsable)
+        {
+            Logging.Write("Interrupt Target found");
+            ObjectManager.Me.FocusGuid = Extension.InterruptableUnit(20f).Guid;
+            Logging.Write("Interrupt Target Set" + Extension.InterruptableUnit(20f).Guid);
+            Extension.FightSpell(CounterSpell, true);
+        }
+        if(Me.HaveBuff("Fireball!"))
+            {
+            Extension.FightSpell(FrostFirebolt);
+            }
+        if(!IceBarrier.IsSpellUsable && !IceBlock.IsSpellUsable)
+        {
+            Extension.BuffSpell(ColdSnap);
+        }
+        if(Me.HealthPercent < 15 && Extension.GetAttackingUnits(20).Count() >=2)
+        {
+            Extension.BuffSpell(Evocation);
+        }
+        if(Me.HealthPercent < 14 && !IceBarrier.IsSpellUsable)
+        {
+            Extension.BuffSpell(IceBlock);
+        }
+        if (Me.HealthPercent < 95)
+        {
+            Extension.BuffSpell(IceBarrier);
+        }
+        if(Extension.GetAttackingUnits(25).Count() >= 3 || MyTarget.IsElite)
+        {
+            Extension.FightSpell(MirrorImage);
+            Extension.FightSpell(SummonWaterElemental);
+        }
+        if (Extension.GetAttackingUnits(25).Count() >= 2 || MyTarget.IsElite)
+        {
+            Extension.BuffSpell(IcyVeins);
+            Extension.FightSpell(SummonWaterElemental);
+        }
+        Extension.FightSpell(DeepFreeze);
+        if(Me.HaveBuff("Fingers of Frost") || MyTarget.HaveBuff(FrostNova.Id))
+        {
+            Extension.FightSpell(IceLance);
         }
         if(!Frostbolt.KnownSpell)
         {
@@ -169,7 +218,15 @@ public static class Mage
     private static void BuffRotation()
     {
         Extension.BuffSpell(ArcaneIntellect);
-        Extension.BuffSpell(FrostArmor);
+        if(!IceArmor.KnownSpell)
+        {
+            Extension.BuffSpell(FrostArmor);
+        }
+        Extension.BuffSpell(IceArmor);    
+        if(Me.HealthPercent < 37 || Me.ManaPercentage <37)
+        {
+            Extension.BuffSpell(Evocation);
+        }
     }
 
     #region Pethandler

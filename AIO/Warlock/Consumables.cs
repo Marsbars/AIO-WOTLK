@@ -12,7 +12,8 @@ public static class Consumables
             "Lesser Healthstone",
             "Healthstone",
             "Greater Healthstone",
-            "Major Healthstone"
+            "Major Healthstone",
+            "Fel Healthstone"
         };
     }
 

@@ -50,7 +50,18 @@ public static class DeathKnight
         DKSettings.Load();
         {
             _isLaunched = true;
-
+            if(Extension.GetSpecialization() == 1)
+            {
+                //Blood
+            }
+            if (Extension.GetSpecialization() == 2)
+            {
+                //Frost
+            }
+            if (Extension.GetSpecialization() == 3)
+            {
+                //Unholy
+            }
             Rotation();
         }
 
@@ -60,13 +71,9 @@ public static class DeathKnight
 
     public static void Dispose()
     {
-
         {
             _isLaunched = false;
         }
-
-
-
     }
 
     public static void ShowConfiguration()
@@ -142,19 +149,19 @@ public static class DeathKnight
         }
         if (DKSettings.CurrentSetting.DeathGrip && ObjectManager.Target.GetDistance > 10)
         {
-            FightSpell(DeathGrip);
+            Extension.FightSpell(DeathGrip);
         }
-        FightSpell(RuneStrike);
+        Extension.FightSpell(RuneStrike);
         if (!ffcheck && Extension.CanBleed(MyTarget))
         {
-            FightSpell(IcyTouch);
+            Extension.FightSpell(IcyTouch);
         }
         if (!bpcheck)
         {
-            FightSpell(PlagueStrike);
+            Extension.FightSpell(PlagueStrike);
         }
         if (ffcheck && bpcheck
-            && GetAttackingUnits(10).Count() > 1
+            && Extension.GetAttackingUnits(10).Count() > 1
             && Pestilencetimer.IsReady
             && Pestilence.IsSpellUsable
             && Pestilence.KnownSpell)
@@ -163,27 +170,27 @@ public static class DeathKnight
             Pestilencetimer = new Timer(7000);
         }
         UseBloodSkill();
-        FightSpell(DeathStrike);
+        Extension.FightSpell(DeathStrike);
     }
 
     public static void UseBloodSkill()
     {
-        if (GetAttackingUnits(5).Count() == 1)
+        if (Extension.GetAttackingUnits(5).Count() == 1)
         {
-            FightSpell(BloodStrike);
+            Extension.FightSpell(BloodStrike);
             return;
         }
-        if (GetAttackingUnits(5).Count() == 2)
+        if (Extension.GetAttackingUnits(5).Count() == 2)
         {
-            FightSpell(HeartSTrike);
+            Extension.FightSpell(HeartSTrike);
             return;
         }
-        if (GetAttackingUnits(5).Count() > 2)
+        if (Extension.GetAttackingUnits(5).Count() > 2)
         {
-            FightSpell(BloodBoil);
+            Extension.FightSpell(BloodBoil);
             return;
         }
-        if (GetAttackingUnits(10).Count() > 3)
+        if (Extension.GetAttackingUnits(10).Count() > 3)
         {
             ClickOnTerrain.Spell(DeathAndDecay.Id, ObjectManager.Me.Position);
         }
@@ -195,13 +202,13 @@ public static class DeathKnight
         List<WoWUnit> attackers = ObjectManager.GetUnitAttackPlayer();
         if (ObjectManager.Me.HealthPercent < 30 && attackers.Count > 1)
         {
-            BuffSpell(IceBoundFortitude);
+            Extension.BuffSpell(IceBoundFortitude);
         }
         if(DKSettings.CurrentSetting.BloodPresence)
         {
-        BuffSpell(BloodPresence);
+            Extension.BuffSpell(BloodPresence);
         }
-        BuffSpell(HornofWinter);
+        Extension.BuffSpell(HornofWinter);
 
     }
 
@@ -211,72 +218,17 @@ public static class DeathKnight
         if (ObjectManager.Target.IsAttackable
             && ObjectManager.Me.Target > 0)
         {
-            FightSpell(DeathCoil);
+            Extension.FightSpell(DeathCoil);
             if (DKSettings.CurrentSetting.DeathGrip && ObjectManager.Target.GetDistance > 10)
             {
-                FightSpell(DeathGrip);
+                Extension.FightSpell(DeathGrip);
             }
         }
     }
 
     #endregion
 
-    #region Check Fightspell Casting
-    private static bool FightSpell(Spell spell)
-    {
-        if (spell.KnownSpell && spell.IsSpellUsable
-            && spell.IsDistanceGood
-            && ObjectManager.Me.HasTarget
-            && ObjectManager.Target.IsAttackable
-            && !ObjectManager.Target.HaveBuff(spell.Name))
-        {
-            Frameunlock();
-            spell.Launch();
-            Usefuls.WaitIsCasting();
-            return true;
-        }
-        return false;
-    }
-    #endregion
 
-    #region Check Buffspell Casting
-    private static bool BuffSpell(Spell spell, bool CanBeMounted = false)
-    {
-        if (spell.KnownSpell
-            && spell.IsSpellUsable
-            && !ObjectManager.Me.HaveBuff(spell.Name))
-        {
-            if (ObjectManager.Me.IsMounted == CanBeMounted)
-            {
-                Frameunlock();
-                spell.Launch();
-                Usefuls.WaitIsCasting();
-                return true;
-            }
-        }
-        return false;
-    }
-    #endregion
-
-    #region Check Interruptspell Casting
-    private static bool InterruptSpell(Spell spell, bool CanBeMounted = false)
-    {
-        var resultLua = Lua.LuaDoString("ret = \"false\"; spell, rank, displayName, icon, startTime, endTime, isTradeSkill, ca﻿stID, interrupt = UnitCastingInfo(\"target\"); if interrupt then ret ﻿= \"true\" end", "ret");
-        if (spell.KnownSpell
-            && spell.IsSpellUsable
-            && resultLua == "true")
-        {
-            if (ObjectManager.Me.IsMounted == CanBeMounted)
-            {
-                Frameunlock();
-                spell.Launch();
-                Usefuls.WaitIsCasting();
-                return true;
-            }
-        }
-        return false;
-    }
-    #endregion
 
     private static void Frameunlock()
     {
@@ -299,13 +251,5 @@ public static class DeathKnight
             Thread.Sleep(10);
         }
     }
-
-    #region attackers
-    public static IEnumerable<WoWUnit> GetAttackingUnits(int range)
-    {
-        return ObjectManager.GetUnitAttackPlayer().Where(u => u.Position.DistanceTo(ObjectManager.Target.Position) <= range);
-    }
-    #endregion
-
 
 }

@@ -99,20 +99,21 @@ public static class Paladin
                 Main.settingRange = 5f;
                 if (!(Fight.InFight))
                 {
+                    Healing();
                     BuffRotation();
                 }
                 else
-                 if (Me.Target > 0)
+                 if (Fight.InFight)
                 {
-                    if (Paladinsettings.CurrentSetting.Draw) //new
-                    {
-                        foreach (W﻿oWUnit Mob in ObjectManager﻿.GetObjectWoWPlayer().Where(x => x.IsAlliance && ObjectManager.Target.TargetObject != null))
-                        {
-                            Radar3D.DrawCircle(ObjectManager.Target.Position, 1f, System.Drawing.Color.Red, true);
-                            Radar3D.DrawLine(Me.Position, Mob.TargetObject.Position, System.Drawing.Color.Red);
-                            Radar3D.DrawCircle(Mob.TargetObject.Position, 0.5f, System.Drawing.Color.LightBlue, false);
-                        }
-                    }
+                    //if (Paladinsettings.CurrentSetting.Draw) //new
+                    //{
+                    //    foreach (W﻿oWUnit Mob in ObjectManager﻿.GetObjectWoWPlayer().Where(x => x.IsAlliance && ObjectManager.Target.TargetObject != null))
+                    //    {
+                    //        Radar3D.DrawCircle(ObjectManager.Target.Position, 1f, System.Drawing.Color.Red, true);
+                    //        Radar3D.DrawLine(Me.Position, Mob.TargetObject.Position, System.Drawing.Color.Red);
+                    //        Radar3D.DrawCircle(Mob.TargetObject.Position, 0.5f, System.Drawing.Color.LightBlue, false);
+                    //    }
+                    //}
                     Healing();
                     BuffRotation();
                     if (Paladinsettings.CurrentSetting.Framelock)

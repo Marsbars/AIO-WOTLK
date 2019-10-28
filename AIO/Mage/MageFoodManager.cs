@@ -13,6 +13,9 @@ public class MageFoodManager
     private Spell ConjureManaCitrine = new Spell("Conjure Mana Citrine");
     private Spell ConjureManaRuby = new Spell("Conjure Mana Ruby");
     private Spell ConjureManaEmerald = new Spell("Conjure Mana Emerald");
+    private Spell ConjureManaSapphire = new Spell("Conjure Mana Sapphire");
+    private Spell ConjureManaGem = new Spell("Conjure Mana Gem");
+    private Spell ConjureRefreshement = new Spell("Conjure Refreshment");
     public string ManaStone = "";
 
     private List<string> Drink()
@@ -27,7 +30,9 @@ public class MageFoodManager
             "Conjured Sparkling Water",
             "Conjured Crystal Water",
             "Conjured Mountain Spring Water",
-            "Conjured Glacier Water"
+            "Conjured Glacier Water",
+            "Conjured Mana Pie",
+            "Conjured Mana Strudel"
         };
     }
 
@@ -42,7 +47,9 @@ public class MageFoodManager
             "Conjured Sourdough",
             "Conjured Sweet Roll",
             "Conjured Cinnamon Roll",
-            "Conjured Croissant"
+            "Conjured Croissant",
+            "Conjured Mana Pie",
+            "Conjured Mana Strudel"
         };
     }
 
@@ -54,7 +61,8 @@ public class MageFoodManager
             "Mana Jade",
             "Mana Citrine",
             "Mana Ruby",
-            "Mana Emerald"
+            "Mana Emerald",
+            "Mana Sapphire"
         };
     }
 
@@ -78,7 +86,7 @@ public class MageFoodManager
             }
             if (stacksWater < 10 && ConjureWater.IsSpellUsable && ConjureWater.KnownSpell && Bag.GetContainerNumFreeSlotsNormalType > 1)
                 ConjureWater.Launch();
-            if (stacksFood < 10 && ConjureFood.IsSpellUsable && ConjureFood.KnownSpell && Bag.GetContainerNumFreeSlotsNormalType > 1)
+            if (stacksFood < 10 && ConjureFood.IsSpellUsable && ConjureFood.KnownSpell && Bag.GetContainerNumFreeSlotsNormalType > 1 && !ConjureRefreshement.KnownSpell)
                 ConjureFood.Launch();
         }
     }
@@ -156,6 +164,16 @@ public class MageFoodManager
                 {
                     if (ConjureManaAgate.IsSpellUsable)
                         ConjureManaAgate.Launch();
+                }
+                else if (ConjureManaSapphire.KnownSpell)
+                {
+                    if (ConjureManaSapphire.IsSpellUsable)
+                        ConjureManaSapphire.Launch();
+                }
+                else if (ConjureManaGem.KnownSpell)
+                {
+                    if (ConjureManaGem.IsSpellUsable)
+                        ConjureManaGem.Launch();
                 }
             }
         }

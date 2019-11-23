@@ -175,22 +175,22 @@ public static class DeathKnight
 
     public static void UseBloodSkill()
     {
-        if (Extension.GetAttackingUnits(5).Count() == 1)
+        if (Extension.GetAttackingUnits(5).Count() == DKSettings.CurrentSetting.bloodstrike)
         {
             Extension.FightSpell(BloodStrike);
             return;
         }
-        if (Extension.GetAttackingUnits(5).Count() == 2)
+        if (Extension.GetAttackingUnits(5).Count() == DKSettings.CurrentSetting.hearthstrike)
         {
             Extension.FightSpell(HeartSTrike);
             return;
         }
-        if (Extension.GetAttackingUnits(5).Count() > 2)
+        if (Extension.GetAttackingUnits(5).Count() > DKSettings.CurrentSetting.bloodboil)
         {
             Extension.FightSpell(BloodBoil);
             return;
         }
-        if (Extension.GetAttackingUnits(10).Count() > 3)
+        if (Extension.GetAttackingUnits(10).Count() > DKSettings.CurrentSetting.dnd)
         {
             ClickOnTerrain.Spell(DeathAndDecay.Id, ObjectManager.Me.Position);
         }

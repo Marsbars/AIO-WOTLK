@@ -29,6 +29,34 @@ public class DKSettings : Settings
     public bool BloodPresence { get; set; }
 
     [Setting]
+    [DefaultValue(1)]
+    [Category("General")]
+    [DisplayName("Bloodstrike")]
+    [Description("Set Enemy Count Equal X enemy to use Bloodstrike")]
+    public int bloodstrike { get; set; }
+
+    [Setting]
+    [DefaultValue(2)]
+    [Category("General")]
+    [DisplayName("Hearthstrike")]
+    [Description("Set Enemy Count Equal X enemy to use Hearthstrike")]
+    public int hearthstrike { get; set; }
+
+    [Setting]
+    [DefaultValue(2)]
+    [Category("General")]
+    [DisplayName("BloodBoil")]
+    [Description("Set Enemy Count larger X enemy to use Bloodstrike")]
+    public int bloodboil { get; set; }
+
+    [Setting]
+    [DefaultValue(3)]
+    [Category("General")]
+    [DisplayName("Death and Decay")]
+    [Description("Set Enemy Count larger X enemy to use DnD")]
+    public int dnd { get; set; }
+
+    [Setting]
     [DefaultValue(false)]
     [Category("General")]
     [DisplayName("Framelock")]
@@ -46,6 +74,10 @@ public class DKSettings : Settings
     {
         DeathGrip = true;
         BloodPresence = true;
+        bloodstrike = 1;
+        hearthstrike = 2;
+        bloodboil = 2;
+        dnd = 3;
         Framelock = false;
         Delay = 50;
     }

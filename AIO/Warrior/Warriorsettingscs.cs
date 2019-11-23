@@ -14,12 +14,6 @@ using wManager.Wow.ObjectManager;
 [Serializable]
 public class Warriorsettings : Settings
 {
-    [Setting]
-    [DefaultValue(true)]
-    [Category("Pull")]
-    [DisplayName("Deathgrip")]
-    [Description("use Deathgrip for Pull?")]
-    public bool DeathGrip { get; set; }
 
     [Setting]
     [DefaultValue(false)]
@@ -37,7 +31,6 @@ public class Warriorsettings : Settings
 
     private Warriorsettings()
     {
-        DeathGrip = true;
         Framelock = false;
         Delay = 50;
     }

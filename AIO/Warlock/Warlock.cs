@@ -43,6 +43,7 @@ public static class Warlock
     public static Spell haunt = new Spell("Haunt");
     public static Spell unstableaffliction = new Spell("Unstable Affliction");
     public static Spell shadowtrance = new Spell("Shadow Trance");
+    public static Spell soullink = new Spell("Soul Link");
     public static Timer PetPullTimer = new Timer();
     private static int SaveDrink = wManager.wManagerSetting.CurrentSetting.DrinkPercent;
 
@@ -206,6 +207,7 @@ public static class Warlock
         }
         Extension.BuffSpell(felarmor, false);
         Extension.BuffSpell(unendingbreath, false);
+        Extension.BuffSpell(soullink);
     }
 
     #region Pethandler

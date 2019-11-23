@@ -155,6 +155,10 @@ public static class Paladin
         {
             Extension.FightSpell(HandofReckoning, false);
         }
+        if(Extension.GetAttackingUnits(20).Count() >= 3)
+        {
+        Extension.BuffSpell(AvengingWrath);
+        }
         Extension.FightSpell(HammerofWrath, false);
         if (Me.Level < 12)
         {
@@ -170,7 +174,7 @@ public static class Paladin
         {
             Extension.FightSpell(Consecration, false);
         }
-        if (Me.Level > 42) //new
+        if (Me.Level > 42 && Extension.GetAttackingUnits(20).Count() > 1) //new
         {
             Extension.FightSpell(Consecration, false);
         }
@@ -205,11 +209,11 @@ public static class Paladin
             {
                 Extension.BuffSpell(DevotionAura, false);
             }
-            if (Extension.GetAttackingUnits(5).Count() >= 3)
+            if (Extension.GetAttackingUnits(20).Count() >= 3)
             {
                 Extension.BuffSpell(SealofCommand, false);
             }
-            if (Extension.GetAttackingUnits(5).Count() <= 2)
+            if (Extension.GetAttackingUnits(20).Count() <= 2)
             {
                 Extension.BuffSpell(SealofRighteousness, false);
             }
@@ -217,7 +221,7 @@ public static class Paladin
             {
                 Extension.BuffSpell(DivinePlea, false);
             }
-            if (Me.HealthPercent < 20 && !Me.HaveBuff("Forbearance") && Paladinsettings.CurrentSetting.SShield)
+            if (Extension.GetAttackingUnits(20).Count() >2 && Paladinsettings.CurrentSetting.SShield)
             {
                 Extension.BuffSpell(SacredShield, false);
                 return;

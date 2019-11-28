@@ -29,6 +29,13 @@ public class Warlocksettings : Settings
 
     [Setting]
     [DefaultValue(false)]
+    [Category("Pet")]
+    [DisplayName("Felguard")]
+    [Description("You have Felguard and want to use it? Choose this!")]
+    public bool Felguard { get; set; }
+
+    [Setting]
+    [DefaultValue(false)]
     [Category("Fight")]
     [DisplayName("Fear")]
     [Description("Uses Fear if 2 Targets attacking")]
@@ -66,6 +73,7 @@ public class Warlocksettings : Settings
     {
         Framelock = false;
         Delay = 50;
+        Felguard = false;
         Fear = false;
         Lifetap = 20;
         Drainlife = 40;

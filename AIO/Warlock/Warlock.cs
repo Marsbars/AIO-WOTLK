@@ -32,6 +32,7 @@ public static class Warlock
     public static Spell corruption = new Spell("Corruption");
     public static Spell summonimp = new Spell("Summon Imp");
     public static Spell summonvoid = new Spell("Summon Voidwalker");
+    public static Spell summonfelguard = new Spell("Summon Felguard");
     public static Spell healthfunnel = new Spell("Health Funnel");
     public static Spell lifetap = new Spell("Life Tap");
     public static Spell createhealthstone = new Spell("Create Healthstone");
@@ -223,11 +224,18 @@ public static class Warlock
             wManager.wManagerSetting.CurrentSetting.DrinkPercent = SaveDrink;
             Thread.Sleep(100); //workaround for recast after dismount
 
-            if (!summonvoid.KnownSpell || !summonvoid.IsSpellUsable)
+            if (!summonvoid.KnownSpell || !summonvoid.IsSpellUsable || !summonfelguard.IsSpellUsable || !summonfelguard.KnownSpell)
             {
                 Extension.BuffSpell(summonimp);
             }
-            Extension.BuffSpell(summonvoid);
+            if(!Warlocksettings.CurrentSetting.Felguard)
+            {
+                Extension.BuffSpell(summonvoid);
+            }
+            if (Warlocksettings.CurrentSetting.Felguard)
+            {
+                Extension.BuffSpell(summonfelguard);
+            }
             if (ObjectManager.Pet.HealthPercent < 30
                 && ObjectManager.Pet.IsAlive
                 && Me.HealthPercent > 50)

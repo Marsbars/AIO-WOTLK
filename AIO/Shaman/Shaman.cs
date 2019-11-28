@@ -52,6 +52,7 @@ public static class Shaman
     {
         Shamansettings.Load();
         {
+            lowlevel = true;
             _isLaunched = true;
 
             Rotation();
@@ -62,6 +63,7 @@ public static class Shaman
     {
 
         {
+            lowlevel = false;
             _isLaunched = false;
         }
     }
@@ -188,10 +190,7 @@ public static class Shaman
             {
                 Extension.FightSpell(EarthShock);
             }
-            else
-            {
                 Extension.FightSpell(FlameShock);
-            }
             if (Me.ManaPercentage > 40)
             {
                 Extension.BuffSpell(LightningShield);

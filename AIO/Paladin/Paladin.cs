@@ -66,7 +66,7 @@ public static class Paladin
     public static void Initialize()
     {
         {
-            Radar3D.Pulse();
+            //Radar3D.Pulse();
             _isLaunched = true;
             Paladinsettings.Load();
             Logging.Write("Settings Loaded");
@@ -77,7 +77,7 @@ public static class Paladin
     public static void Dispose() // When product stopped
     {
         {
-            Radar3D.Stop();
+            //Radar3D.Stop();
             _isLaunched = false;
         }
     }
@@ -163,6 +163,10 @@ public static class Paladin
         if (Me.Level < 12)
         {
             Extension.FightSpell(JudgementofLight, false); //New
+        }
+        if (Me.Level > 11 && !JudgementofWisdom.KnownSpell)
+        {
+            Extension.FightSpell(JudgementofLight, false);
         }
         if (Me.Level > 11)
         {

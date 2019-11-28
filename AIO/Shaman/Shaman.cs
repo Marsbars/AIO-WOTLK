@@ -151,7 +151,11 @@ public static class Shaman
 
         if (Me.Level < 10)
         {
-            lowlevel = true;
+            if(lowlevel != true)
+            {
+                lowlevel = true;
+            }
+
             if (MyTarget.GetDistance < 20)
             {
                 TotemManager.CastTotems();
@@ -172,16 +176,19 @@ public static class Shaman
         }
         if (Me.Level > 9 && Me.Level < 20)
         {
-            lowlevel = true;
+            if (lowlevel != true)
+            {
+                lowlevel = true;
+            }
             if (MyTarget.GetDistance < 20)
             {
                 TotemManager.CastTotems();
             }
             //_lastTotemPosition.DistanceTo(ObjectManager.Me.Position)
-            if (_fireTotemPosition.DistanceTo(Me.Position) < 10 && Extension.GetAttackingUnits(5).Count() > 1 && Shamansettings.CurrentSetting.UseFireNova)
-            {
-                Extension.FightSpell(FireNova);
-            }
+            //if (_fireTotemPosition.DistanceTo(Me.Position) < 10 && Extension.GetAttackingUnits(5).Count() > 1 && Shamansettings.CurrentSetting.UseFireNova)
+            //{
+            //    Extension.FightSpell(FireNova);
+            //}
             if (MyTarget.GetDistance > 7)
             {
                 Extension.FightSpell(LightningBolt);
@@ -198,7 +205,10 @@ public static class Shaman
         }
         if (Me.Level > 19 && Me.Level < 40)
         {
-            lowlevel = false;
+            if (lowlevel == true)
+            {
+                lowlevel = false;
+            }
             if (MyTarget.GetDistance < 20)
             {
                 TotemManager.CotE();
@@ -225,7 +235,10 @@ public static class Shaman
                 TotemManager.CotE();
                 TotemManager.CastTotems();
             }
-            lowlevel = false;
+            if (lowlevel == true)
+            {
+                lowlevel = false;
+            }
             if (MyTarget.GetDistance > 20)
             {
                 Extension.FightSpell(LightningBolt);
@@ -245,7 +258,10 @@ public static class Shaman
         }
         if (Me.Level > 49 && Me.Level <= 80)
         {
-            lowlevel = false;
+            if (lowlevel == true)
+            {
+                lowlevel = false;
+            }
             if (MyTarget.GetDistance < 20)
             {
                 TotemManager.CotE();

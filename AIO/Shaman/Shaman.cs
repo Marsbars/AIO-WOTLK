@@ -185,6 +185,7 @@ public static class Shaman
                 TotemManager.CastTotems();
             }
             //_lastTotemPosition.DistanceTo(ObjectManager.Me.Position)
+
             //if (_fireTotemPosition.DistanceTo(Me.Position) < 10 && Extension.GetAttackingUnits(5).Count() > 1 && Shamansettings.CurrentSetting.UseFireNova)
             //{
             //    Extension.FightSpell(FireNova);

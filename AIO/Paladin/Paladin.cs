@@ -186,7 +186,7 @@ public static class Paladin
         {
             Extension.FightSpell(Exorcism, false);
         }
-        if (Me.Level < 43)
+        if (Me.Level < 43 && MyTarget.HealthPercent > 20)
         {
             Extension.FightSpell(Exorcism, false);
         }
@@ -213,7 +213,7 @@ public static class Paladin
             {
                 Extension.BuffSpell(DevotionAura, false);
             }
-            if (Extension.GetAttackingUnits(20).Count() >= 3)
+            if (Extension.GetAttackingUnits(20).Count() >= 3 && Paladinsettings.CurrentSetting.SOC)
             {
                 Extension.BuffSpell(SealofCommand, false);
             }

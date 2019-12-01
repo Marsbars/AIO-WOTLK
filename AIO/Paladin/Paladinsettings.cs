@@ -104,6 +104,13 @@ public class Paladinsettings : Settings
     [Description("Set Retribution Aura over Devition Aura")]
     public bool RA { get; set; }
 
+    [Setting]
+    [DefaultValue(false)]
+    [Category("Seal")]
+    [DisplayName("Seal of Command")]
+    [Description("Set if you want Seal of command used by FC")]
+    public bool SOC { get; set; }
+
     //[Setting]
     //[DefaultValue(false)]
     //[Category("Other")]
@@ -126,6 +133,7 @@ public class Paladinsettings : Settings
         HL = 50;
         FL = 30;
         RA = false;
+        SOC = false;
         Delay = 50;
     }
 

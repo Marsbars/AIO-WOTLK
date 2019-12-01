@@ -32,11 +32,14 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="authManager">
+      <HintPath>E:\Games\BOT 3.3.5\WRobot\WRobot\Bin\authManager.dll</HintPath>
+    </Reference>
     <Reference Include="MemoryRobot">
       <HintPath>E:\WoW\WoW Wotlk\WRobot WOTLK\Bin\MemoryRobot.dll</HintPath>
     </Reference>
     <Reference Include="robotManager">
-      <HintPath>E:\WoW\WoW Wotlk\WRobot WOTLK\Bin\robotManager.dll</HintPath>
+      <HintPath>E:\Games\BOT 3.3.5\WRobot\WRobot\Bin\robotManager.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -48,7 +51,10 @@
     <Reference Include="System.Net.Http" />
     <Reference Include="System.Xml" />
     <Reference Include="wManager">
-      <HintPath>E:\WoW\WoW Wotlk\WRobot WOTLK\Bin\wManager.dll</HintPath>
+      <HintPath>E:\Games\BOT 3.3.5\WRobot\WRobot\Bin\wManager.dll</HintPath>
+    </Reference>
+    <Reference Include="wResources">
+      <HintPath>E:\Games\BOT 3.3.5\WRobot\WRobot\Bin\wResources.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>

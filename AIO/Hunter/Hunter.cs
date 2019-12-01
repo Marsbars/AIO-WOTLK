@@ -168,10 +168,10 @@ public static class Hunter
             if (!Me.HaveBuff("Kill Command"))
                 Extension.FightSpell(KillCommand);
 
-            if (MyTarget.HealthPercent > 40 && Me.ManaPercentage > 50)
+            if (MyTarget.HealthPercent > 40)
+            {
                 Extension.FightSpell(SerpentSting);
-
-            if (Me.ManaPercentage > 70)
+            }
                 Extension.FightSpell(ArcaneShot);
             
             if (MultiShotFeigndeath.IsReady && Huntersettings.CurrentSetting.MultiS)

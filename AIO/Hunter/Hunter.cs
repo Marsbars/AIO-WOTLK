@@ -41,8 +41,7 @@ public static class Hunter
     public static Spell AspecoftheDragonhawk = new Spell("Aspect of the Dragonhawk"); //Highlevel Aspect
     public static Spell RapidFire = new Spell("Rapid Fire"); //for Multimobs
     public static Spell KillCommand = new Spell("Kill Command");
-
-
+    
     //Pet Management
     public static Spell RevivePet = new Spell("Revive Pet");
     public static Spell CallPet = new Spell("Call Pet");
@@ -54,11 +53,9 @@ public static class Hunter
     public static Spell Disengage = new Spell("Disengage");
     public static Spell FrostTrap = new Spell("Frost Trap");
     public static Spell FeignDeath = new Spell("Feign Death");
-
-
+    
     public static void Initialize() // When product started, initialize and launch Fightclass
     {
-        Multitarget();
         RangeManager();
 
         //HunterSettings.Load(); //to add  Settings later
@@ -94,51 +91,47 @@ public static class Hunter
         {
             try
             {
-                Main.settingRange = 25f;
+                Main.settingRange = 29f;
+
                 if (Conditions.InGameAndConnectedAndAliveAndProductStartedNotInPause && !(Fight.InFight))
                 {
-                    BuffRotation(); // Out of Combat buffing
+                    if (!Me.InCombatFlagOnly)
+                        BuffRotation(); // Out of Combat buffing
+
                     PetRevivehandler(); //Handles Petrezz
-                    if(Huntersettings.CurrentSetting.Petfeed)
-                    {
-                    Feed(); //Sub for Petfeeding
-                    }
+
+                    if (Huntersettings.CurrentSetting.Petfeed)
+                        Feed(); //Sub for Petfeeding
+
                     Pull();
                 }
                 else
                 {
                     if (Huntersettings.CurrentSetting.Framelock)
-                    {
                         Extension.Framelock();
-                    }
-                    CombatRotation(); //call of  Combatroutine
+
+                    if (Fight.InFight && Me.Target > 0UL && ObjectManager.Target.IsAttackable)
+                        CombatRotation();
+
                     if (Huntersettings.CurrentSetting.Framelock)
-                    {
                         Extension.Frameunlock();
-                    }
                 }
-
-
             }
             catch (Exception e)
             {
                 Logging.WriteError("error" + e);
             }
-
             Thread.Sleep(Huntersettings.CurrentSetting.Delay);
         }
         Logging.Write("STOPPED");
     }
 
-    /*
-     * CreateStatusFrame()
-     * InGame Status frame to see which spells casting next
-     */
-
-
-
     private static void CombatRotation()
     {
+        // Pet attack
+        if (Fight.InFight && Me.Target > 0UL && ObjectManager.Target.IsAttackable
+            && !ObjectManager.Pet.HaveBuff("Feed Pet Effect") && ObjectManager.Pet.Target != Me.Target)
+            Lua.LuaDoString("PetAttack();", false);
 
         //Pethandle in Fight
         if (ObjectManager.Pet.HealthPercent < Huntersettings.CurrentSetting.PetmendInFight
@@ -156,10 +149,12 @@ public static class Hunter
             Logging.Write("Interrupt Target Set" + Extension.InterruptableUnit(20f).Guid);
             Extension.FightSpell(Intimidation);
         }
-        if(ObjectManager.Target.IsElite || Extension.GetAttackingUnits(20).Count() > 1)
+
+        if (ObjectManager.Target.IsElite || Extension.GetAttackingUnits(20).Count() > 1)
         {
             Extension.FightSpell(BestialWrath);
         }
+
         if (ObjectManager.Target.IsElite || Extension.GetAttackingUnits(20).Count() > 2)
         {
             Extension.BuffSpell(RapidFire);
@@ -169,45 +164,32 @@ public static class Hunter
         if (MyTarget.GetDistance >= 7)
         {
             Extension.FightSpell(HuntersMark);
-            if (MyTarget.IsTargetingMe)
-            {
-                Extension.FightSpell(ConcussiveShot);
-            }
+
             if (!Me.HaveBuff("Kill Command"))
-            {
                 Extension.FightSpell(KillCommand);
-            }
-            if(MyTarget.HealthPercent > 40)
-            {
+
+            if (MyTarget.HealthPercent > 40 && Me.ManaPercentage > 50)
                 Extension.FightSpell(SerpentSting);
-            }
-            Extension.FightSpell(ArcaneShot);
+
+            if (Me.ManaPercentage > 70)
+                Extension.FightSpell(ArcaneShot);
+            
             if (MultiShotFeigndeath.IsReady && Huntersettings.CurrentSetting.MultiS)
-            {
                 Extension.FightSpell(MultiShot);
-            }
+
             Extension.FightSpell(SteadyShot, false, false, true);
 
             if (MyTarget.HealthPercent < 20)
-            {
                 Extension.FightSpell(KillShot);
-            }
 
             if (Me.ManaPercentage < Huntersettings.CurrentSetting.AspecofViper)
-            {
                 Extension.BuffSpell(AspecoftheViper);
-            }
 
             if (Me.ManaPercentage > 30)
-            {
                 Extension.BuffSpell(AspecoftheDragonhawk);
-            }
 
-            if (!AspecoftheDragonhawk.KnownSpell
-                && Me.ManaPercentage > 30)
-            {
+            if (!AspecoftheDragonhawk.KnownSpell && Me.ManaPercentage > 30)
                 Extension.BuffSpell(AspecoftheHawk);
-            }
         }
 
         //Close  Combat  Attacks
@@ -215,28 +197,19 @@ public static class Hunter
         {
             Extension.FightSpell(RaptorStrike);
 
-            if (!MyTarget.IsTargetingMe
-                && ObjectManager.Pet.IsAlive
-                && Huntersettings.CurrentSetting.Dis)
-            {
+            if (!MyTarget.IsTargetingMe && ObjectManager.Pet.IsAlive && Huntersettings.CurrentSetting.Dis)
                 Extension.BuffSpell(Disengage);
-            }
-            if (MyTarget.IsTargetingMe
-                && ObjectManager.Pet.IsAlive)
+
+            if (MyTarget.IsTargetingMe && ObjectManager.Pet.IsAlive)
             {
                 Extension.BuffSpell(FeignDeath);
                 Thread.Sleep(1500);
                 MultiShotFeigndeath = new Timer(1000 * 5);
                 return;
             }
-            if (!AspecoftheDragonhawk.KnownSpell)
-            {
-                Extension.BuffSpell(AspecoftheMonkey);
-            }
+
             if (AspecoftheDragonhawk.KnownSpell)
-            {
                 Extension.BuffSpell(AspecoftheDragonhawk);
-            }
         }
 
     }
@@ -349,43 +322,30 @@ public static class Hunter
 
     private static void BuffRotation()
     {
+        if (Me.ManaPercentage < Huntersettings.CurrentSetting.AspecofViper)
+            Extension.BuffSpell(AspecoftheViper);
+        
+        if (AspecoftheCheetah.KnownSpell && Huntersettings.CurrentSetting.Cheetah)
+            Extension.BuffSpell(AspecoftheCheetah);
+
+        if (!AspecoftheDragonhawk.KnownSpell && !AspecoftheCheetah.HaveBuff
+            && (Me.ManaPercentage > 90 || !AspecoftheViper.KnownSpell))
+            Extension.BuffSpell(AspecoftheHawk);
+
+        if (Me.ManaPercentage > 90 && !AspecoftheCheetah.HaveBuff)
+            Extension.BuffSpell(AspecoftheDragonhawk);
+
         if (Huntersettings.CurrentSetting.Checkpet)
         {
-            if (ObjectManager.Pet.IsAlive && ObjectManager.Pet.IsValid && ObjectManager.Pet.HealthPercent < Huntersettings.CurrentSetting.PetHealth)
+            if (ObjectManager.Pet.IsAlive && ObjectManager.Pet.IsValid 
+                && ObjectManager.Pet.HealthPercent < Huntersettings.CurrentSetting.PetHealth)
                 if (PetHealTimer.IsReady)
                 {
                     Extension.PetSpell(MendPet);
                     PetHealTimer = new Timer(1000 * 15);
                 }
-            System.Threading.Thread.Sleep(1000);
+            Thread.Sleep(1000);
             return;
-        }
-
-        if (!AspecoftheHawk.KnownSpell)
-        {
-            Extension.BuffSpell(AspecoftheMonkey);
-        }
-
-        if (Me.ManaPercentage < Huntersettings.CurrentSetting.AspecofViper)
-        {
-            Extension.BuffSpell(AspecoftheViper);
-        }
-
-        if (Me.Level < 20 && AspecoftheCheetah.KnownSpell && Huntersettings.CurrentSetting.Cheetah) //def for lowlevel
-        {
-            Extension.BuffSpell(AspecoftheCheetah);
-        }
-
-        if (!AspecoftheDragonhawk.KnownSpell
-            && !AspecoftheCheetah.HaveBuff
-            && (Me.ManaPercentage > 90 || !AspecoftheViper.KnownSpell))
-        {
-            Extension.BuffSpell(AspecoftheHawk);
-        }
-
-        if (Me.ManaPercentage > 90 && !AspecoftheCheetah.HaveBuff)
-        {
-            Extension.BuffSpell(AspecoftheDragonhawk);
         }
     }
 

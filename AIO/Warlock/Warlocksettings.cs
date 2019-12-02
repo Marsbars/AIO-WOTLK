@@ -56,6 +56,13 @@ public class Warlocksettings : Settings
     public int Drainlife { get; set; }
 
     [Setting]
+    [DefaultValue(20)]
+    [Category("Fight")]
+    [DisplayName("Use Wand Treshold?")]
+    [Description("Enemy Life Treshold for Wandusage?")]
+    public int UseWandTresh { get; set; }
+
+    [Setting]
     [DefaultValue(50)]
     [Category("Fight")]
     [DisplayName("Health Funnel")]
@@ -78,6 +85,7 @@ public class Warlocksettings : Settings
         Lifetap = 20;
         Drainlife = 40;
         Healthfunnel = 50;
+        UseWandTresh = 20;
         unstableaffl = true;
     }
 

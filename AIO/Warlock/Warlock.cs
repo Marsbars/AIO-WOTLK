@@ -20,6 +20,7 @@ public static class Warlock
 
     public static WoWUnit MyTarget { get { return ObjectManager.Target; } }
     public static WoWPlayer Me { get { return ObjectManager.Me; } }
+    private static bool _icanusewand = Extension.HaveRangedWeaponEquipped();
 
     public static float Range { get { return 25f; } }
     private static bool _isLaunched;
@@ -45,6 +46,7 @@ public static class Warlock
     public static Spell unstableaffliction = new Spell("Unstable Affliction");
     public static Spell shadowtrance = new Spell("Shadow Trance");
     public static Spell soullink = new Spell("Soul Link");
+    private static Spell UseWand = new Spell("Shoot");
     public static Timer PetPullTimer = new Timer();
     private static int SaveDrink = wManager.wManagerSetting.CurrentSetting.DrinkPercent;
 
@@ -153,7 +155,17 @@ public static class Warlock
                 }
             }
         }
-
+        if (_icanusewand && Me.ManaPercentage < 5)
+        {
+            Extension.FightSpell(UseWand);
+        }
+        if (_icanusewand
+            && Priestsettings.CurrentSetting.UseWand
+            && MyTarget.HealthPercent < Warlocksettings.CurrentSetting.UseWandTresh)
+        {
+            Extension.FightSpell(UseWand);
+            return;
+        }
         if (Me.HealthPercent > 50
             && Me.ManaPercentage < Warlocksettings.CurrentSetting.Lifetap)
         {

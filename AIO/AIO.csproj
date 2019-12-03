@@ -80,6 +80,7 @@
     <Compile Include="Deathknight\DeathKnightLevelSettings.cs" />
     <Compile Include="Druid\DruidLevel.cs" />
     <Compile Include="Helpers\Extension.cs" />
+    <Compile Include="Helpers\Partystuff.cs" />
     <Compile Include="Hunter\HunterLevel.cs" />
     <Compile Include="Hunter\HunterLevelSettings.cs" />
     <Compile Include="Mage\MageLevel.cs" />

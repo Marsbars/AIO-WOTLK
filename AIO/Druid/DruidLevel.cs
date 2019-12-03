@@ -215,7 +215,7 @@ public static class DruidLevel
                 Extension.FightSpell(Wrath);
             }
         }
-        if (Me.Level > 19 && Me.Level < 81)
+        if (Me.Level > 19 && Me.Level < 80)
         {
             // Heal in Combat
             if (Me.HealthPercent < 36 && Me.ManaPercentage > 30 && MyTarget.HealthPercent > 13)

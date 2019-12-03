@@ -128,7 +128,8 @@ public static class Warlock
     public static void ShowConfiguration() // When a configuration is declared
     {
         Warlocksettings.Load();
-        Warlocksettings.CurrentSetting.ToForm();
+        var settingWindow = new MarsSettingsGUI.SettingsWindow(Warlocksettings.CurrentSetting, ObjectManager.Me.WowClass.ToString());
+        settingWindow.ShowDialog();
         Warlocksettings.CurrentSetting.Save();
     }
 

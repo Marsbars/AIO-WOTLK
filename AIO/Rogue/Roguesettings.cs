@@ -9,6 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using wManager.Wow.Helpers;
 using wManager.Wow.ObjectManager;
+using MarsSettingsGUI;
 
 [Serializable]
 public class Roguesettings : Settings

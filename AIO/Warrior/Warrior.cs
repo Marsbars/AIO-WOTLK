@@ -70,7 +70,8 @@ public static class Warrior
     public static void ShowConfiguration()
     {
         Warriorsettings.Load();
-        Warriorsettings.CurrentSetting.ToForm();
+        var settingWindow = new MarsSettingsGUI.SettingsWindow(Warriorsettings.CurrentSetting, ObjectManager.Me.WowClass.ToString());
+        settingWindow.ShowDialog();
         Warriorsettings.CurrentSetting.Save();
     }
 
@@ -80,26 +81,29 @@ public static class Warrior
         {
             try
             {
-                Main.settingRange = 5f;
-                if (!Fight.InFight)
+                if (Conditions.InGameAndConnectedAndAliveAndProductStartedNotInPause)
                 {
-                    BuffRotation();
-                    Pull();
-                }
-
-                else
-
-                 if (Fight.InFight && ObjectManager.Me.HasTarget)
-                {
-                    BuffRotation();
-                    if (Warriorsettings.CurrentSetting.Framelock)
+                    Main.settingRange = 5f;
+                    if (!Fight.InFight)
                     {
-                        Framelock();
+                        BuffRotation();
+                        Pull();
                     }
-                    CombatRotation();
-                    if (Warriorsettings.CurrentSetting.Framelock)
+
+                    else
+
+                     if (Fight.InFight && ObjectManager.Me.HasTarget)
                     {
-                        Frameunlock();
+                        BuffRotation();
+                        if (Warriorsettings.CurrentSetting.Framelock)
+                        {
+                            Framelock();
+                        }
+                        CombatRotation();
+                        if (Warriorsettings.CurrentSetting.Framelock)
+                        {
+                            Frameunlock();
+                        }
                     }
                 }
 

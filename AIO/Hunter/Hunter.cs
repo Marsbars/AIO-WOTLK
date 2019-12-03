@@ -80,7 +80,8 @@ public static class Hunter
     public static void ShowConfiguration() // When a configuration is declared
     {
         Huntersettings.Load();
-        Huntersettings.CurrentSetting.ToForm();
+        var settingWindow = new MarsSettingsGUI.SettingsWindow(Huntersettings.CurrentSetting, ObjectManager.Me.WowClass.ToString());
+        settingWindow.ShowDialog();
         Huntersettings.CurrentSetting.Save();
     }
 

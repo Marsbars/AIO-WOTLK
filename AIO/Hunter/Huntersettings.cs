@@ -9,6 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using wManager.Wow.Helpers;
 using wManager.Wow.ObjectManager;
+using MarsSettingsGUI;
 
 [Serializable]
 public class Huntersettings : Settings
@@ -39,6 +40,7 @@ public class Huntersettings : Settings
     [Category("Fight")]
     [DisplayName("Aspect of the Viper")]
     [Description("Set the your  Mana  Treshold when to use AotV")]
+    [Percentage(true)]
     public int AspecofViper { get; set; }
 
     [Setting]
@@ -60,6 +62,7 @@ public class Huntersettings : Settings
     [Category("Fight")]
     [DisplayName("Pet Health in Fight")]
     [Description("Define when to heal Pet Infight!")]
+    [Percentage(true)]
     public int PetmendInFight { get; set; }
 
     [Setting]
@@ -81,6 +84,7 @@ public class Huntersettings : Settings
     [Category("Pet")]
     [DisplayName("Pet Health OOC")]
     [Description("Set Treshhold for Petattack?")]
+    [Percentage(true)]
     public int PetHealth { get; set; }
 
     public static Huntersettings CurrentSetting { get; set; }

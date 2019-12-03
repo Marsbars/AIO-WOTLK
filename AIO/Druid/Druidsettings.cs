@@ -9,6 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using wManager.Wow.Helpers;
 using wManager.Wow.ObjectManager;
+using MarsSettingsGUI;
 
 [Serializable]
 public class Druidsettings : Settings
@@ -53,6 +54,7 @@ public class Druidsettings : Settings
     [Category("Fighting")]
     [DisplayName("Ferocious Bite")]
     [Description("Set the Enemyhealth, when to use FB?")]
+    [Percentage(true)]
     public int FBH { get; set; }
 
     [Setting]

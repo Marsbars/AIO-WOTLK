@@ -9,7 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using wManager.Wow.Helpers;
 using wManager.Wow.ObjectManager;
-
+using MarsSettingsGUI;
 
 [Serializable]
 public class Shamansettings : Settings
@@ -41,6 +41,7 @@ public class Shamansettings : Settings
     [Category("Combat")]
     [DisplayName("Selfheal")]
     [Description("Set the Enemytreshold in % when to heal?")]
+    [Percentage(true)]
     public int Enemylife { get; set; }
 
     [Setting]

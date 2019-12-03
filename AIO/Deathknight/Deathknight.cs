@@ -79,7 +79,8 @@ public static class DeathKnight
     public static void ShowConfiguration()
     {
         DKSettings.Load();
-        DKSettings.CurrentSetting.ToForm();
+        var settingWindow = new MarsSettingsGUI.SettingsWindow(DKSettings.CurrentSetting, ObjectManager.Me.WowClass.ToString());
+        settingWindow.ShowDialog();
         DKSettings.CurrentSetting.Save();
     }
 
@@ -89,26 +90,26 @@ public static class DeathKnight
         {
             try
             {
-                Main.settingRange = 5f;
-                if (!Fight.InFight)
+                if (Conditions.InGameAndConnectedAndAliveAndProductStartedNotInPause)
                 {
-                    BuffRotation();
-                    Pull();
-                }
-
-                else
-
-                 if (Fight.InFight && ObjectManager.Me.HasTarget)
-                {
-                    BuffRotation();
-                    if (DKSettings.CurrentSetting.Framelock)
+                    Main.settingRange = 5f;
+                    if (!Fight.InFight)
                     {
-                        Framelock();
+                        BuffRotation();
+                        Pull();
                     }
-                    CombatRotation();
-                    if (DKSettings.CurrentSetting.Framelock)
+                    else if (Fight.InFight && ObjectManager.Me.HasTarget)
                     {
-                        Frameunlock();
+                        BuffRotation();
+                        if (DKSettings.CurrentSetting.Framelock)
+                        {
+                            Framelock();
+                        }
+                        CombatRotation();
+                        if (DKSettings.CurrentSetting.Framelock)
+                        {
+                            Frameunlock();
+                        }
                     }
                 }
 

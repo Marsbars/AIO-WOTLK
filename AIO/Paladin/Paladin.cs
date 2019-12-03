@@ -85,7 +85,8 @@ public static class Paladin
     public static void ShowConfiguration() // When use click on Fight class settings
     {
         Paladinsettings.Load();
-        Paladinsettings.CurrentSetting.ToForm();
+        var settingWindow = new MarsSettingsGUI.SettingsWindow(Paladinsettings.CurrentSetting, Me.WowClass.ToString());
+        settingWindow.ShowDialog();
         Paladinsettings.CurrentSetting.Save();
     }
 
@@ -96,37 +97,39 @@ public static class Paladin
         {
             try
             {
-                Main.settingRange = 5f;
-                if (!(Fight.InFight))
+                if (Conditions.InGameAndConnectedAndAliveAndProductStartedNotInPause)
                 {
-                    Healing();
-                    BuffRotation();
-                }
-                else
-                 if (Fight.InFight)
-                {
-                    //if (Paladinsettings.CurrentSetting.Draw) //new
-                    //{
-                    //    foreach (W﻿oWUnit Mob in ObjectManager﻿.GetObjectWoWPlayer().Where(x => x.IsAlliance && ObjectManager.Target.TargetObject != null))
-                    //    {
-                    //        Radar3D.DrawCircle(ObjectManager.Target.Position, 1f, System.Drawing.Color.Red, true);
-                    //        Radar3D.DrawLine(Me.Position, Mob.TargetObject.Position, System.Drawing.Color.Red);
-                    //        Radar3D.DrawCircle(Mob.TargetObject.Position, 0.5f, System.Drawing.Color.LightBlue, false);
-                    //    }
-                    //}
-                    Healing();
-                    BuffRotation();
-                    if (Paladinsettings.CurrentSetting.Framelock)
+                    Main.settingRange = 5f;
+                    if (!(Fight.InFight))
                     {
-                        Extension.Framelock();
+                        Healing();
+                        BuffRotation();
                     }
-                    CombatRotation();
-                    if (Paladinsettings.CurrentSetting.Framelock)
+                    else
+                     if (Fight.InFight)
                     {
-                        Extension.Frameunlock();
+                        //if (Paladinsettings.CurrentSetting.Draw) //new
+                        //{
+                        //    foreach (W﻿oWUnit Mob in ObjectManager﻿.GetObjectWoWPlayer().Where(x => x.IsAlliance && ObjectManager.Target.TargetObject != null))
+                        //    {
+                        //        Radar3D.DrawCircle(ObjectManager.Target.Position, 1f, System.Drawing.Color.Red, true);
+                        //        Radar3D.DrawLine(Me.Position, Mob.TargetObject.Position, System.Drawing.Color.Red);
+                        //        Radar3D.DrawCircle(Mob.TargetObject.Position, 0.5f, System.Drawing.Color.LightBlue, false);
+                        //    }
+                        //}
+                        Healing();
+                        BuffRotation();
+                        if (Paladinsettings.CurrentSetting.Framelock)
+                        {
+                            Extension.Framelock();
+                        }
+                        CombatRotation();
+                        if (Paladinsettings.CurrentSetting.Framelock)
+                        {
+                            Extension.Frameunlock();
+                        }
                     }
                 }
-
             }
             catch (Exception e)
             {
@@ -160,18 +163,11 @@ public static class Paladin
         Extension.BuffSpell(AvengingWrath);
         }
         Extension.FightSpell(HammerofWrath, false);
-        if (Me.Level < 12)
-        {
-            Extension.FightSpell(JudgementofLight, false); //New
-        }
-        if (Me.Level > 11 && !JudgementofWisdom.KnownSpell)
+        if (!JudgementofWisdom.KnownSpell)
         {
             Extension.FightSpell(JudgementofLight, false);
         }
-        if (Me.Level > 11)
-        {
-            Extension.FightSpell(JudgementofWisdom, false);
-        }
+        Extension.FightSpell(JudgementofWisdom, false);        
         Extension.FightSpell(CrusaderStrike, false);
         Extension.FightSpell(DivineStorm, false);
         if (Me.Level < 43 && MyTarget.HealthPercent > 25) //new
@@ -205,11 +201,11 @@ public static class Paladin
             {
                 Extension.BuffSpell(BlessingofMight, false);
             }
-            if (Paladinsettings.CurrentSetting.RA)
+            if (Paladinsettings.CurrentSetting.Aura == "Retribution Aura")
             {
                 Extension.BuffSpell(RetributionAura, false);
             }
-            if (!Paladinsettings.CurrentSetting.RA)
+            if (Paladinsettings.CurrentSetting.Aura == "Devotion Aura")
             {
                 Extension.BuffSpell(DevotionAura, false);
             }
@@ -230,12 +226,16 @@ public static class Paladin
                 Extension.BuffSpell(SacredShield, false);
                 return;
             }
-            if (Me.HealthPercent < 20 && Paladinsettings.CurrentSetting.HoProtection)
+            if(Me.HealthPercent < 15 && Paladinsettings.CurrentSetting.LayOnHands && !Me.HaveBuff("Forbearance"))
+            {
+
+            }
+            if (Me.HealthPercent < 20 && Paladinsettings.CurrentSetting.HoProtection && !Me.HaveBuff("Forbearance"))
             {
                 Extension.BuffSpell(HandofProtection, false);
                 return;
             }
-            if (Me.HealthPercent < 40 && Me.HaveBuff("Forbearance") && Extension.GetAttackingUnits(5).Count() >= 2 && Paladinsettings.CurrentSetting.DivProtection)
+            if (Me.HealthPercent < 40 && !Me.HaveBuff("Forbearance") && Extension.GetAttackingUnits(5).Count() >= 2 && Paladinsettings.CurrentSetting.DivProtection)
             {
                 Extension.BuffSpell(DivineProtection, false);
                 return;

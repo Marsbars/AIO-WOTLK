@@ -9,6 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using wManager.Wow.Helpers;
 using wManager.Wow.ObjectManager;
+using MarsSettingsGUI;
 
 [Serializable]
 public class Priestsettings : Settings
@@ -32,6 +33,7 @@ public class Priestsettings : Settings
     [Category("Fight")]
     [DisplayName("Use Wand Treshold?")]
     [Description("Enemy Life Treshold for Wandusage?")]
+    [Percentage(true)]
     public int UseWandTresh { get; set; }
 
     [Setting]
@@ -46,6 +48,7 @@ public class Priestsettings : Settings
     [Category("Fight")]
     [DisplayName("Use Shield Treshold?")]
     [Description("Own life for Shield Usage?")]
+    [Percentage(true)]
     public int UseShieldTresh { get; set; }
 
     [Setting]
@@ -53,6 +56,7 @@ public class Priestsettings : Settings
     [Category("Fight")]
     [DisplayName("Use Renew Treshold?")]
     [Description("Own life for Renew Usage?")]
+    [Percentage(true)]
     public int UseRenewTresh { get; set; }
 
     [Setting]
@@ -60,6 +64,7 @@ public class Priestsettings : Settings
     [Category("Fight")]
     [DisplayName("Use Lesser Heal/Flash Heal Treshold?")]
     [Description("Own life for Lesser Heal/Flash Heal Usage?")]
+    [Percentage(true)]
     public int UseLessFlashTresh { get; set; }
 
     [Setting]

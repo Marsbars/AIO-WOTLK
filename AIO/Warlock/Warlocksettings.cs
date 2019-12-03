@@ -9,6 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using wManager.Wow.Helpers;
 using wManager.Wow.ObjectManager;
+using MarsSettingsGUI;
 
 [Serializable]
 public class Warlocksettings : Settings
@@ -46,6 +47,7 @@ public class Warlocksettings : Settings
     [Category("Fight")]
     [DisplayName("Lifetap")]
     [Description("Tells on which Mana % to use Lifetap")]
+    [Percentage(true)]
     public int Lifetap { get; set; }
 
     [Setting]
@@ -53,6 +55,7 @@ public class Warlocksettings : Settings
     [Category("Fight")]
     [DisplayName("Drain Life")]
     [Description("Tells on which Health % to use Drain Life")]
+    [Percentage(true)]
     public int Drainlife { get; set; }
 
     [Setting]
@@ -60,6 +63,7 @@ public class Warlocksettings : Settings
     [Category("Fight")]
     [DisplayName("Use Wand Treshold?")]
     [Description("Enemy Life Treshold for Wandusage?")]
+    [Percentage(true)]
     public int UseWandTresh { get; set; }
 
     [Setting]
@@ -74,6 +78,7 @@ public class Warlocksettings : Settings
     [Category("Fight")]
     [DisplayName("Health Funnel")]
     [Description("Tells on which PetHealth % to use Health Funnel")]
+    [Percentage(true)]
     public int Healthfunnel { get; set; }
 
     [Setting]

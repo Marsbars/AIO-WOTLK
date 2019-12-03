@@ -9,6 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using wManager.Wow.Helpers;
 using wManager.Wow.ObjectManager;
+using MarsSettingsGUI;
 
 [Serializable]
 public class Magesettings : Settings
@@ -32,6 +33,7 @@ public class Magesettings : Settings
     [Category("Fight")]
     [DisplayName("Manstone")]
     [Description("Treshhold for Manastone")]
+    [Percentage(true)]
     public int Manastone { get; set; }
 
     [Setting]

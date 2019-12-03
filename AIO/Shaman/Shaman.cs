@@ -71,7 +71,8 @@ public static class Shaman
     public static void ShowConfiguration()
     {
         Shamansettings.Load();
-        Shamansettings.CurrentSetting.ToForm();
+        var settingWindow = new MarsSettingsGUI.SettingsWindow(Shamansettings.CurrentSetting, ObjectManager.Me.WowClass.ToString());
+        settingWindow.ShowDialog();
         Shamansettings.CurrentSetting.Save();
     }
 
@@ -81,36 +82,38 @@ public static class Shaman
         {
             try
             {
-                if (lowlevel)
+                if (Conditions.InGameAndConnectedAndAliveAndProductStartedNotInPause)
                 {
-                    Main.settingRange = 25f;
-                }
-                if (!lowlevel)
-                {
-                    Main.settingRange = 5f;
-                }
-                if (!Fight.InFight)
-                {
-                    EnchantWeapon();
-                    TotemManager.CheckForTotemicCall();
-                    BuffRotation();
-                    Pull();
-                }
-
-                if (Fight.InFight && ObjectManager.Me.HasTarget)
-                {
-
-                    if (Shamansettings.CurrentSetting.Framelock)
+                    if (lowlevel)
                     {
-                        Extension.Framelock();
+                        Main.settingRange = 25f;
                     }
-                    CombatRotation();
-                    if (Shamansettings.CurrentSetting.Framelock)
+                    if (!lowlevel)
                     {
-                        Extension.Frameunlock();
+                        Main.settingRange = 5f;
+                    }
+                    if (!Fight.InFight)
+                    {
+                        EnchantWeapon();
+                        TotemManager.CheckForTotemicCall();
+                        BuffRotation();
+                        Pull();
+                    }
+
+                    if (Fight.InFight && ObjectManager.Me.HasTarget)
+                    {
+
+                        if (Shamansettings.CurrentSetting.Framelock)
+                        {
+                            Extension.Framelock();
+                        }
+                        CombatRotation();
+                        if (Shamansettings.CurrentSetting.Framelock)
+                        {
+                            Extension.Frameunlock();
+                        }
                     }
                 }
-
             }
             catch (Exception e)
             {

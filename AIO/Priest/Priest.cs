@@ -149,7 +149,8 @@ public static class Priest
     public static void ShowConfiguration() // When a configuration is declared
     {
         Priestsettings.Load();
-        Priestsettings.CurrentSetting.ToForm();
+        var settingWindow = new MarsSettingsGUI.SettingsWindow(Priestsettings.CurrentSetting, ObjectManager.Me.WowClass.ToString());
+        settingWindow.ShowDialog();
         Priestsettings.CurrentSetting.Save();
     }
 

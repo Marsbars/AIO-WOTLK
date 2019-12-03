@@ -126,7 +126,8 @@ public static class Druid
     public static void ShowConfiguration() // When use click on Fight class settings
     {
         Druidsettings.Load();
-        Druidsettings.CurrentSetting.ToForm();
+        var settingWindow = new MarsSettingsGUI.SettingsWindow(Druidsettings.CurrentSetting, ObjectManager.Me.WowClass.ToString());
+        settingWindow.ShowDialog();
         Druidsettings.CurrentSetting.Save();
     }
 
@@ -137,35 +138,37 @@ public static class Druid
         {
             try
             {
-                if(Me.Level < 20 && !BearForm.KnownSpell)
+                if (Conditions.InGameAndConnectedAndAliveAndProductStartedNotInPause)
                 {
-                    Main.settingRange = 29f;
-                }
-                if(BearForm.KnownSpell)
-                {
-                    Main.settingRange = 5f;
-                }
-
-                if (!(Fight.InFight))
-                {
-                    Healing();
-                    BuffRotation();
-                    Pull();
-                }
-                else
-                 if (Me.Target > 0)
-                {
-                     if (Druidsettings.CurrentSetting.Framelock)
+                    if (Me.Level < 20 && !BearForm.KnownSpell)
                     {
-                        Extension.Framelock();
+                        Main.settingRange = 29f;
                     }
-                    CombatRotation();
-                    if (Druidsettings.CurrentSetting.Framelock)
+                    if (BearForm.KnownSpell)
                     {
-                        Extension.Frameunlock();
+                        Main.settingRange = 5f;
+                    }
+
+                    if (!(Fight.InFight))
+                    {
+                        Healing();
+                        BuffRotation();
+                        Pull();
+                    }
+                    else
+                     if (Me.Target > 0)
+                    {
+                        if (Druidsettings.CurrentSetting.Framelock)
+                        {
+                            Extension.Framelock();
+                        }
+                        CombatRotation();
+                        if (Druidsettings.CurrentSetting.Framelock)
+                        {
+                            Extension.Frameunlock();
+                        }
                     }
                 }
-
             }
             catch (Exception e)
             {

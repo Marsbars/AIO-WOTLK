@@ -125,7 +125,8 @@ public static class Mage
     public static void ShowConfiguration() // When a configuration is declared
     {
         Magesettings.Load();
-        Magesettings.CurrentSetting.ToForm();
+        var settingWindow = new MarsSettingsGUI.SettingsWindow(Magesettings.CurrentSetting, ObjectManager.Me.WowClass.ToString());
+        settingWindow.ShowDialog();
         Magesettings.CurrentSetting.Save();
     }
 

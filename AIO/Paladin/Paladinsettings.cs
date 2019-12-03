@@ -9,6 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using wManager.Wow.Helpers;
 using wManager.Wow.ObjectManager;
+using MarsSettingsGUI;
 
 [Serializable]
 public class Paladinsettings : Settings
@@ -60,6 +61,7 @@ public class Paladinsettings : Settings
     [Category("Healing")]
     [DisplayName("Holy Light")]
     [Description("Set your Treshhold when to use Holy Light")]
+    [Percentage(true)]
     public int HL { get; set; }
 
     [Setting]
@@ -67,6 +69,7 @@ public class Paladinsettings : Settings
     [Category("Healing")]
     [DisplayName("Flash of Light")]
     [Description("Set your Treshhold when to use Flash of Light")]
+    [Percentage(true)]
     public int FL { get; set; }
 
     [Setting]
@@ -93,6 +96,13 @@ public class Paladinsettings : Settings
     [Setting]
     [DefaultValue(true)]
     [Category("Healing")]
+    [DisplayName("Lay on Hands")]
+    [Description("Allow the Use of Lay on Hands")]
+    public bool LayOnHands { get; set; }
+
+    [Setting]
+    [DefaultValue(true)]
+    [Category("Healing")]
     [DisplayName("Divine Protection")]
     [Description("Allow the Use of Divine Protection")]
     public bool DivProtection { get; set; }
@@ -100,9 +110,10 @@ public class Paladinsettings : Settings
     [Setting]
     [DefaultValue(false)]
     [Category("Aura")]
-    [DisplayName("Retribution Aura")]
-    [Description("Set Retribution Aura over Devition Aura")]
-    public bool RA { get; set; }
+    [DisplayName("Combat Aura")]
+    [Description("Set Combat Aura")]
+    [DropdownList(new string[] {"Devotion Aura","Retribution Aura" })]
+    public string Aura { get; set; }
 
     [Setting]
     [DefaultValue(false)]
@@ -132,7 +143,7 @@ public class Paladinsettings : Settings
         //Draw = false;
         HL = 50;
         FL = 30;
-        RA = false;
+        Aura = "Devotion Aura";
         SOC = false;
         Delay = 50;
     }

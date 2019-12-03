@@ -69,7 +69,8 @@ public static class Rogue
     public static void ShowConfiguration() // When use click on Fight class settings
     {
         Roguesettings.Load();
-        Roguesettings.CurrentSetting.ToForm();
+        var settingWindow = new MarsSettingsGUI.SettingsWindow(Roguesettings.CurrentSetting, ObjectManager.Me.WowClass.ToString());
+        settingWindow.ShowDialog();
         Roguesettings.CurrentSetting.Save();
     }
 
@@ -80,26 +81,28 @@ public static class Rogue
         {
             try
             {
-
-                if (!(Fight.InFight))
+                if (Conditions.InGameAndConnectedAndAliveAndProductStartedNotInPause)
                 {
-                    PoisonWeapon();
-                    Healing();
-                    BuffRotation();
-                    Pull();
-                }
-                else
-                 if (Me.Target > 0)
-                {
-                    BuffRotation();
-                    if (Roguesettings.CurrentSetting.Framelock)
+                    if (!(Fight.InFight))
                     {
-                        Extension.Framelock();
+                        PoisonWeapon();
+                        Healing();
+                        BuffRotation();
+                        Pull();
                     }
-                    CombatRotation();
-                    if (Roguesettings.CurrentSetting.Framelock)
+                    else
+                     if (Me.Target > 0)
                     {
-                        Extension.Frameunlock();
+                        BuffRotation();
+                        if (Roguesettings.CurrentSetting.Framelock)
+                        {
+                            Extension.Framelock();
+                        }
+                        CombatRotation();
+                        if (Roguesettings.CurrentSetting.Framelock)
+                        {
+                            Extension.Frameunlock();
+                        }
                     }
                 }
 

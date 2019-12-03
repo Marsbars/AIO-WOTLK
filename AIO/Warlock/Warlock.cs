@@ -160,7 +160,7 @@ public static class Warlock
             Extension.FightSpell(UseWand);
         }
         if (_icanusewand
-            && Priestsettings.CurrentSetting.UseWand
+            && Warlocksettings.CurrentSetting.UseWand
             && MyTarget.HealthPercent < Warlocksettings.CurrentSetting.UseWandTresh)
         {
             Extension.FightSpell(UseWand);

@@ -63,6 +63,13 @@ public class Warlocksettings : Settings
     public int UseWandTresh { get; set; }
 
     [Setting]
+    [DefaultValue(true)]
+    [Category("Fight")]
+    [DisplayName("Use Wand")]
+    [Description("Use Wand?")]
+    public bool UseWand { get; set; }
+
+    [Setting]
     [DefaultValue(50)]
     [Category("Fight")]
     [DisplayName("Health Funnel")]
@@ -86,6 +93,7 @@ public class Warlocksettings : Settings
         Drainlife = 40;
         Healthfunnel = 50;
         UseWandTresh = 20;
+        UseWand = true;
         unstableaffl = true;
     }
 

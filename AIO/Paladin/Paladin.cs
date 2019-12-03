@@ -186,7 +186,7 @@ public static class Paladin
         {
             Extension.FightSpell(Exorcism, false);
         }
-        if (Me.Level < 43 && MyTarget.HealthPercent > 20)
+        if (Me.Level < 43 && MyTarget.HealthPercent > 10)
         {
             Extension.FightSpell(Exorcism, false);
         }

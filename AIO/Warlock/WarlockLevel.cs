@@ -59,8 +59,8 @@ public static class Warlock
             #endregion
             wManagerSetting.CurrentSetting.UseLuaToMove = true;
             Logging.Write("Movement Lua enabled");
-            Warlocksettings.Load();
-            Logging.Write("Warlocksettings Loaded");
+            WarlockLevelSettings.Load();
+            Logging.Write("WarlockLevelSettings Loaded");
             TargetSwitcher();
             Logging.Write("Targetswitcher Activated");
             _isLaunched = true;
@@ -88,7 +88,7 @@ public static class Warlock
                 Main.settingRange = 29f;
                 if (Conditions.InGameAndConnectedAndAliveAndProductStartedNotInPause && !Fight.InFight)
                 {
-                    if (Warlocksettings.CurrentSetting.Framelock)
+                    if (WarlockLevelSettings.CurrentSetting.Framelock)
                     {
                         Extension.Frameunlock();
                     }
@@ -100,12 +100,12 @@ public static class Warlock
                 }
                 else
                 {
-                    if (Warlocksettings.CurrentSetting.Framelock)
+                    if (WarlockLevelSettings.CurrentSetting.Framelock)
                     {
                         Extension.Framelock();
                     }
                     CombatRotation();
-                    if (Warlocksettings.CurrentSetting.Framelock)
+                    if (WarlockLevelSettings.CurrentSetting.Framelock)
                     {
                         Extension.Frameunlock();
                     }
@@ -118,7 +118,7 @@ public static class Warlock
                 Logging.WriteError("error" + e);
             }
 
-            Thread.Sleep(Warlocksettings.CurrentSetting.Delay);
+            Thread.Sleep(WarlockLevelSettings.CurrentSetting.Delay);
         }
         Logging.Write("STOPPED");
         wManagerSetting.CurrentSetting.UseLuaToMove = false;
@@ -127,17 +127,17 @@ public static class Warlock
 
     public static void ShowConfiguration() // When a configuration is declared
     {
-        Warlocksettings.Load();
-        var settingWindow = new MarsSettingsGUI.SettingsWindow(Warlocksettings.CurrentSetting, ObjectManager.Me.WowClass.ToString());
+        WarlockLevelSettings.Load();
+        var settingWindow = new MarsSettingsGUI.SettingsWindow(WarlockLevelSettings.CurrentSetting, ObjectManager.Me.WowClass.ToString());
         settingWindow.ShowDialog();
-        Warlocksettings.CurrentSetting.Save();
+        WarlockLevelSettings.CurrentSetting.Save();
     }
 
 
     private static void CombatRotation()
     {
 
-        if (Warlocksettings.CurrentSetting.Fear)
+        if (WarlockLevelSettings.CurrentSetting.Fear)
         {
             //Fear Management
             if (Extension.GetAttackingUnits(5).Count() > 1)
@@ -161,14 +161,14 @@ public static class Warlock
             Extension.FightSpell(UseWand);
         }
         if (_icanusewand
-            && Warlocksettings.CurrentSetting.UseWand
-            && MyTarget.HealthPercent < Warlocksettings.CurrentSetting.UseWandTresh)
+            && WarlockLevelSettings.CurrentSetting.UseWand
+            && MyTarget.HealthPercent < WarlockLevelSettings.CurrentSetting.UseWandTresh)
         {
             Extension.FightSpell(UseWand);
             return;
         }
         if (Me.HealthPercent > 50
-            && Me.ManaPercentage < Warlocksettings.CurrentSetting.Lifetap)
+            && Me.ManaPercentage < WarlockLevelSettings.CurrentSetting.Lifetap)
         {
             Extension.BuffSpell(lifetap);
         }
@@ -176,7 +176,7 @@ public static class Warlock
         {
             Extension.FightSpell(shadowbolt);
         }
-        if (Me.HealthPercent < Warlocksettings.CurrentSetting.Drainlife)
+        if (Me.HealthPercent < WarlockLevelSettings.CurrentSetting.Drainlife)
         {
             Extension.FightSpell(drainlife);
         }
@@ -188,7 +188,7 @@ public static class Warlock
         }
         Extension.FightSpell(corruption);
         Extension.FightSpell(curseofagony);
-        if (Warlocksettings.CurrentSetting.unstableaffl)
+        if (WarlockLevelSettings.CurrentSetting.unstableaffl)
         {
             Extension.FightSpell(unstableaffliction);
         }
@@ -241,11 +241,11 @@ public static class Warlock
             {
                 Extension.BuffSpell(summonimp);
             }
-            if(!Warlocksettings.CurrentSetting.Felguard)
+            if(WarlockLevelSettings.CurrentSetting.Pet == "VoidWalker")
             {
                 Extension.BuffSpell(summonvoid);
             }
-            if (Warlocksettings.CurrentSetting.Felguard)
+            if (WarlockLevelSettings.CurrentSetting.Pet == "Felguard")
             {
                 Extension.BuffSpell(summonfelguard);
             }

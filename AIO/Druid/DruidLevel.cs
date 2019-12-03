@@ -8,7 +8,7 @@ using wManager.Events;
 using System.Collections.Generic;
 using System.Linq;
 
-public static class Druid
+public static class DruidLevel
 {
 
     public static bool lowlevel;
@@ -104,8 +104,8 @@ public static class Druid
     {
         {
             _isLaunched = true;
-            Druidsettings.Load();
-            Logging.Write("Settings Loaded");
+            DruidLevelSettings.Load();
+            Logging.Write("Druid Low Level Class...loading...");
             Groundmount = wManager.wManagerSetting.CurrentSetting.GroundMountName;
             if(wManager.wManagerSetting.CurrentSetting.GroundMountName == string.Empty)
             {
@@ -125,10 +125,10 @@ public static class Druid
 
     public static void ShowConfiguration() // When use click on Fight class settings
     {
-        Druidsettings.Load();
-        var settingWindow = new MarsSettingsGUI.SettingsWindow(Druidsettings.CurrentSetting, ObjectManager.Me.WowClass.ToString());
+        DruidLevelSettings.Load();
+        var settingWindow = new MarsSettingsGUI.SettingsWindow(DruidLevelSettings.CurrentSetting, ObjectManager.Me.WowClass.ToString());
         settingWindow.ShowDialog();
-        Druidsettings.CurrentSetting.Save();
+        DruidLevelSettings.CurrentSetting.Save();
     }
 
     public static void Rotation()
@@ -158,12 +158,12 @@ public static class Druid
                     else
                      if (Me.Target > 0)
                     {
-                        if (Druidsettings.CurrentSetting.Framelock)
+                        if (DruidLevelSettings.CurrentSetting.Framelock)
                         {
                             Extension.Framelock();
                         }
                         CombatRotation();
-                        if (Druidsettings.CurrentSetting.Framelock)
+                        if (DruidLevelSettings.CurrentSetting.Framelock)
                         {
                             Extension.Frameunlock();
                         }
@@ -174,7 +174,7 @@ public static class Druid
             {
                 Logging.Write("error" + e);
             }
-            Thread.Sleep(Druidsettings.CurrentSetting.Delay);
+            Thread.Sleep(DruidLevelSettings.CurrentSetting.Delay);
         }
     }
 
@@ -267,13 +267,13 @@ public static class Druid
                 {
                     Extension.BuffSpell(CatForm);
                 }
-                if (Me.HaveBuff(CatForm.Id) && !Me.HaveBuff(Prowl.Id) && Druidsettings.CurrentSetting.Prowl)
+                if (Me.HaveBuff(CatForm.Id) && !Me.HaveBuff(Prowl.Id) && DruidLevelSettings.CurrentSetting.Prowl)
                 {
                     Extension.BuffSpell(Prowl);
                 }
                 if (Me.HaveBuff(Prowl.Id))
                 {
-                    if (Druidsettings.CurrentSetting.Dash)
+                    if (DruidLevelSettings.CurrentSetting.Dash)
                     {
                         Extension.BuffSpell(Dash);
                     }
@@ -281,15 +281,15 @@ public static class Druid
                     Extension.FightSpell(Pounce);
                     Extension.FightSpell(Shred);
                 }
-                if (Druidsettings.CurrentSetting.FFF && !Me.HaveBuff(Prowl.Id))
+                if (DruidLevelSettings.CurrentSetting.FFF && !Me.HaveBuff(Prowl.Id))
                 {
                     Extension.FightSpell(FaerieFireFeral);
                 }
-                if (Extension.GetAttackingUnits(10).Count() > 1 && !Druidsettings.CurrentSetting.TF)
+                if (Extension.GetAttackingUnits(10).Count() > 1 && !DruidLevelSettings.CurrentSetting.TF)
                 {
                     Extension.BuffSpell(TigersFury);
                 }
-                if (Druidsettings.CurrentSetting.TF && !Me.HaveBuff(Prowl.Id))
+                if (DruidLevelSettings.CurrentSetting.TF && !Me.HaveBuff(Prowl.Id))
                 {
                     Extension.BuffSpell(TigersFury);
                 }
@@ -305,7 +305,7 @@ public static class Druid
                 {
                     Extension.FightSpell(MangleCat,false,false,false,false);
                 }
-                if (MyTarget.HealthPercent < Druidsettings.CurrentSetting.FBH && Me.ComboPoint >= Druidsettings.CurrentSetting.FBC)
+                if (MyTarget.HealthPercent < DruidLevelSettings.CurrentSetting.FBH && Me.ComboPoint >= DruidLevelSettings.CurrentSetting.FBC)
                 {
                     Extension.FightSpell(FerociousBite);
                 }

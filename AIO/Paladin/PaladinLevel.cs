@@ -8,7 +8,7 @@ using wManager.Events;
 using System.Collections.Generic;
 using System.Linq;
 
-public static class Paladin
+public static class PaladinLevel
 {
     private static bool _isLaunched;
     public static WoWUnit MyTarget { get { return ObjectManager.Target; } }
@@ -68,8 +68,8 @@ public static class Paladin
         {
             //Radar3D.Pulse();
             _isLaunched = true;
-            Paladinsettings.Load();
-            Logging.Write("Settings Loaded");
+            PaladinLevelSettings.Load();
+            Logging.Write("Paladin Low Level  Class...loading...");
             Rotation();
         }
     }
@@ -84,10 +84,10 @@ public static class Paladin
 
     public static void ShowConfiguration() // When use click on Fight class settings
     {
-        Paladinsettings.Load();
-        var settingWindow = new MarsSettingsGUI.SettingsWindow(Paladinsettings.CurrentSetting, Me.WowClass.ToString());
+        PaladinLevelSettings.Load();
+        var settingWindow = new MarsSettingsGUI.SettingsWindow(PaladinLevelSettings.CurrentSetting, Me.WowClass.ToString());
         settingWindow.ShowDialog();
-        Paladinsettings.CurrentSetting.Save();
+        PaladinLevelSettings.CurrentSetting.Save();
     }
 
     public static void Rotation()
@@ -108,7 +108,7 @@ public static class Paladin
                     else
                      if (Fight.InFight)
                     {
-                        //if (Paladinsettings.CurrentSetting.Draw) //new
+                        //if (PaladinLevelSettings.CurrentSetting.Draw) //new
                         //{
                         //    foreach (W﻿oWUnit Mob in ObjectManager﻿.GetObjectWoWPlayer().Where(x => x.IsAlliance && ObjectManager.Target.TargetObject != null))
                         //    {
@@ -119,12 +119,12 @@ public static class Paladin
                         //}
                         Healing();
                         BuffRotation();
-                        if (Paladinsettings.CurrentSetting.Framelock)
+                        if (PaladinLevelSettings.CurrentSetting.Framelock)
                         {
                             Extension.Framelock();
                         }
                         CombatRotation();
-                        if (Paladinsettings.CurrentSetting.Framelock)
+                        if (PaladinLevelSettings.CurrentSetting.Framelock)
                         {
                             Extension.Frameunlock();
                         }
@@ -135,14 +135,14 @@ public static class Paladin
             {
                 Logging.Write("error" + e);
             }
-            Thread.Sleep(Paladinsettings.CurrentSetting.Delay);
+            Thread.Sleep(PaladinLevelSettings.CurrentSetting.Delay);
         }
     }
 
     public static void CombatRotation()
     {
 
-        if (Extension.GetAttackingUnits(5).Count() > 1 && !Me.IsStunned && Paladinsettings.CurrentSetting.HammerofJustice)
+        if (Extension.GetAttackingUnits(5).Count() > 1 && !Me.IsStunned && PaladinLevelSettings.CurrentSetting.HammerofJustice)
         {
             WoWUnit mainTarget = Extension.GetAttackingUnits(5).Where(u => u.HealthPercent == Extension.GetAttackingUnits(5).Min(x => x.HealthPercent)).FirstOrDefault();
             WoWUnit hammerTarget = Extension.GetAttackingUnits(5).Where(u => u.HealthPercent == Extension.GetAttackingUnits(5).Max(x => x.HealthPercent)).FirstOrDefault();
@@ -154,7 +154,7 @@ public static class Paladin
                 Thread.Sleep(500);
             }
         }
-        if (MyTarget.GetDistance <= 25 && MyTarget.GetDistance >= 7 && Paladinsettings.CurrentSetting.HOR)
+        if (MyTarget.GetDistance <= 25 && MyTarget.GetDistance >= 7 && PaladinLevelSettings.CurrentSetting.HOR)
         {
             Extension.FightSpell(HandofReckoning, false);
         }
@@ -191,9 +191,9 @@ public static class Paladin
 
     private static void BuffRotation()
     {
-        if (Paladinsettings.CurrentSetting.Buffing)
+        if (PaladinLevelSettings.CurrentSetting.Buffing)
         {
-            if (Me.IsMounted && Paladinsettings.CurrentSetting.Crusader)
+            if (Me.IsMounted && PaladinLevelSettings.CurrentSetting.Crusader)
             {
                 Extension.BuffSpell(CrusaderAura, true);
             }
@@ -201,15 +201,15 @@ public static class Paladin
             {
                 Extension.BuffSpell(BlessingofMight, false);
             }
-            if (Paladinsettings.CurrentSetting.Aura == "Retribution Aura")
+            if (PaladinLevelSettings.CurrentSetting.Aura == "Retribution Aura")
             {
                 Extension.BuffSpell(RetributionAura, false);
             }
-            if (Paladinsettings.CurrentSetting.Aura == "Devotion Aura")
+            if (PaladinLevelSettings.CurrentSetting.Aura == "Devotion Aura")
             {
                 Extension.BuffSpell(DevotionAura, false);
             }
-            if (Extension.GetAttackingUnits(20).Count() >= 3 && Paladinsettings.CurrentSetting.SOC)
+            if (Extension.GetAttackingUnits(20).Count() >= 3 && PaladinLevelSettings.CurrentSetting.SOC)
             {
                 Extension.BuffSpell(SealofCommand, false);
             }
@@ -221,21 +221,21 @@ public static class Paladin
             {
                 Extension.BuffSpell(DivinePlea, false);
             }
-            if (Extension.GetAttackingUnits(20).Count() >2 && Paladinsettings.CurrentSetting.SShield)
+            if (Extension.GetAttackingUnits(20).Count() >2 && PaladinLevelSettings.CurrentSetting.SShield)
             {
                 Extension.BuffSpell(SacredShield, false);
                 return;
             }
-            if(Me.HealthPercent < 15 && Paladinsettings.CurrentSetting.LayOnHands && !Me.HaveBuff("Forbearance"))
+            if(Me.HealthPercent < 15 && PaladinLevelSettings.CurrentSetting.LayOnHands && !Me.HaveBuff("Forbearance"))
             {
 
             }
-            if (Me.HealthPercent < 20 && Paladinsettings.CurrentSetting.HoProtection && !Me.HaveBuff("Forbearance"))
+            if (Me.HealthPercent < 20 && PaladinLevelSettings.CurrentSetting.HoProtection && !Me.HaveBuff("Forbearance"))
             {
                 Extension.BuffSpell(HandofProtection, false);
                 return;
             }
-            if (Me.HealthPercent < 40 && !Me.HaveBuff("Forbearance") && Extension.GetAttackingUnits(5).Count() >= 2 && Paladinsettings.CurrentSetting.DivProtection)
+            if (Me.HealthPercent < 40 && !Me.HaveBuff("Forbearance") && Extension.GetAttackingUnits(5).Count() >= 2 && PaladinLevelSettings.CurrentSetting.DivProtection)
             {
                 Extension.BuffSpell(DivineProtection, false);
                 return;
@@ -252,11 +252,11 @@ public static class Paladin
     {
         bool Poison = Extension.HasPoisonDebuff();
         bool Disease = Extension.HasDiseaseDebuff();
-        if (Poison && Paladinsettings.CurrentSetting.Purify)
+        if (Poison && PaladinLevelSettings.CurrentSetting.Purify)
         {
             Extension.BuffSpell(Purify);
         }
-        if (Disease && Paladinsettings.CurrentSetting.Purify)
+        if (Disease && PaladinLevelSettings.CurrentSetting.Purify)
         {
             Extension.BuffSpell(Purify);
         }
@@ -265,11 +265,11 @@ public static class Paladin
             Extension.HealSpell(FlashofLight, false, true);
         }
 
-        if (Me.HealthPercent <= Paladinsettings.CurrentSetting.HL)
+        if (Me.HealthPercent <= PaladinLevelSettings.CurrentSetting.HL)
         {
             Extension.HealSpell(HolyLight, false, true);
         }
-        if (Me.HealthPercent <= Paladinsettings.CurrentSetting.FL)
+        if (Me.HealthPercent <= PaladinLevelSettings.CurrentSetting.FL)
         {
             Extension.HealSpell(FlashofLight, false, true);
         }

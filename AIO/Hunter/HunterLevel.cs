@@ -11,7 +11,7 @@ using System.Linq;
 using wManager.Events;
 
 
-public static class Hunter
+public static class HunterLevel
 {
     private static bool _isLaunched;
     public static WoWUnit MyTarget { get { return ObjectManager.Target; } }
@@ -58,10 +58,10 @@ public static class Hunter
     {
         RangeManager();
 
-        //HunterSettings.Load(); //to add  Settings later
+        //HunterLevelSettings.Load(); //to add  Settings later
         if (ObjectManager.Me.WowClass == WoWClass.Hunter)
         {
-            Huntersettings.Load();
+            HunterLevelSettings.Load();
             Logging.Write("Hunter Low Level  Class...loading...");
             _isLaunched = true;
             Rotation();
@@ -79,10 +79,10 @@ public static class Hunter
 
     public static void ShowConfiguration() // When a configuration is declared
     {
-        Huntersettings.Load();
-        var settingWindow = new MarsSettingsGUI.SettingsWindow(Huntersettings.CurrentSetting, ObjectManager.Me.WowClass.ToString());
+        HunterLevelSettings.Load();
+        var settingWindow = new MarsSettingsGUI.SettingsWindow(HunterLevelSettings.CurrentSetting, ObjectManager.Me.WowClass.ToString());
         settingWindow.ShowDialog();
-        Huntersettings.CurrentSetting.Save();
+        HunterLevelSettings.CurrentSetting.Save();
     }
 
 
@@ -101,20 +101,20 @@ public static class Hunter
 
                     PetRevivehandler(); //Handles Petrezz
 
-                    if (Huntersettings.CurrentSetting.Petfeed)
+                    if (HunterLevelSettings.CurrentSetting.Petfeed)
                         Feed(); //Sub for Petfeeding
 
                     Pull();
                 }
                 else
                 {
-                    if (Huntersettings.CurrentSetting.Framelock)
+                    if (HunterLevelSettings.CurrentSetting.Framelock)
                         Extension.Framelock();
 
                     if (Fight.InFight && Me.Target > 0UL && ObjectManager.Target.IsAttackable)
                         CombatRotation();
 
-                    if (Huntersettings.CurrentSetting.Framelock)
+                    if (HunterLevelSettings.CurrentSetting.Framelock)
                         Extension.Frameunlock();
                 }
             }
@@ -122,7 +122,7 @@ public static class Hunter
             {
                 Logging.WriteError("error" + e);
             }
-            Thread.Sleep(Huntersettings.CurrentSetting.Delay);
+            Thread.Sleep(HunterLevelSettings.CurrentSetting.Delay);
         }
         Logging.Write("STOPPED");
     }
@@ -135,7 +135,7 @@ public static class Hunter
             Lua.LuaDoString("PetAttack();", false);
 
         //Pethandle in Fight
-        if (ObjectManager.Pet.HealthPercent < Huntersettings.CurrentSetting.PetmendInFight
+        if (ObjectManager.Pet.HealthPercent < HunterLevelSettings.CurrentSetting.PetmendInFight
             && PetHealTimer.IsReady)
         {
             Extension.PetSpell(MendPet);
@@ -175,7 +175,7 @@ public static class Hunter
             }
                 Extension.FightSpell(ArcaneShot);
             
-            if (MultiShotFeigndeath.IsReady && Huntersettings.CurrentSetting.MultiS)
+            if (MultiShotFeigndeath.IsReady && HunterLevelSettings.CurrentSetting.MultiS)
                 Extension.FightSpell(MultiShot);
 
             Extension.FightSpell(SteadyShot, false, false, true);
@@ -183,7 +183,7 @@ public static class Hunter
             if (MyTarget.HealthPercent < 20)
                 Extension.FightSpell(KillShot);
 
-            if (Me.ManaPercentage < Huntersettings.CurrentSetting.AspecofViper)
+            if (Me.ManaPercentage < HunterLevelSettings.CurrentSetting.AspecofViper)
                 Extension.BuffSpell(AspecoftheViper);
 
             if (Me.ManaPercentage > 30)
@@ -198,7 +198,7 @@ public static class Hunter
         {
             Extension.FightSpell(RaptorStrike);
 
-            if (!MyTarget.IsTargetingMe && ObjectManager.Pet.IsAlive && Huntersettings.CurrentSetting.Dis)
+            if (!MyTarget.IsTargetingMe && ObjectManager.Pet.IsAlive && HunterLevelSettings.CurrentSetting.Dis)
                 Extension.BuffSpell(Disengage);
 
             if (MyTarget.IsTargetingMe && ObjectManager.Pet.IsAlive)
@@ -323,10 +323,10 @@ public static class Hunter
 
     private static void BuffRotation()
     {
-        if (Me.ManaPercentage < Huntersettings.CurrentSetting.AspecofViper)
+        if (Me.ManaPercentage < HunterLevelSettings.CurrentSetting.AspecofViper)
             Extension.BuffSpell(AspecoftheViper);
         
-        if (AspecoftheCheetah.KnownSpell && Huntersettings.CurrentSetting.Cheetah)
+        if (AspecoftheCheetah.KnownSpell && HunterLevelSettings.CurrentSetting.Cheetah)
             Extension.BuffSpell(AspecoftheCheetah);
 
         if (!AspecoftheDragonhawk.KnownSpell && !AspecoftheCheetah.HaveBuff
@@ -336,10 +336,10 @@ public static class Hunter
         if (Me.ManaPercentage > 90 && !AspecoftheCheetah.HaveBuff)
             Extension.BuffSpell(AspecoftheDragonhawk);
 
-        if (Huntersettings.CurrentSetting.Checkpet)
+        if (HunterLevelSettings.CurrentSetting.Checkpet)
         {
             if (ObjectManager.Pet.IsAlive && ObjectManager.Pet.IsValid 
-                && ObjectManager.Pet.HealthPercent < Huntersettings.CurrentSetting.PetHealth)
+                && ObjectManager.Pet.HealthPercent < HunterLevelSettings.CurrentSetting.PetHealth)
                 if (PetHealTimer.IsReady)
                 {
                     Extension.PetSpell(MendPet);

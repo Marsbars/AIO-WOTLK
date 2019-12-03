@@ -12,7 +12,7 @@ using wManager.Wow.ObjectManager;
 using MarsSettingsGUI;
 
 [Serializable]
-public class Druidsettings : Settings
+public class DruidLevelSettings : Settings
 {
     [Setting]
     [DefaultValue(false)]
@@ -71,9 +71,9 @@ public class Druidsettings : Settings
     [Description("Use Dash while stealthed?")]
     public bool Dash { get; set; }
 
-    public static Druidsettings CurrentSetting { get; set; }
+    public static DruidLevelSettings CurrentSetting { get; set; }
 
-    private Druidsettings()
+    private DruidLevelSettings()
     {
 
         Framelock = false;
@@ -90,11 +90,11 @@ public class Druidsettings : Settings
     {
         try
         {
-            return Save(AdviserFilePathAndName("Druidsettings", ObjectManager.Me.Name + "." + Usefuls.RealmName));
+            return Save(AdviserFilePathAndName("DruidLevelSettings", ObjectManager.Me.Name + "." + Usefuls.RealmName));
         }
         catch (Exception e)
         {
-            Logging.WriteError("Druidsettings > Save(): " + e);
+            Logging.WriteError("DruidLevelSettings > Save(): " + e);
             return false;
         }
     }
@@ -103,18 +103,18 @@ public class Druidsettings : Settings
     {
         try
         {
-            if (File.Exists(AdviserFilePathAndName("Druidsettings", ObjectManager.Me.Name + "." + Usefuls.RealmName)))
+            if (File.Exists(AdviserFilePathAndName("DruidLevelSettings", ObjectManager.Me.Name + "." + Usefuls.RealmName)))
             {
                 CurrentSetting =
-                    Load<Druidsettings>(AdviserFilePathAndName("Druidsettings",
+                    Load<DruidLevelSettings>(AdviserFilePathAndName("DruidLevelSettings",
                                                                  ObjectManager.Me.Name + "." + Usefuls.RealmName));
                 return true;
             }
-            CurrentSetting = new Druidsettings();
+            CurrentSetting = new DruidLevelSettings();
         }
         catch (Exception e)
         {
-            Logging.WriteError("Druidsettings > Load(): " + e);
+            Logging.WriteError("DruidLevelSettings > Load(): " + e);
         }
         return false;
     }

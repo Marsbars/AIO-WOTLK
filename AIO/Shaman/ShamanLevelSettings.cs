@@ -12,7 +12,7 @@ using wManager.Wow.ObjectManager;
 using MarsSettingsGUI;
 
 [Serializable]
-public class Shamansettings : Settings
+public class ShamanLevelSettings : Settings
 {
 
     [Setting]
@@ -104,7 +104,7 @@ public class Shamansettings : Settings
     [Description("Use Fire Nova?")]
     public bool UseFireNova { get; set; }
 
-    private Shamansettings()
+    private ShamanLevelSettings()
     {
         Framelock = false;
         Delay = 50;
@@ -122,18 +122,18 @@ public class Shamansettings : Settings
     }
 
 
-    public static Shamansettings CurrentSetting { get; set; }
+    public static ShamanLevelSettings CurrentSetting { get; set; }
 
 
     public bool Save()
     {
         try
         {
-            return Save(AdviserFilePathAndName("Shamansettings", ObjectManager.Me.Name + "." + Usefuls.RealmName));
+            return Save(AdviserFilePathAndName("ShamanLevelSettings", ObjectManager.Me.Name + "." + Usefuls.RealmName));
         }
         catch (Exception e)
         {
-            Logging.WriteError("Shamansettings > Save(): " + e);
+            Logging.WriteError("ShamanLevelSettings > Save(): " + e);
             return false;
         }
     }
@@ -142,17 +142,17 @@ public class Shamansettings : Settings
     {
         try
         {
-            if (File.Exists(AdviserFilePathAndName("Shamansettings", ObjectManager.Me.Name + "." + Usefuls.RealmName)))
+            if (File.Exists(AdviserFilePathAndName("ShamanLevelSettings", ObjectManager.Me.Name + "." + Usefuls.RealmName)))
             {
                 CurrentSetting =
-                    Load<Shamansettings>(AdviserFilePathAndName("Shamansettings", ObjectManager.Me.Name + "." + Usefuls.RealmName));
+                    Load<ShamanLevelSettings>(AdviserFilePathAndName("ShamanLevelSettings", ObjectManager.Me.Name + "." + Usefuls.RealmName));
                 return true;
             }
-            CurrentSetting = new Shamansettings();
+            CurrentSetting = new ShamanLevelSettings();
         }
         catch (Exception e)
         {
-            Logging.WriteError("Shamansettings > Load(): " + e);
+            Logging.WriteError("ShamanLevelSettings > Load(): " + e);
         }
         return false;
     }

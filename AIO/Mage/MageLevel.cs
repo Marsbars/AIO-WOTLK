@@ -57,8 +57,8 @@ public static class Mage
             #region Loggin Settings
             Logging.Write("Mage Low Level  Class...loading...");
             #endregion
-            Magesettings.Load();
-            Logging.Write("Magesettings Loaded");
+            MageLevelSettings.Load();
+            Logging.Write("Mage Low Level Class...loading...");
             RangeManager();
             //TargetSwitcher();
             Logging.Write("Targetswitcher Activated");
@@ -86,7 +86,7 @@ public static class Mage
                 Main.settingRange = 25f;
                 if (Conditions.InGameAndConnectedAndAliveAndProductStartedNotInPause && !Fight.InFight)
                 {
-                    if (Magesettings.CurrentSetting.Framelock)
+                    if (MageLevelSettings.CurrentSetting.Framelock)
                     {
                         Extension.Frameunlock();
                     }
@@ -98,12 +98,12 @@ public static class Mage
                 }
                 else
                 {
-                    if (Magesettings.CurrentSetting.Framelock)
+                    if (MageLevelSettings.CurrentSetting.Framelock)
                     {
                         Extension.Framelock();
                     }
                     CombatRotation();
-                    if (Magesettings.CurrentSetting.Framelock)
+                    if (MageLevelSettings.CurrentSetting.Framelock)
                     {
                         Extension.Frameunlock();
                     }
@@ -115,7 +115,7 @@ public static class Mage
                 Logging.WriteError("error" + e);
             }
 
-            Thread.Sleep(Magesettings.CurrentSetting.Delay);
+            Thread.Sleep(MageLevelSettings.CurrentSetting.Delay);
         }
         Logging.Write("STOPPED");
         wManagerSetting.CurrentSetting.UseLuaToMove = false;
@@ -124,21 +124,21 @@ public static class Mage
 
     public static void ShowConfiguration() // When a configuration is declared
     {
-        Magesettings.Load();
-        var settingWindow = new MarsSettingsGUI.SettingsWindow(Magesettings.CurrentSetting, ObjectManager.Me.WowClass.ToString());
+        MageLevelSettings.Load();
+        var settingWindow = new MarsSettingsGUI.SettingsWindow(MageLevelSettings.CurrentSetting, ObjectManager.Me.WowClass.ToString());
         settingWindow.ShowDialog();
-        Magesettings.CurrentSetting.Save();
+        MageLevelSettings.CurrentSetting.Save();
     }
 
 
     private static void CombatRotation()
     {
-        if(Me.ManaPercentage < Magesettings.CurrentSetting.Manastone)
+        if(Me.ManaPercentage < MageLevelSettings.CurrentSetting.Manastone)
         {
             _foodManager.UseManaStone();
         }
 
-        if (Magesettings.CurrentSetting.Sheep)
+        if (MageLevelSettings.CurrentSetting.Sheep)
         {
             //Poly Management
             if (Extension.GetAttackingUnits(5).Count() > 1 && Polymorph.KnownSpell)

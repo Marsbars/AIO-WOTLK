@@ -12,7 +12,7 @@ using wManager.Wow.ObjectManager;
 using MarsSettingsGUI;
 
 [Serializable]
-public class Roguesettings : Settings
+public class RogueLevelSettings : Settings
 {
     [Setting]
     [DefaultValue(false)]
@@ -36,9 +36,9 @@ public class Roguesettings : Settings
     public bool Stealth { get; set; }
 
 
-    public static Roguesettings CurrentSetting { get; set; }
+    public static RogueLevelSettings CurrentSetting { get; set; }
 
-    private Roguesettings()
+    private RogueLevelSettings()
     {
 
         Framelock = false;
@@ -51,11 +51,11 @@ public class Roguesettings : Settings
     {
         try
         {
-            return Save(AdviserFilePathAndName("Roguesettings", ObjectManager.Me.Name + "." + Usefuls.RealmName));
+            return Save(AdviserFilePathAndName("RogueLevelSettings", ObjectManager.Me.Name + "." + Usefuls.RealmName));
         }
         catch (Exception e)
         {
-            Logging.WriteError("Roguesettings > Save(): " + e);
+            Logging.WriteError("RogueLevelSettings > Save(): " + e);
             return false;
         }
     }
@@ -64,18 +64,18 @@ public class Roguesettings : Settings
     {
         try
         {
-            if (File.Exists(AdviserFilePathAndName("Roguesettings", ObjectManager.Me.Name + "." + Usefuls.RealmName)))
+            if (File.Exists(AdviserFilePathAndName("RogueLevelSettings", ObjectManager.Me.Name + "." + Usefuls.RealmName)))
             {
                 CurrentSetting =
-                    Load<Roguesettings>(AdviserFilePathAndName("Roguesettings",
+                    Load<RogueLevelSettings>(AdviserFilePathAndName("RogueLevelSettings",
                                                                  ObjectManager.Me.Name + "." + Usefuls.RealmName));
                 return true;
             }
-            CurrentSetting = new Roguesettings();
+            CurrentSetting = new RogueLevelSettings();
         }
         catch (Exception e)
         {
-            Logging.WriteError("Roguesettings > Load(): " + e);
+            Logging.WriteError("RogueLevelSettings > Load(): " + e);
         }
         return false;
     }

@@ -12,7 +12,7 @@ using wManager.Wow.ObjectManager;
 using MarsSettingsGUI;
 
 [Serializable]
-public class DKSettings : Settings
+public class DeathKnightLevelSettings : Settings
 {
     [Setting]
     [DefaultValue(true)]
@@ -70,7 +70,7 @@ public class DKSettings : Settings
     [Description("Set your Delay in MS (for bad PC´s) ")]
     public int Delay { get; set; }
 
-    private DKSettings()
+    private DeathKnightLevelSettings()
     {
         DeathGrip = true;
         BloodPresence = true;
@@ -83,18 +83,18 @@ public class DKSettings : Settings
     }
 
 
-    public static DKSettings CurrentSetting { get; set; }
+    public static DeathKnightLevelSettings CurrentSetting { get; set; }
 
 
     public bool Save()
     {
         try
         {
-            return Save(AdviserFilePathAndName("DKSettings", ObjectManager.Me.Name + "." + Usefuls.RealmName));
+            return Save(AdviserFilePathAndName("DeathKnightLevelSettings", ObjectManager.Me.Name + "." + Usefuls.RealmName));
         }
         catch (Exception e)
         {
-            Logging.WriteError("DKSettings > Save(): " + e);
+            Logging.WriteError("DeathKnightLevelSettings > Save(): " + e);
             return false;
         }
     }
@@ -103,17 +103,17 @@ public class DKSettings : Settings
     {
         try
         {
-            if (File.Exists(AdviserFilePathAndName("DKSettings", ObjectManager.Me.Name + "." + Usefuls.RealmName)))
+            if (File.Exists(AdviserFilePathAndName("DeathKnightLevelSettings", ObjectManager.Me.Name + "." + Usefuls.RealmName)))
             {
                 CurrentSetting =
-                    Load<DKSettings>(AdviserFilePathAndName("DKSettings", ObjectManager.Me.Name + "." + Usefuls.RealmName));
+                    Load<DeathKnightLevelSettings>(AdviserFilePathAndName("DeathKnightLevelSettings", ObjectManager.Me.Name + "." + Usefuls.RealmName));
                 return true;
             }
-            CurrentSetting = new DKSettings();
+            CurrentSetting = new DeathKnightLevelSettings();
         }
         catch (Exception e)
         {
-            Logging.WriteError("DKSettings > Load(): " + e);
+            Logging.WriteError("DeathKnightLevelSettings > Load(): " + e);
         }
         return false;
     }

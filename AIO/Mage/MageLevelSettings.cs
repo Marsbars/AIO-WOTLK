@@ -12,7 +12,7 @@ using wManager.Wow.ObjectManager;
 using MarsSettingsGUI;
 
 [Serializable]
-public class Magesettings : Settings
+public class MageLevelSettings : Settings
 {
     [Setting]
     [DefaultValue(false)]
@@ -44,7 +44,7 @@ public class Magesettings : Settings
     public bool Sheep { get; set; }
 
 
-    private Magesettings()
+    private MageLevelSettings()
     {
         Framelock = false;
         Sheep = false;
@@ -53,18 +53,18 @@ public class Magesettings : Settings
     }
 
 
-    public static Magesettings CurrentSetting { get; set; }
+    public static MageLevelSettings CurrentSetting { get; set; }
 
 
     public bool Save()
     {
         try
         {
-            return Save(AdviserFilePathAndName("Magesettings", ObjectManager.Me.Name + "." + Usefuls.RealmName));
+            return Save(AdviserFilePathAndName("MageLevelSettings", ObjectManager.Me.Name + "." + Usefuls.RealmName));
         }
         catch (Exception e)
         {
-            Logging.WriteError("Magesettings > Save(): " + e);
+            Logging.WriteError("MageLevelSettings > Save(): " + e);
             return false;
         }
     }
@@ -73,17 +73,17 @@ public class Magesettings : Settings
     {
         try
         {
-            if (File.Exists(AdviserFilePathAndName("Magesettings", ObjectManager.Me.Name + "." + Usefuls.RealmName)))
+            if (File.Exists(AdviserFilePathAndName("MageLevelSettings", ObjectManager.Me.Name + "." + Usefuls.RealmName)))
             {
                 CurrentSetting =
-                    Load<Magesettings>(AdviserFilePathAndName("Magesettings", ObjectManager.Me.Name + "." + Usefuls.RealmName));
+                    Load<MageLevelSettings>(AdviserFilePathAndName("MageLevelSettings", ObjectManager.Me.Name + "." + Usefuls.RealmName));
                 return true;
             }
-            CurrentSetting = new Magesettings();
+            CurrentSetting = new MageLevelSettings();
         }
         catch (Exception e)
         {
-            Logging.WriteError("Magesettings > Load(): " + e);
+            Logging.WriteError("MageLevelSettings > Load(): " + e);
         }
         return false;
     }

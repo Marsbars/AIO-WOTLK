@@ -60,7 +60,7 @@ class TotemManager
     }
     internal static void CheckForTotemicCall()
     {
-        if (Shamansettings.CurrentSetting.UseTotemicCall)
+        if (ShamanLevelSettings.CurrentSetting.UseTotemicCall)
         {
             //IEnumerable<WoWUnit> units =  ObjectManager.GetObjectWoWUnit().Where(u => u.UnitFlags == wManager.Wow.Enums.UnitFlags.Totem);
 
@@ -78,7 +78,7 @@ class TotemManager
 
     internal static bool CastEarthTotem()
     {
-        if (Shamansettings.CurrentSetting.UseEarthTotems)
+        if (ShamanLevelSettings.CurrentSetting.UseEarthTotems)
         {
             string currentEarthTotem = Lua.LuaDoString<string>
                 (@"local haveTotem, totemName, startTime, duration = GetTotemInfo(2); return totemName;");
@@ -104,7 +104,7 @@ class TotemManager
             }
 
             // Strenght of Earth totem
-            if (!Shamansettings.CurrentSetting.UseStoneSkinTotem && !ObjectManager.Me.HaveBuff("Strength of Earth")
+            if (!ShamanLevelSettings.CurrentSetting.UseStoneSkinTotem && !ObjectManager.Me.HaveBuff("Strength of Earth")
                 && !currentEarthTotem.Contains("Stoneclaw Totem") && !currentEarthTotem.Contains("Earth Elemental Totem"))
             {
                 {
@@ -114,7 +114,7 @@ class TotemManager
             }
 
             // Stoneskin Totem
-            if (Shamansettings.CurrentSetting.UseStoneSkinTotem && !ObjectManager.Me.HaveBuff("Stoneskin")
+            if (ShamanLevelSettings.CurrentSetting.UseStoneSkinTotem && !ObjectManager.Me.HaveBuff("Stoneskin")
                 && !currentEarthTotem.Contains("Stoneclaw Totem") && !currentEarthTotem.Contains("Earth Elemental Totem"))
             {
                 {
@@ -128,26 +128,26 @@ class TotemManager
 
     internal static bool CastFireTotem()
     {
-        if (Shamansettings.CurrentSetting.UseFireTotems)
+        if (ShamanLevelSettings.CurrentSetting.UseFireTotems)
         {
             string currentFireTotem = Lua.LuaDoString<string>
                 (@"local haveTotem, totemName, startTime, duration = GetTotemInfo(1); return totemName;");
 
             // Magma Totem
             if (ObjectManager.GetNumberAttackPlayer() > 1 && ObjectManager.Me.ManaPercentage > 50 && ObjectManager.Target.GetDistance < 10
-                && !currentFireTotem.Contains("Magma Totem") && Shamansettings.CurrentSetting.UseMagmaTotem)
+                && !currentFireTotem.Contains("Magma Totem") && ShamanLevelSettings.CurrentSetting.UseMagmaTotem)
             {
                 if (Cast(MagmaTotem))
                     return true;
             }
 
             // Searing Totem
-            if ((!currentFireTotem.Contains("Searing Totem") || Shaman._fireTotemPosition == null || ObjectManager.Me.Position.DistanceTo(Shaman._fireTotemPosition) > 15f)
+            if ((!currentFireTotem.Contains("Searing Totem") || ShamanLevel._fireTotemPosition == null || ObjectManager.Me.Position.DistanceTo(ShamanLevel._fireTotemPosition) > 15f)
                 && ObjectManager.Target.GetDistance < 10 && !currentFireTotem.Contains("Magma Totem"))
             {
                 if (Cast(SearingTotem))
                 {
-                    Shaman._fireTotemPosition = ObjectManager.Me.Position;
+                    ShamanLevel._fireTotemPosition = ObjectManager.Me.Position;
                     return true;
                 }
             }
@@ -157,7 +157,7 @@ class TotemManager
 
     internal static bool CastAirTotem()
     {
-        if (Shamansettings.CurrentSetting.UseAirTotems)
+        if (ShamanLevelSettings.CurrentSetting.UseAirTotems)
         {
             string currentAirTotem = Lua.LuaDoString<string>
                 (@"local _, totemName, _, _ = GetTotemInfo(4); return totemName;");
@@ -174,7 +174,7 @@ class TotemManager
 
     internal static bool CastWaterTotem()
     {
-        if (Shamansettings.CurrentSetting.UseWaterTotems)
+        if (ShamanLevelSettings.CurrentSetting.UseWaterTotems)
         {
             string currentWaterTotem = Lua.LuaDoString<string>
                 (@"local _, totemName, _, _ = GetTotemInfo(3); return totemName;");

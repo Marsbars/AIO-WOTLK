@@ -26,7 +26,7 @@ public class Main : ICustomClass
     public void Initialize()
     {
         Log("Started V. 1.0.30. Discovering class and finding rotation...");
-        var type = Type.GetType(wowClass);
+        var type = Type.GetType(ObjectManager.Me.Level < 80 ? ObjectManager.Me.WowClass + "Level" : ObjectManager.Me.WowClass + GetSpec());
 
         if (type != null)
         {
@@ -42,7 +42,7 @@ public class Main : ICustomClass
 
     public void Dispose()
     {
-        var type = Type.GetType(wowClass);
+        var type = Type.GetType(ObjectManager.Me.Level < 80 ? ObjectManager.Me.WowClass + "Level" : ObjectManager.Me.WowClass + GetSpec());
         if (type != null)
             type.GetMethod("Dispose").Invoke(null, null);
         _isLaunched = false;
@@ -50,7 +50,7 @@ public class Main : ICustomClass
 
     public void ShowConfiguration()
     {
-        var type = Type.GetType(wowClass);
+        var type = Type.GetType(ObjectManager.Me.Level < 80 ? ObjectManager.Me.WowClass + "Level" : ObjectManager.Me.WowClass + GetSpec());
 
         if (type != null)
             type.GetMethod("ShowConfiguration").Invoke(null, null);
@@ -90,6 +90,6 @@ public class Main : ICustomClass
             );
         }
         var highestTalents = Talents.Max(x => x.Value);
-        return Talents.Where(t => t.Value == highestTalents).FirstOrDefault().Key;
+        return Talents.Where(t => t.Value == highestTalents).FirstOrDefault().Key.Replace(" ","");
     }
 }

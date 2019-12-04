@@ -14,7 +14,7 @@ using System.ComponentModel;
 using wManager.Wow;
 using wManager;
 
-public static class DeathKnight
+public static class DeathKnightLevel
 {
     private static bool _isLaunched;
     public static WoWUnit MyTarget { get { return ObjectManager.Target; } }
@@ -47,21 +47,10 @@ public static class DeathKnight
     public static void Initialize()
     {
 
-        DKSettings.Load();
+        DeathKnightLevelSettings.Load();
         {
             _isLaunched = true;
-            if(Extension.GetSpecialization() == 1)
-            {
-                //Blood
-            }
-            if (Extension.GetSpecialization() == 2)
-            {
-                //Frost
-            }
-            if (Extension.GetSpecialization() == 3)
-            {
-                //Unholy
-            }
+            Logging.Write("DeathKnight Low Level Class...loading...");
             Rotation();
         }
 
@@ -78,10 +67,10 @@ public static class DeathKnight
 
     public static void ShowConfiguration()
     {
-        DKSettings.Load();
-        var settingWindow = new MarsSettingsGUI.SettingsWindow(DKSettings.CurrentSetting, ObjectManager.Me.WowClass.ToString());
+        DeathKnightLevelSettings.Load();
+        var settingWindow = new MarsSettingsGUI.SettingsWindow(DeathKnightLevelSettings.CurrentSetting, ObjectManager.Me.WowClass.ToString());
         settingWindow.ShowDialog();
-        DKSettings.CurrentSetting.Save();
+        DeathKnightLevelSettings.CurrentSetting.Save();
     }
 
     internal static void Rotation()
@@ -101,12 +90,12 @@ public static class DeathKnight
                     else if (Fight.InFight && ObjectManager.Me.HasTarget)
                     {
                         BuffRotation();
-                        if (DKSettings.CurrentSetting.Framelock)
+                        if (DeathKnightLevelSettings.CurrentSetting.Framelock)
                         {
                             Framelock();
                         }
                         CombatRotation();
-                        if (DKSettings.CurrentSetting.Framelock)
+                        if (DeathKnightLevelSettings.CurrentSetting.Framelock)
                         {
                             Frameunlock();
                         }
@@ -118,7 +107,7 @@ public static class DeathKnight
             {
                 Logging.Write("error" + e);
             }
-            Thread.Sleep(DKSettings.CurrentSetting.Delay);
+            Thread.Sleep(DeathKnightLevelSettings.CurrentSetting.Delay);
         }
 
     }
@@ -148,7 +137,7 @@ public static class DeathKnight
         {
             Extension.FightSpell(DancingRuneWeapon);
         }
-        if (DKSettings.CurrentSetting.DeathGrip && ObjectManager.Target.GetDistance > 10)
+        if (DeathKnightLevelSettings.CurrentSetting.DeathGrip && ObjectManager.Target.GetDistance > 10)
         {
             Extension.FightSpell(DeathGrip);
         }
@@ -176,22 +165,22 @@ public static class DeathKnight
 
     public static void UseBloodSkill()
     {
-        if (Extension.GetAttackingUnits(5).Count() == DKSettings.CurrentSetting.bloodstrike)
+        if (Extension.GetAttackingUnits(5).Count() == DeathKnightLevelSettings.CurrentSetting.bloodstrike)
         {
             Extension.FightSpell(BloodStrike);
             return;
         }
-        if (Extension.GetAttackingUnits(5).Count() == DKSettings.CurrentSetting.hearthstrike)
+        if (Extension.GetAttackingUnits(5).Count() == DeathKnightLevelSettings.CurrentSetting.hearthstrike)
         {
             Extension.FightSpell(HeartSTrike);
             return;
         }
-        if (Extension.GetAttackingUnits(5).Count() > DKSettings.CurrentSetting.bloodboil)
+        if (Extension.GetAttackingUnits(5).Count() > DeathKnightLevelSettings.CurrentSetting.bloodboil)
         {
             Extension.FightSpell(BloodBoil);
             return;
         }
-        if (Extension.GetAttackingUnits(10).Count() > DKSettings.CurrentSetting.dnd)
+        if (Extension.GetAttackingUnits(10).Count() > DeathKnightLevelSettings.CurrentSetting.dnd)
         {
             ClickOnTerrain.Spell(DeathAndDecay.Id, ObjectManager.Me.Position);
         }
@@ -205,7 +194,7 @@ public static class DeathKnight
         {
             Extension.BuffSpell(IceBoundFortitude);
         }
-        if(DKSettings.CurrentSetting.BloodPresence)
+        if(DeathKnightLevelSettings.CurrentSetting.BloodPresence)
         {
             Extension.BuffSpell(BloodPresence);
         }
@@ -220,7 +209,7 @@ public static class DeathKnight
             && ObjectManager.Me.Target > 0)
         {
             Extension.FightSpell(DeathCoil);
-            if (DKSettings.CurrentSetting.DeathGrip && ObjectManager.Target.GetDistance > 10)
+            if (DeathKnightLevelSettings.CurrentSetting.DeathGrip && ObjectManager.Target.GetDistance > 10)
             {
                 Extension.FightSpell(DeathGrip);
             }

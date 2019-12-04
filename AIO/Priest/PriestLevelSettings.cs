@@ -12,7 +12,7 @@ using wManager.Wow.ObjectManager;
 using MarsSettingsGUI;
 
 [Serializable]
-public class Priestsettings : Settings
+public class PriestLevelSettings : Settings
 {
     [Setting]
     [DefaultValue(false)]
@@ -81,9 +81,9 @@ public class Priestsettings : Settings
     [Description("Set your Delay in MS (for bad PC´s) ")]
     public int Delay { get; set; }
 
-    public static Priestsettings CurrentSetting { get; set; }
+    public static PriestLevelSettings CurrentSetting { get; set; }
 
-    private Priestsettings()
+    private PriestLevelSettings()
     {
         UseWand = true;
         UseWandTresh = 20;
@@ -101,11 +101,11 @@ public class Priestsettings : Settings
     {
         try
         {
-            return Save(AdviserFilePathAndName("Priestsettings", ObjectManager.Me.Name + "." + Usefuls.RealmName));
+            return Save(AdviserFilePathAndName("PriestLevelSettings", ObjectManager.Me.Name + "." + Usefuls.RealmName));
         }
         catch (Exception e)
         {
-            Logging.WriteError("Priestsettings > Save(): " + e);
+            Logging.WriteError("PriestLevelSettings > Save(): " + e);
             return false;
         }
     }
@@ -114,18 +114,18 @@ public class Priestsettings : Settings
     {
         try
         {
-            if (File.Exists(AdviserFilePathAndName("Priestsettings", ObjectManager.Me.Name + "." + Usefuls.RealmName)))
+            if (File.Exists(AdviserFilePathAndName("PriestLevelSettings", ObjectManager.Me.Name + "." + Usefuls.RealmName)))
             {
                 CurrentSetting =
-                    Load<Priestsettings>(AdviserFilePathAndName("Priestsettings",
+                    Load<PriestLevelSettings>(AdviserFilePathAndName("PriestLevelSettings",
                                                                  ObjectManager.Me.Name + "." + Usefuls.RealmName));
                 return true;
             }
-            CurrentSetting = new Priestsettings();
+            CurrentSetting = new PriestLevelSettings();
         }
         catch (Exception e)
         {
-            Logging.WriteError("Priestsettings > Load(): " + e);
+            Logging.WriteError("PriestLevelSettings > Load(): " + e);
         }
         return false;
     }

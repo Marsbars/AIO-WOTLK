@@ -13,7 +13,7 @@ using Timer = robotManager.Helpful.Timer;
 using wManager.Wow;
 using wManager;
 
-public static class Shaman
+public static class ShamanLevel
 {
     public static bool lowlevel;
     public static bool _isLaunched;
@@ -50,7 +50,8 @@ public static class Shaman
 
     public static void Initialize()
     {
-        Shamansettings.Load();
+        ShamanLevelSettings.Load();
+        Logging.Write("Shaman Low Level Class...loading...");
         {
             lowlevel = true;
             _isLaunched = true;
@@ -70,10 +71,10 @@ public static class Shaman
 
     public static void ShowConfiguration()
     {
-        Shamansettings.Load();
-        var settingWindow = new MarsSettingsGUI.SettingsWindow(Shamansettings.CurrentSetting, ObjectManager.Me.WowClass.ToString());
+        ShamanLevelSettings.Load();
+        var settingWindow = new MarsSettingsGUI.SettingsWindow(ShamanLevelSettings.CurrentSetting, ObjectManager.Me.WowClass.ToString());
         settingWindow.ShowDialog();
-        Shamansettings.CurrentSetting.Save();
+        ShamanLevelSettings.CurrentSetting.Save();
     }
 
     internal static void Rotation()
@@ -103,12 +104,12 @@ public static class Shaman
                     if (Fight.InFight && ObjectManager.Me.HasTarget)
                     {
 
-                        if (Shamansettings.CurrentSetting.Framelock)
+                        if (ShamanLevelSettings.CurrentSetting.Framelock)
                         {
                             Extension.Framelock();
                         }
                         CombatRotation();
-                        if (Shamansettings.CurrentSetting.Framelock)
+                        if (ShamanLevelSettings.CurrentSetting.Framelock)
                         {
                             Extension.Frameunlock();
                         }
@@ -119,7 +120,7 @@ public static class Shaman
             {
                 Logging.Write("error" + e);
             }
-            Thread.Sleep(Shamansettings.CurrentSetting.Delay);
+            Thread.Sleep(ShamanLevelSettings.CurrentSetting.Delay);
         }
 
     }
@@ -135,7 +136,7 @@ public static class Shaman
             Extension.FightSpell(WindShear, true);
         }
 
-        if (Me.HealthPercent < 30 && MyTarget.HealthPercent > Shamansettings.CurrentSetting.Enemylife)
+        if (Me.HealthPercent < 30 && MyTarget.HealthPercent > ShamanLevelSettings.CurrentSetting.Enemylife)
         {
             Extension.HealSpell(HealingWave);
         }
@@ -189,7 +190,7 @@ public static class Shaman
             }
             //_lastTotemPosition.DistanceTo(ObjectManager.Me.Position)
 
-            //if (_fireTotemPosition.DistanceTo(Me.Position) < 10 && Extension.GetAttackingUnits(5).Count() > 1 && Shamansettings.CurrentSetting.UseFireNova)
+            //if (_fireTotemPosition.DistanceTo(Me.Position) < 10 && Extension.GetAttackingUnits(5).Count() > 1 && ShamanLevelSettings.CurrentSetting.UseFireNova)
             //{
             //    Extension.FightSpell(FireNova);
             //}
@@ -271,7 +272,7 @@ public static class Shaman
                 TotemManager.CotE();
                 TotemManager.CastTotems();
             }
-            if (MyTarget.GetDistance > 20 && Shamansettings.CurrentSetting.LNB)
+            if (MyTarget.GetDistance > 20 && ShamanLevelSettings.CurrentSetting.LNB)
             {
                 Extension.FightSpell(LightningBolt);
             }
@@ -309,7 +310,7 @@ public static class Shaman
     private static void BuffRotation()
     {
 
-        if (Me.ManaPercentage > 50 && Shamansettings.CurrentSetting.Ghostwolf && !Me.IsMounted)
+        if (Me.ManaPercentage > 50 && ShamanLevelSettings.CurrentSetting.Ghostwolf && !Me.IsMounted)
         {
             Extension.BuffSpell(GhostWolf);
         }
@@ -340,7 +341,7 @@ public static class Shaman
     #region Pull
     private static void Pull()
     {
-        if(Shamansettings.CurrentSetting.LNB)
+        if(ShamanLevelSettings.CurrentSetting.LNB)
         {
             Extension.FightSpell(LightningBolt);
         }

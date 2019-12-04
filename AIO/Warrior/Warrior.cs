@@ -45,10 +45,10 @@ public static class Warrior
     public static void Initialize()
     {
 
-        Warriorsettings.Load();
+        WarriorLevelSettings.Load();
         {
             _isLaunched = true;
-
+            Logging.Write("Warrior Low Level Class...loading...");
             Rotation();
         }
 
@@ -69,10 +69,10 @@ public static class Warrior
 
     public static void ShowConfiguration()
     {
-        Warriorsettings.Load();
-        var settingWindow = new MarsSettingsGUI.SettingsWindow(Warriorsettings.CurrentSetting, ObjectManager.Me.WowClass.ToString());
+        WarriorLevelSettings.Load();
+        var settingWindow = new MarsSettingsGUI.SettingsWindow(WarriorLevelSettings.CurrentSetting, ObjectManager.Me.WowClass.ToString());
         settingWindow.ShowDialog();
-        Warriorsettings.CurrentSetting.Save();
+        WarriorLevelSettings.CurrentSetting.Save();
     }
 
     internal static void Rotation()
@@ -95,12 +95,12 @@ public static class Warrior
                      if (Fight.InFight && ObjectManager.Me.HasTarget)
                     {
                         BuffRotation();
-                        if (Warriorsettings.CurrentSetting.Framelock)
+                        if (WarriorLevelSettings.CurrentSetting.Framelock)
                         {
                             Framelock();
                         }
                         CombatRotation();
-                        if (Warriorsettings.CurrentSetting.Framelock)
+                        if (WarriorLevelSettings.CurrentSetting.Framelock)
                         {
                             Frameunlock();
                         }
@@ -112,7 +112,7 @@ public static class Warrior
             {
                 Logging.Write("error" + e);
             }
-            Thread.Sleep(Warriorsettings.CurrentSetting.Delay);
+            Thread.Sleep(WarriorLevelSettings.CurrentSetting.Delay);
         }
 
     }

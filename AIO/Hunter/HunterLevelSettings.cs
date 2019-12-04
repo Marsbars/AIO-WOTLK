@@ -12,7 +12,7 @@ using wManager.Wow.ObjectManager;
 using MarsSettingsGUI;
 
 [Serializable]
-public class Huntersettings : Settings
+public class HunterLevelSettings : Settings
 {
     [Setting]
     [DefaultValue(false)]
@@ -67,6 +67,13 @@ public class Huntersettings : Settings
 
     [Setting]
     [DefaultValue(true)]
+    [Category("Fight")]
+    [DisplayName("Backpaddle")]
+    [Description("Auto Backpaddle?")]
+    public bool Backpaddle { get; set; }
+
+    [Setting]
+    [DefaultValue(true)]
     [Category("Pet")]
     [DisplayName("Pet Feeding")]
     [Description("Want the Pet get Autofeeded?")]
@@ -87,9 +94,9 @@ public class Huntersettings : Settings
     [Percentage(true)]
     public int PetHealth { get; set; }
 
-    public static Huntersettings CurrentSetting { get; set; }
+    public static HunterLevelSettings CurrentSetting { get; set; }
 
-    private Huntersettings()
+    private HunterLevelSettings()
     {
 
         Framelock = false;
@@ -97,6 +104,7 @@ public class Huntersettings : Settings
         AspecofViper = 20;
         PetmendInFight = 99;
         MultiS = false;
+        Backpaddle = true;
         Checkpet = true;
         Cheetah = true;
         Petfeed = true;
@@ -113,7 +121,7 @@ public class Huntersettings : Settings
         }
         catch (Exception e)
         {
-            Logging.WriteError("Huntersettings > Save(): " + e);
+            Logging.WriteError("HunterLevelSettings > Save(): " + e);
             return false;
         }
     }
@@ -125,15 +133,15 @@ public class Huntersettings : Settings
             if (File.Exists(AdviserFilePathAndName("Hunter Settings", ObjectManager.Me.Name + "." + Usefuls.RealmName)))
             {
                 CurrentSetting =
-                    Load<Huntersettings>(AdviserFilePathAndName("Hunter Settings",
+                    Load<HunterLevelSettings>(AdviserFilePathAndName("Hunter Settings",
                                                                  ObjectManager.Me.Name + "." + Usefuls.RealmName));
                 return true;
             }
-            CurrentSetting = new Huntersettings();
+            CurrentSetting = new HunterLevelSettings();
         }
         catch (Exception e)
         {
-            Logging.WriteError("HunterSettings > Load(): " + e);
+            Logging.WriteError("HunterLevelSettings > Load(): " + e);
         }
         return false;
     }

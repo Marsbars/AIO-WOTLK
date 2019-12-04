@@ -12,7 +12,7 @@ using wManager.Wow.ObjectManager;
 using MarsSettingsGUI;
 
 [Serializable]
-public class Paladinsettings : Settings
+public class PaladinLevelSettings : Settings
 {
     [Setting]
     [DefaultValue(false)]
@@ -129,7 +129,7 @@ public class Paladinsettings : Settings
     //[Description("Allow the Use of Circles and Drawing Lines to Enemy Players")]
     //public bool Draw { get; set; }
 
-    private Paladinsettings()
+    private PaladinLevelSettings()
     {
         Framelock = false;
         Crusader = false;
@@ -149,18 +149,18 @@ public class Paladinsettings : Settings
     }
 
 
-    public static Paladinsettings CurrentSetting { get; set; }
+    public static PaladinLevelSettings CurrentSetting { get; set; }
 
 
     public bool Save()
     {
         try
         {
-            return Save(AdviserFilePathAndName("Paladinsettings", ObjectManager.Me.Name + "." + Usefuls.RealmName));
+            return Save(AdviserFilePathAndName("PaladinLevelSettings", ObjectManager.Me.Name + "." + Usefuls.RealmName));
         }
         catch (Exception e)
         {
-            Logging.WriteError("Paladinsettings > Save(): " + e);
+            Logging.WriteError("PaladinLevelSettings > Save(): " + e);
             return false;
         }
     }
@@ -169,17 +169,17 @@ public class Paladinsettings : Settings
     {
         try
         {
-            if (File.Exists(AdviserFilePathAndName("Paladinsettings", ObjectManager.Me.Name + "." + Usefuls.RealmName)))
+            if (File.Exists(AdviserFilePathAndName("PaladinLevelSettings", ObjectManager.Me.Name + "." + Usefuls.RealmName)))
             {
                 CurrentSetting =
-                    Load<Paladinsettings>(AdviserFilePathAndName("Paladinsettings", ObjectManager.Me.Name + "." + Usefuls.RealmName));
+                    Load<PaladinLevelSettings>(AdviserFilePathAndName("PaladinLevelSettings", ObjectManager.Me.Name + "." + Usefuls.RealmName));
                 return true;
             }
-            CurrentSetting = new Paladinsettings();
+            CurrentSetting = new PaladinLevelSettings();
         }
         catch (Exception e)
         {
-            Logging.WriteError("Paladinsettings > Load(): " + e);
+            Logging.WriteError("PaladinLevelSettings > Load(): " + e);
         }
         return false;
     }

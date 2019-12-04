@@ -8,7 +8,7 @@ using wManager.Events;
 using System.Collections.Generic;
 using System.Linq;
 
-public static class Rogue
+public static class RogueLevel
 {
 
     public static bool lowlevel;
@@ -53,8 +53,8 @@ public static class Rogue
     {
         {
             _isLaunched = true;
-            Roguesettings.Load();
-            Logging.Write("Settings Loaded");
+            RogueLevelSettings.Load();
+            Logging.Write("Rogue Low Level Class...loading...");
             Rotation();
         }
     }
@@ -68,10 +68,10 @@ public static class Rogue
 
     public static void ShowConfiguration() // When use click on Fight class settings
     {
-        Roguesettings.Load();
-        var settingWindow = new MarsSettingsGUI.SettingsWindow(Roguesettings.CurrentSetting, ObjectManager.Me.WowClass.ToString());
+        RogueLevelSettings.Load();
+        var settingWindow = new MarsSettingsGUI.SettingsWindow(RogueLevelSettings.CurrentSetting, ObjectManager.Me.WowClass.ToString());
         settingWindow.ShowDialog();
-        Roguesettings.CurrentSetting.Save();
+        RogueLevelSettings.CurrentSetting.Save();
     }
 
     public static void Rotation()
@@ -94,12 +94,12 @@ public static class Rogue
                      if (Me.Target > 0)
                     {
                         BuffRotation();
-                        if (Roguesettings.CurrentSetting.Framelock)
+                        if (RogueLevelSettings.CurrentSetting.Framelock)
                         {
                             Extension.Framelock();
                         }
                         CombatRotation();
-                        if (Roguesettings.CurrentSetting.Framelock)
+                        if (RogueLevelSettings.CurrentSetting.Framelock)
                         {
                             Extension.Frameunlock();
                         }
@@ -111,7 +111,7 @@ public static class Rogue
             {
                 Logging.Write("error" + e);
             }
-            Thread.Sleep(Roguesettings.CurrentSetting.Delay);
+            Thread.Sleep(RogueLevelSettings.CurrentSetting.Delay);
         }
     }
 

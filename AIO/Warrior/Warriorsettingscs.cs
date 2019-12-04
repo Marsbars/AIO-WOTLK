@@ -12,7 +12,7 @@ using wManager.Wow.ObjectManager;
 using MarsSettingsGUI;
 
 [Serializable]
-public class Warriorsettings : Settings
+public class WarriorLevelSettings : Settings
 {
 
     [Setting]
@@ -29,25 +29,25 @@ public class Warriorsettings : Settings
     [Description("Set your Delay in MS (for bad PC´s) ")]
     public int Delay { get; set; }
 
-    private Warriorsettings()
+    private WarriorLevelSettings()
     {
         Framelock = false;
         Delay = 50;
     }
 
 
-    public static Warriorsettings CurrentSetting { get; set; }
+    public static WarriorLevelSettings CurrentSetting { get; set; }
 
 
     public bool Save()
     {
         try
         {
-            return Save(AdviserFilePathAndName("Warriorsettings", ObjectManager.Me.Name + "." + Usefuls.RealmName));
+            return Save(AdviserFilePathAndName("WarriorLevelSettings", ObjectManager.Me.Name + "." + Usefuls.RealmName));
         }
         catch (Exception e)
         {
-            Logging.WriteError("Warriorsettings > Save(): " + e);
+            Logging.WriteError("WarriorLevelSettings > Save(): " + e);
             return false;
         }
     }
@@ -56,17 +56,17 @@ public class Warriorsettings : Settings
     {
         try
         {
-            if (File.Exists(AdviserFilePathAndName("Warriorsettings", ObjectManager.Me.Name + "." + Usefuls.RealmName)))
+            if (File.Exists(AdviserFilePathAndName("WarriorLevelSettings", ObjectManager.Me.Name + "." + Usefuls.RealmName)))
             {
                 CurrentSetting =
-                    Load<Warriorsettings>(AdviserFilePathAndName("Warriorsettings", ObjectManager.Me.Name + "." + Usefuls.RealmName));
+                    Load<WarriorLevelSettings>(AdviserFilePathAndName("WarriorLevelSettings", ObjectManager.Me.Name + "." + Usefuls.RealmName));
                 return true;
             }
-            CurrentSetting = new Warriorsettings();
+            CurrentSetting = new WarriorLevelSettings();
         }
         catch (Exception e)
         {
-            Logging.WriteError("Warriorsettings > Load(): " + e);
+            Logging.WriteError("WarriorLevelSettings > Load(): " + e);
         }
         return false;
     }

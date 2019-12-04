@@ -21,7 +21,7 @@
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>bin\Debug\</OutputPath>
+    <OutputPath>E:\Games\BOT 3.3.5\WRobot\WRobot\FightClass\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -40,20 +40,20 @@
       <HintPath>..\packages\Costura.Fody.4.1.0\lib\net40\Costura.dll</HintPath>
     </Reference>
     <Reference Include="MahApps.Metro">
-      <HintPath>..\..\..\..\..\Documents\WRobot WotLK\Bin\MahApps.Metro.dll</HintPath>
+      <HintPath>E:\Games\BOT 3.3.5\WRobot\WRobot\Bin\MahApps.Metro.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="MarsSettingsGUI">
-      <HintPath>..\..\..\SettingsGUI\MarsSettingsGUI\bin\Debug\MarsSettingsGUI.dll</HintPath>
+      <HintPath>E:\Games\BOT 3.3.5\WRobot\WRobot\Products\MarsSettingsGUI.dll</HintPath>
     </Reference>
     <Reference Include="MemoryRobot">
-      <HintPath>..\..\..\..\..\Documents\WRobot WotLK\Bin\MemoryRobot.dll</HintPath>
+      <HintPath>E:\Games\BOT 3.3.5\WRobot\WRobot\Bin\MemoryRobot.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
     <Reference Include="robotManager">
-      <HintPath>..\..\..\..\..\Documents\WRobot WotLK\Bin\robotManager.dll</HintPath>
+      <HintPath>E:\Games\BOT 3.3.5\WRobot\WRobot\Bin\robotManager.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="System" />
@@ -65,37 +65,48 @@
     <Reference Include="System.Data" />
     <Reference Include="System.Net.Http" />
     <Reference Include="System.Xml" />
+    <Reference Include="UpdateManager">
+      <HintPath>E:\Games\BOT 3.3.5\WRobot\WRobot\Bin\UpdateManager.dll</HintPath>
+    </Reference>
     <Reference Include="WindowsBase" />
     <Reference Include="wManager">
-      <HintPath>..\..\..\..\..\Documents\WRobot WotLK\Bin\wManager.dll</HintPath>
+      <HintPath>E:\Games\BOT 3.3.5\WRobot\WRobot\Bin\wManager.dll</HintPath>
       <Private>False</Private>
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Druid\Druidsettings.cs" />
-    <Compile Include="Deathknight\Deathknight.cs" />
-    <Compile Include="Deathknight\DKSettings.cs" />
-    <Compile Include="Druid\Druid.cs" />
+    <Compile Include="Druid\DruidLevelSettings.cs" />
+    <Compile Include="Deathknight\DeathKnightLevel.cs" />
+    <Compile Include="Deathknight\DeathKnightLevelSettings.cs" />
+    <Compile Include="Druid\DruidLevel.cs" />
+    <Compile Include="Helpers\BossList.cs" />
     <Compile Include="Helpers\Extension.cs" />
-    <Compile Include="Hunter\Hunter.cs" />
-    <Compile Include="Hunter\Huntersettings.cs" />
-    <Compile Include="Mage\Mage.cs" />
+    <Compile Include="Helpers\Partystuff.cs" />
+    <Compile Include="Hunter\HunterBeastMastery.cs" />
+    <Compile Include="Hunter\HunterBeastMasterySettings.cs" />
+    <Compile Include="Hunter\HunterLevel.cs" />
+    <Compile Include="Hunter\HunterLevelSettings.cs" />
+    <Compile Include="Hunter\HunterMarksmanship.cs" />
+    <Compile Include="Hunter\HunterSurvival.cs" />
+    <Compile Include="Mage\MageLevel.cs" />
     <Compile Include="Mage\MageFoodManager.cs" />
-    <Compile Include="Mage\Magesettings.cs" />
+    <Compile Include="Mage\MageLevelSettings.cs" />
     <Compile Include="Main.cs" />
-    <Compile Include="Paladin\Paladin.cs" />
-    <Compile Include="Paladin\Paladinsettings.cs" />
-    <Compile Include="Priest\Priest.cs" />
-    <Compile Include="Priest\Priestsettings.cs" />
+    <Compile Include="Paladin\PaladinLevel.cs" />
+    <Compile Include="Paladin\PaladinRetribution.cs" />
+    <Compile Include="Paladin\PaladinRetributionSettings.cs" />
+    <Compile Include="Paladin\PaladinLevelSettings.cs" />
+    <Compile Include="Priest\PriestLevel.cs" />
+    <Compile Include="Priest\PriestLevelSettings.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Rogue\Rogue.cs" />
-    <Compile Include="Rogue\Roguesettings.cs" />
-    <Compile Include="Shaman\Shaman.cs" />
-    <Compile Include="Shaman\Shamansettings.cs" />
+    <Compile Include="Rogue\RogueLevel.cs" />
+    <Compile Include="Rogue\RogueLevelSettings.cs" />
+    <Compile Include="Shaman\ShamanLevel.cs" />
+    <Compile Include="Shaman\ShamanLevelSettings.cs" />
     <Compile Include="Shaman\TotemManager.cs" />
     <Compile Include="Warlock\Consumables.cs" />
-    <Compile Include="Warlock\Warlock.cs" />
-    <Compile Include="Warlock\Warlocksettings.cs" />
+    <Compile Include="Warlock\WarlockLevel.cs" />
+    <Compile Include="Warlock\WarlockLevelSettings.cs" />
     <Compile Include="Warrior\Warrior.cs" />
     <Compile Include="Warrior\Warriorsettingscs.cs" />
   </ItemGroup>

@@ -12,7 +12,7 @@ using wManager.Wow.ObjectManager;
 using MarsSettingsGUI;
 
 [Serializable]
-public class Warlocksettings : Settings
+public class WarlockLevelSettings : Settings
 {
     [Setting]
     [DefaultValue(false)]
@@ -32,8 +32,9 @@ public class Warlocksettings : Settings
     [DefaultValue(false)]
     [Category("Pet")]
     [DisplayName("Felguard")]
-    [Description("You have Felguard and want to use it? Choose this!")]
-    public bool Felguard { get; set; }
+    [Description("Set Combat Aura")]
+    [DropdownList(new string[] { "Felguard", "VoidWalker" })]
+    public string Pet { get; set; }
 
     [Setting]
     [DefaultValue(false)]
@@ -67,6 +68,13 @@ public class Warlocksettings : Settings
     public int UseWandTresh { get; set; }
 
     [Setting]
+    [DefaultValue(true)]
+    [Category("Fight")]
+    [DisplayName("Use Wand")]
+    [Description("Use Wand?")]
+    public bool UseWand { get; set; }
+
+    [Setting]
     [DefaultValue(50)]
     [Category("Fight")]
     [DisplayName("Health Funnel")]
@@ -81,32 +89,33 @@ public class Warlocksettings : Settings
     [Description("Use Unstable Affliction in Fight?")]
     public bool unstableaffl { get; set; }
 
-    private Warlocksettings()
+    private WarlockLevelSettings()
     {
         Framelock = false;
         Delay = 50;
-        Felguard = false;
+        Pet = "VoidWalker";
         Fear = false;
         Lifetap = 20;
         Drainlife = 40;
         Healthfunnel = 50;
         UseWandTresh = 20;
+        UseWand = true;
         unstableaffl = true;
     }
 
 
-    public static Warlocksettings CurrentSetting { get; set; }
+    public static WarlockLevelSettings CurrentSetting { get; set; }
 
 
     public bool Save()
     {
         try
         {
-            return Save(AdviserFilePathAndName("Warlocksettings", ObjectManager.Me.Name + "." + Usefuls.RealmName));
+            return Save(AdviserFilePathAndName("WarlockLevelSettings", ObjectManager.Me.Name + "." + Usefuls.RealmName));
         }
         catch (Exception e)
         {
-            Logging.WriteError("Warlocksettings > Save(): " + e);
+            Logging.WriteError("WarlockLevelSettings > Save(): " + e);
             return false;
         }
     }
@@ -115,17 +124,17 @@ public class Warlocksettings : Settings
     {
         try
         {
-            if (File.Exists(AdviserFilePathAndName("Warlocksettings", ObjectManager.Me.Name + "." + Usefuls.RealmName)))
+            if (File.Exists(AdviserFilePathAndName("WarlockLevelSettings", ObjectManager.Me.Name + "." + Usefuls.RealmName)))
             {
                 CurrentSetting =
-                    Load<Warlocksettings>(AdviserFilePathAndName("Warlocksettings", ObjectManager.Me.Name + "." + Usefuls.RealmName));
+                    Load<WarlockLevelSettings>(AdviserFilePathAndName("WarlockLevelSettings", ObjectManager.Me.Name + "." + Usefuls.RealmName));
                 return true;
             }
-            CurrentSetting = new Warlocksettings();
+            CurrentSetting = new WarlockLevelSettings();
         }
         catch (Exception e)
         {
-            Logging.WriteError("Warlocksettings > Load(): " + e);
+            Logging.WriteError("WarlockLevelSettings > Load(): " + e);
         }
         return false;
     }

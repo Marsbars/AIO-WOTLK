@@ -79,6 +79,7 @@
     <Compile Include="Deathknight\DeathKnightLevel.cs" />
     <Compile Include="Deathknight\DeathKnightLevelSettings.cs" />
     <Compile Include="Druid\DruidLevel.cs" />
+    <Compile Include="Helpers\BossList.cs" />
     <Compile Include="Helpers\Extension.cs" />
     <Compile Include="Helpers\Partystuff.cs" />
     <Compile Include="Hunter\HunterBeastMastery.cs" />

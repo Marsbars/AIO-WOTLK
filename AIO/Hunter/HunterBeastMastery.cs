@@ -137,7 +137,10 @@ public static class HunterBeastMastery
             Logging.Write("Interrupt Target Set" + Extension.InterruptableUnit(20f).Guid);
             Extension.FightSpell(Intimidation);
             }
-        Extension.FightSpell(BestialWrath);
+            if(BossList.isboss)
+            {
+            Extension.FightSpell(BestialWrath);
+            }
         //Ranged Attacks
         if (MyTarget.GetDistance >= 7)
         {
@@ -146,7 +149,10 @@ public static class HunterBeastMastery
             Extension.FightSpell(KillShot);
             }
             Extension.FightSpell(HuntersMark);
+            if(BossList.isboss)
+            {
             Extension.BuffSpell(RapidFire);
+            }
             if (!Me.HaveBuff("Kill Command"))
             {
                 Extension.FightSpell(KillCommand);

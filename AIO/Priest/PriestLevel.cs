@@ -142,8 +142,6 @@ public static class PriestLevel
             Thread.Sleep(PriestLevelSettings.CurrentSetting.Delay);
         }
         Logging.Write("STOPPED");
-        wManagerSetting.CurrentSetting.UseLuaToMove = false;
-        Logging.Write("Movement Lua disabled");
     }
 
     public static void ShowConfiguration() // When a configuration is declared

@@ -81,8 +81,12 @@
     <Compile Include="Druid\DruidLevel.cs" />
     <Compile Include="Helpers\Extension.cs" />
     <Compile Include="Helpers\Partystuff.cs" />
+    <Compile Include="Hunter\HunterBeastMastery.cs" />
+    <Compile Include="Hunter\HunterBeastMasterySettings.cs" />
     <Compile Include="Hunter\HunterLevel.cs" />
     <Compile Include="Hunter\HunterLevelSettings.cs" />
+    <Compile Include="Hunter\HunterMarksmanship.cs" />
+    <Compile Include="Hunter\HunterSurvival.cs" />
     <Compile Include="Mage\MageLevel.cs" />
     <Compile Include="Mage\MageFoodManager.cs" />
     <Compile Include="Mage\MageLevelSettings.cs" />

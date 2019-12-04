@@ -90,6 +90,6 @@ public class Main : ICustomClass
             );
         }
         var highestTalents = Talents.Max(x => x.Value);
-        return Talents.Where(t => t.Value == highestTalents).FirstOrDefault().Key;
+        return Talents.Where(t => t.Value == highestTalents).FirstOrDefault().Key.Replace(" ","");
     }
 }

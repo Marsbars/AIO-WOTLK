@@ -11,7 +11,7 @@ using System.Linq;
 using wManager.Events;
 
 
-public static class HunterLevel
+public static class HunterBeastMastery
 {
     private static bool _isLaunched;
     public static WoWUnit MyTarget { get { return ObjectManager.Target; } }
@@ -41,7 +41,7 @@ public static class HunterLevel
     public static Spell AspecoftheDragonhawk = new Spell("Aspect of the Dragonhawk"); //Highlevel Aspect
     public static Spell RapidFire = new Spell("Rapid Fire"); //for Multimobs
     public static Spell KillCommand = new Spell("Kill Command");
-    
+
     //Pet Management
     public static Spell RevivePet = new Spell("Revive Pet");
     public static Spell CallPet = new Spell("Call Pet");
@@ -53,14 +53,14 @@ public static class HunterLevel
     public static Spell Disengage = new Spell("Disengage");
     public static Spell FrostTrap = new Spell("Frost Trap");
     public static Spell FeignDeath = new Spell("Feign Death");
-    
+
     public static void Initialize() // When product started, initialize and launch Fightclass
     {
+        //HunterBeastMasterySettings.Load(); //to add  Settings later
         if (ObjectManager.Me.WowClass == WoWClass.Hunter)
         {
-            HunterLevelSettings.Load();
-            Logging.Write("Hunter Low Level  Class...loading...");
-            RangeManager();
+            HunterBeastMasterySettings.Load();
+            Logging.Write("Hunter Beastmaster Class...loading...");
             _isLaunched = true;
             Rotation();
         }
@@ -77,10 +77,10 @@ public static class HunterLevel
 
     public static void ShowConfiguration() // When a configuration is declared
     {
-        HunterLevelSettings.Load();
-        var settingWindow = new MarsSettingsGUI.SettingsWindow(HunterLevelSettings.CurrentSetting, ObjectManager.Me.WowClass.ToString());
+        HunterBeastMasterySettings.Load();
+        var settingWindow = new MarsSettingsGUI.SettingsWindow(HunterBeastMasterySettings.CurrentSetting, ObjectManager.Me.WowClass.ToString());
         settingWindow.ShowDialog();
-        HunterLevelSettings.CurrentSetting.Save();
+        HunterBeastMasterySettings.CurrentSetting.Save();
     }
 
 
@@ -96,21 +96,18 @@ public static class HunterLevel
                 {
                     if (!Me.InCombatFlagOnly)
                         BuffRotation(); // Out of Combat buffing
-
-                    PetRevivehandler(); //Handles Petrezz
-
-                    if (HunterLevelSettings.CurrentSetting.Petfeed)
+                    if (HunterBeastMasterySettings.CurrentSetting.Petfeed)
                         Feed(); //Sub for Petfeeding
                 }
                 else
                 {
-                    if (HunterLevelSettings.CurrentSetting.Framelock)
+                    if (HunterBeastMasterySettings.CurrentSetting.Framelock)
                         Extension.Framelock();
 
                     if (Fight.InFight && Me.Target > 0UL && ObjectManager.Target.IsAttackable)
                         CombatRotation();
 
-                    if (HunterLevelSettings.CurrentSetting.Framelock)
+                    if (HunterBeastMasterySettings.CurrentSetting.Framelock)
                         Extension.Frameunlock();
                 }
             }
@@ -118,7 +115,7 @@ public static class HunterLevel
             {
                 Logging.WriteError("error" + e);
             }
-            Thread.Sleep(HunterLevelSettings.CurrentSetting.Delay);
+            Thread.Sleep(HunterBeastMasterySettings.CurrentSetting.Delay);
         }
         Logging.Write("STOPPED");
     }
@@ -126,210 +123,84 @@ public static class HunterLevel
     private static void CombatRotation()
     {
         // Pet attack
-        if (Fight.InFight && Me.Target > 0UL && ObjectManager.Target.IsAttackable
-            && !ObjectManager.Pet.HaveBuff("Feed Pet Effect") && ObjectManager.Pet.Target != Me.Target)
+        if (Fight.InFight && Me.Target > 0UL 
+            && ObjectManager.Target.IsAttackable
+            && ObjectManager.Pet.Target != Me.Target)
             Lua.LuaDoString("PetAttack();", false);
 
-        //Pethandle in Fight
-        if (ObjectManager.Pet.HealthPercent < HunterLevelSettings.CurrentSetting.PetmendInFight
-            && PetHealTimer.IsReady)
-        {
-            Extension.PetSpell(MendPet);
-            PetHealTimer = new Timer(1000 * 15);
-            return;
-        }
-
-        if (Extension.InterruptableUnit(20f) != null && Intimidation.KnownSpell && Intimidation.IsSpellUsable)
-        {
+        if (Extension.InterruptableUnit(20f) != null 
+            && Intimidation.KnownSpell 
+            && Intimidation.IsSpellUsable)
+            {
             Logging.Write("Interrupt Target found");
             ObjectManager.Me.Target = Extension.InterruptableUnit(20f).Guid;
             Logging.Write("Interrupt Target Set" + Extension.InterruptableUnit(20f).Guid);
             Extension.FightSpell(Intimidation);
-        }
-
-        if (ObjectManager.Target.IsElite || Extension.GetAttackingUnits(20).Count() > 1)
-        {
-            Extension.FightSpell(BestialWrath);
-        }
-
-        if (ObjectManager.Target.IsElite || Extension.GetAttackingUnits(20).Count() > 2)
-        {
-            Extension.BuffSpell(RapidFire);
-        }
-
+            }
+        Extension.FightSpell(BestialWrath);
         //Ranged Attacks
         if (MyTarget.GetDistance >= 7)
         {
-            Extension.FightSpell(HuntersMark);
-
-            if (!Me.HaveBuff("Kill Command"))
-                Extension.FightSpell(KillCommand);
-
-            if (MyTarget.HealthPercent > 40)
+            if(MyTarget.HealthPercent < 20)
             {
-                Extension.FightSpell(SerpentSting);
+            Extension.FightSpell(KillShot);
             }
-                Extension.FightSpell(ArcaneShot);
-            
-            if (MultiShotFeigndeath.IsReady && HunterLevelSettings.CurrentSetting.MultiS)
-                Extension.FightSpell(MultiShot);
-
+            Extension.FightSpell(HuntersMark);
+            Extension.BuffSpell(RapidFire);
+            if (!Me.HaveBuff("Kill Command"))
+            {
+                Extension.FightSpell(KillCommand);
+            }
+            Extension.FightSpell(SerpentSting);         
+            Extension.FightSpell(ArcaneShot);
+            Extension.FightSpell(MultiShot);
             Extension.FightSpell(SteadyShot, false, false, true);
 
-            if (MyTarget.HealthPercent < 20)
-                Extension.FightSpell(KillShot);
-
-            if (Me.ManaPercentage < HunterLevelSettings.CurrentSetting.AspecofViper)
+            if (Me.ManaPercentage < HunterBeastMasterySettings.CurrentSetting.AspecofViper)
+            {
                 Extension.BuffSpell(AspecoftheViper);
-
+            }
             if (Me.ManaPercentage > 30)
+            {
                 Extension.BuffSpell(AspecoftheDragonhawk);
-
+            }
             if (!AspecoftheDragonhawk.KnownSpell && Me.ManaPercentage > 30)
+            {
                 Extension.BuffSpell(AspecoftheHawk);
+            }
         }
-
         //Close  Combat  Attacks
         if (MyTarget.GetDistance <= 6)
         {
             Extension.FightSpell(RaptorStrike);
-
-            if (!MyTarget.IsTargetingMe && ObjectManager.Pet.IsAlive && HunterLevelSettings.CurrentSetting.Dis)
-                Extension.BuffSpell(Disengage);
-
-            if (MyTarget.IsTargetingMe && ObjectManager.Pet.IsAlive)
-            {
-                Extension.BuffSpell(FeignDeath);
-                Thread.Sleep(1500);
-                MultiShotFeigndeath = new Timer(1000 * 5);
-                return;
-            }
-
-            if (AspecoftheDragonhawk.KnownSpell)
-                Extension.BuffSpell(AspecoftheDragonhawk);
-        }
-
-    }
-
-    private static void Checkhostile()
-    {
-        if (ObjectManager.GetWoWUnitHostile().Any(x => x.Position.DistanceTo(ObjectManager.Me.Position) < 20) && !ObjectManager.Me.IsMounted)
-        {
-            MovementManager.StopMove();
-            Fight.StartFight(ObjectManager.GetWoWUnitAttackables().OrderBy(x => x.Position.DistanceTo(ObjectManager.Me.Position)).FirstOrDefault().Guid);
-        }
-    }
-
-    private static void RangeManager()
-    {
-        if (HunterLevelSettings.CurrentSetting.Backpaddle)
-        { 
-            wManager.Events.FightEvents.OnFightLoop += (unit, cancelable) =>
-            {
-                if (ObjectManager.Target.GetDistance < 7 && ObjectManager.Target.IsTargetingMyPet)
-                {
-
-                    var xvector = (ObjectManager.Me.Position.X) - (ObjectManager.Target.Position.X);
-                    var yvector = (ObjectManager.Me.Position.Y) - (ObjectManager.Target.Position.Y);
-
-                    Vector3 newpos = new Vector3()
-                    {
-                        X = ObjectManager.Me.Position.X + (float)((xvector * (10 / ObjectManager.Target.GetDistance) - xvector)),
-                        Y = ObjectManager.Me.Position.Y + (float)((yvector * (10 / ObjectManager.Target.GetDistance) - yvector)),
-                        Z = ObjectManager.Me.Position.Z
-                    };
-                    MovementManager.Go(PathFinder.FindPath(newpos), false);
-                    Thread.Sleep(1500);
-                }
-            };
-        }
-    }
-
-    #region Multitarget
-    public static void Multitarget()
-    {
-        FightEvents.OnFightLoop += (unit, cancelable) => { // this code will loop everytime you are fighting
-            var unitsAffectingMyCombat = ObjectManager.GetUnitAttackPlayer();
-            var unitsAttackMe = unitsAffectingMyCombat.Where(u => u != null && u.IsValid && u.IsTargetingMe).ToList();
-
-            if (unitsAttackMe.Count > 1 && ObjectManager.Pet.IsAlive && ObjectManager.Pet.IsValid)
-            {
-                var unitToAttack = unitsAttackMe.FirstOrDefault(u => u != null && u.IsValid && !u.IsMyPetTarget);
-                if (unitToAttack != null && unitToAttack.IsValid && unitToAttack.IsAlive)
-                {
-                    if (!unitToAttack.IsMyTarget)
-                        Interact.InteractGameObject(unitToAttack.GetBaseAddress, !ObjectManager.Me.GetMove);
-                    if (unitToAttack.IsMyTarget)
-                        Lua.LuaDoString("PetAttack();");
-                    Logging.Write("PET ATTACKING: " + unitToAttack);
-                }
-            }
-
-            //IF ALL THE MOBS ARE ATTACKING THE PET FOCUS THE LOWER HP ONE
-            else
-            {
-                var unitsAttackPet = unitsAffectingMyCombat.Where(u => u != null && u.IsValid && u.IsTargetingMyPet).ToList();
-                var lowerHpUnit = unitsAttackPet.OrderBy(uu => uu.HealthPercent).FirstOrDefault();
-                if (lowerHpUnit != null && lowerHpUnit.IsValid && lowerHpUnit.IsAlive && !lowerHpUnit.IsMyPetTarget)
-                {
-                    if (!lowerHpUnit.IsMyTarget)
-                        Interact.InteractGameObject(lowerHpUnit.GetBaseAddress, !ObjectManager.Me.GetMove);
-                    if (lowerHpUnit.IsMyTarget)
-                        Lua.LuaDoString("PetAttack();");
-                    Logging.Write("PET ATTACKING LOWER HP: " + lowerHpUnit);
-                }
-            }
-        };
-    }
-    #endregion
-
-    private static void PetRevivehandler()
-    {
-        if (RevivePet.IsSpellUsable
-            && RevivePet.KnownSpell
-            && ObjectManager.Pet.IsDead
-            && !ObjectManager.Me.IsMounted)
-        {
-            RevivePet.Launch();
-            Usefuls.WaitIsCasting();
-        }
-
-        if (CallPet.IsSpellUsable
-            && CallPet.KnownSpell
-            && !ObjectManager.Pet.IsValid
-            && !ObjectManager.Me.IsMounted)
-        {
-            CallPet.Launch();
-            Usefuls.WaitIsCasting();
         }
 
     }
 
     private static void BuffRotation()
     {
-        if (Me.ManaPercentage < HunterLevelSettings.CurrentSetting.AspecofViper)
+        if (Me.ManaPercentage < HunterBeastMasterySettings.CurrentSetting.AspecofViper)
+        {
             Extension.BuffSpell(AspecoftheViper);
-        
-        if (AspecoftheCheetah.KnownSpell && HunterLevelSettings.CurrentSetting.Cheetah)
-            Extension.BuffSpell(AspecoftheCheetah);
-
+        }
         if (!AspecoftheDragonhawk.KnownSpell && !AspecoftheCheetah.HaveBuff
             && (Me.ManaPercentage > 90 || !AspecoftheViper.KnownSpell))
-            Extension.BuffSpell(AspecoftheHawk);
-
-        if (Me.ManaPercentage > 90 && !AspecoftheCheetah.HaveBuff)
-            Extension.BuffSpell(AspecoftheDragonhawk);
-
-        if (HunterLevelSettings.CurrentSetting.Checkpet)
         {
-            if (ObjectManager.Pet.IsAlive && ObjectManager.Pet.IsValid 
-                && ObjectManager.Pet.HealthPercent < HunterLevelSettings.CurrentSetting.PetHealth)
+            Extension.BuffSpell(AspecoftheHawk);
+        }
+        if (Me.ManaPercentage > 90 && !AspecoftheCheetah.HaveBuff)
+        {
+            Extension.BuffSpell(AspecoftheDragonhawk);
+        }
+        if (HunterBeastMasterySettings.CurrentSetting.Checkpet)
+        {
+            if (ObjectManager.Pet.IsAlive && ObjectManager.Pet.IsValid
+                && ObjectManager.Pet.HealthPercent < HunterBeastMasterySettings.CurrentSetting.PetHealth)
                 if (PetHealTimer.IsReady)
                 {
                     Extension.PetSpell(MendPet);
                     PetHealTimer = new Timer(1000 * 15);
                 }
-            Thread.Sleep(1000);
             return;
         }
     }

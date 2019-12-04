@@ -12,7 +12,7 @@ using wManager.Wow.ObjectManager;
 using MarsSettingsGUI;
 
 [Serializable]
-public class HunterLevelSettings : Settings
+public class HunterBeastMasterySettings : Settings
 {
     [Setting]
     [DefaultValue(false)]
@@ -29,48 +29,12 @@ public class HunterLevelSettings : Settings
     public int Delay { get; set; }
 
     [Setting]
-    [DefaultValue(true)]
-    [Category("Fight")]
-    [DisplayName("Aspect of the Cheetah")]
-    [Description("Should use ASpect of Cheetah before level 20?")]
-    public bool Cheetah { get; set; }
-
-    [Setting]
-    [DefaultValue(20)]
+    [DefaultValue(10)]
     [Category("Fight")]
     [DisplayName("Aspect of the Viper")]
     [Description("Set the your  Mana  Treshold when to use AotV")]
     [Percentage(true)]
     public int AspecofViper { get; set; }
-
-    [Setting]
-    [DefaultValue(false)]
-    [Category("Fight")]
-    [DisplayName("Disengage")]
-    [Description("Use  Disengage?")]
-    public bool Dis { get; set; }
-
-    [Setting]
-    [DefaultValue(false)]
-    [Category("Fight")]
-    [DisplayName("Multishot")]
-    [Description("Use  Multishot?")]
-    public bool MultiS { get; set; }
-
-    [Setting]
-    [DefaultValue(99)]
-    [Category("Fight")]
-    [DisplayName("Pet Health in Fight")]
-    [Description("Define when to heal Pet Infight!")]
-    [Percentage(true)]
-    public int PetmendInFight { get; set; }
-
-    [Setting]
-    [DefaultValue(true)]
-    [Category("Fight")]
-    [DisplayName("Backpaddle")]
-    [Description("Auto Backpaddle?")]
-    public bool Backpaddle { get; set; }
 
     [Setting]
     [DefaultValue(true)]
@@ -82,33 +46,28 @@ public class HunterLevelSettings : Settings
     [Setting]
     [DefaultValue(true)]
     [Category("Pet")]
-    [DisplayName("Pet Health OOC")]
-    [Description("Should Check Pet Health before attack?")]
+    [DisplayName("Pet Healing OOC")]
+    [Description("Should Check Pet Health for Heal OOC?")]
     public bool Checkpet { get; set; }
 
     [Setting]
     [DefaultValue(80)]
     [Category("Pet")]
     [DisplayName("Pet Health OOC")]
-    [Description("Set Treshhold for Petattack?")]
+    [Description("Set Treshhold for Pet Heal OOC?")]
     [Percentage(true)]
     public int PetHealth { get; set; }
 
-    public static HunterLevelSettings CurrentSetting { get; set; }
+    public static HunterBeastMasterySettings CurrentSetting { get; set; }
 
-    private HunterLevelSettings()
+    private HunterBeastMasterySettings()
     {
 
         Framelock = false;
         PetHealth = 80;
         AspecofViper = 20;
-        PetmendInFight = 99;
-        MultiS = false;
-        Backpaddle = true;
         Checkpet = true;
-        Cheetah = true;
         Petfeed = true;
-        Dis = false;
         Delay = 50;
 
     }
@@ -121,7 +80,7 @@ public class HunterLevelSettings : Settings
         }
         catch (Exception e)
         {
-            Logging.WriteError("HunterLevelSettings > Save(): " + e);
+            Logging.WriteError("HunterBeastMasterySettings > Save(): " + e);
             return false;
         }
     }
@@ -133,15 +92,15 @@ public class HunterLevelSettings : Settings
             if (File.Exists(AdviserFilePathAndName("Hunter Settings", ObjectManager.Me.Name + "." + Usefuls.RealmName)))
             {
                 CurrentSetting =
-                    Load<HunterLevelSettings>(AdviserFilePathAndName("Hunter Settings",
+                    Load<HunterBeastMasterySettings>(AdviserFilePathAndName("Hunter Settings",
                                                                  ObjectManager.Me.Name + "." + Usefuls.RealmName));
                 return true;
             }
-            CurrentSetting = new HunterLevelSettings();
+            CurrentSetting = new HunterBeastMasterySettings();
         }
         catch (Exception e)
         {
-            Logging.WriteError("HunterLevelSettings > Load(): " + e);
+            Logging.WriteError("HunterBeastMasterySettings > Load(): " + e);
         }
         return false;
     }

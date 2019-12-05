@@ -58,6 +58,9 @@ public static class Mage
             Logging.Write("Mage Low Level  Class...loading...");
             #endregion
             MageLevelSettings.Load();
+            Talents.InitTalents(MageLevelSettings.CurrentSetting.AssignTalents,
+                                MageLevelSettings.CurrentSetting.UseDefaultTalents,
+                                MageLevelSettings.CurrentSetting.TalentCodes.ToArray());
             Logging.Write("Mage Low Level Class...loading...");
             RangeManager();
             //TargetSwitcher();
@@ -133,7 +136,7 @@ public static class Mage
 
     private static void CombatRotation()
     {
-        if(Me.ManaPercentage < MageLevelSettings.CurrentSetting.Manastone)
+        if (Me.ManaPercentage < MageLevelSettings.CurrentSetting.Manastone)
         {
             _foodManager.UseManaStone();
         }
@@ -164,19 +167,19 @@ public static class Mage
             Logging.Write("Interrupt Target Set" + Extension.InterruptableUnit(20f).Guid);
             Extension.FightSpell(CounterSpell, true);
         }
-        if(Me.HaveBuff("Fireball!"))
-            {
+        if (Me.HaveBuff("Fireball!"))
+        {
             Extension.FightSpell(FrostFirebolt);
-            }
-        if(!IceBarrier.IsSpellUsable && !IceBlock.IsSpellUsable)
+        }
+        if (!IceBarrier.IsSpellUsable && !IceBlock.IsSpellUsable)
         {
             Extension.BuffSpell(ColdSnap);
         }
-        if(Me.HealthPercent < 15 && Extension.GetAttackingUnits(20).Count() >=2)
+        if (Me.HealthPercent < 15 && Extension.GetAttackingUnits(20).Count() >= 2)
         {
             Extension.BuffSpell(Evocation);
         }
-        if(Me.HealthPercent < 14 && !IceBarrier.IsSpellUsable)
+        if (Me.HealthPercent < 14 && !IceBarrier.IsSpellUsable)
         {
             Extension.BuffSpell(IceBlock);
         }
@@ -184,7 +187,7 @@ public static class Mage
         {
             Extension.BuffSpell(IceBarrier);
         }
-        if(Extension.GetAttackingUnits(25).Count() >= 3 || MyTarget.IsElite)
+        if (Extension.GetAttackingUnits(25).Count() >= 3 || MyTarget.IsElite)
         {
             Extension.FightSpell(MirrorImage);
             Extension.FightSpell(SummonWaterElemental);
@@ -195,20 +198,20 @@ public static class Mage
             Extension.FightSpell(SummonWaterElemental);
         }
         Extension.FightSpell(DeepFreeze);
-        if(Me.HaveBuff("Fingers of Frost") || MyTarget.HaveBuff(FrostNova.Id))
+        if (Me.HaveBuff("Fingers of Frost") || MyTarget.HaveBuff(FrostNova.Id))
         {
             Extension.FightSpell(IceLance);
         }
-        if(!Frostbolt.KnownSpell)
+        if (!Frostbolt.KnownSpell)
         {
             Extension.FightSpell(Fireball, false, false, false, false);
         }
-        Extension.FightSpell(Frostbolt, false,false,false,false);
-        if(MyTarget.HealthPercent < 10)
+        Extension.FightSpell(Frostbolt, false, false, false, false);
+        if (MyTarget.HealthPercent < 10)
         {
             Extension.FightSpell(FireBlast);
         }
-        if(MyTarget.GetDistance <7)
+        if (MyTarget.GetDistance < 7)
         {
             Extension.FightSpell(FrostNova);
         }
@@ -219,12 +222,12 @@ public static class Mage
     private static void BuffRotation()
     {
         Extension.BuffSpell(ArcaneIntellect);
-        if(!IceArmor.KnownSpell)
+        if (!IceArmor.KnownSpell)
         {
             Extension.BuffSpell(FrostArmor);
         }
-        Extension.BuffSpell(IceArmor);    
-        if(Me.HealthPercent < 37 || Me.ManaPercentage <37)
+        Extension.BuffSpell(IceArmor);
+        if (Me.HealthPercent < 37 || Me.ManaPercentage < 37)
         {
             Extension.BuffSpell(Evocation);
         }
@@ -302,20 +305,20 @@ public static class Mage
     {
         wManager.Events.FightEvents.OnFightLoop += (unit, cancelable) => {
             if (MyTarget.GetDistance < 6 && MyTarget.HaveBuff(FrostNova.Id))
+            {
+
+                var xvector = (ObjectManager.Me.Position.X) - (ObjectManager.Target.Position.X);
+                var yvector = (ObjectManager.Me.Position.Y) - (ObjectManager.Target.Position.Y);
+
+                Vector3 newpos = new Vector3()
                 {
-
-                    var xvector = (ObjectManager.Me.Position.X) - (ObjectManager.Target.Position.X);
-                    var yvector = (ObjectManager.Me.Position.Y) - (ObjectManager.Target.Position.Y);
-
-                    Vector3 newpos = new Vector3()
-                    {
-                        X = ObjectManager.Me.Position.X + (float)((xvector * (20 / ObjectManager.Target.GetDistance) - xvector)),
-                        Y = ObjectManager.Me.Position.Y + (float)((yvector * (20 / ObjectManager.Target.GetDistance) - yvector)),
-                        Z = ObjectManager.Me.Position.Z
-                    };
-                    MovementManager.Go(PathFinder.FindPath(newpos), false);
-                    Thread.Sleep(1500);
-                }
+                    X = ObjectManager.Me.Position.X + (float)((xvector * (20 / ObjectManager.Target.GetDistance) - xvector)),
+                    Y = ObjectManager.Me.Position.Y + (float)((yvector * (20 / ObjectManager.Target.GetDistance) - yvector)),
+                    Z = ObjectManager.Me.Position.Z
+                };
+                MovementManager.Go(PathFinder.FindPath(newpos), false);
+                Thread.Sleep(1500);
+            }
         };
     }
 }

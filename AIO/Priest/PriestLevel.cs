@@ -84,9 +84,11 @@ public static class PriestLevel
             #region Loggin Settings
             Logging.Write("Priest Low Level Class...loading...");
             #endregion
-            wManagerSetting.CurrentSetting.UseLuaToMove = true;
             Logging.Write("Movement Lua enabled");
             PriestLevelSettings.Load();
+            Talents.InitTalents(PriestLevelSettings.CurrentSetting.AssignTalents,
+                                PriestLevelSettings.CurrentSetting.UseDefaultTalents,
+                                PriestLevelSettings.CurrentSetting.TalentCodes.ToArray());
             Logging.Write("PriestLevelSettings Loaded");
             _isLaunched = true;
             Rotation();
@@ -156,7 +158,7 @@ public static class PriestLevel
     private static void CombatRotation()
     {
         Extension.BuffSpell(ShadowForm);
-        if(Extension.GetAttackingUnits(6).Count() > 1)
+        if (Extension.GetAttackingUnits(6).Count() > 1)
         {
             Extension.FightSpell(PsychicScream);
         }
@@ -168,8 +170,8 @@ public static class PriestLevel
         {
             Extension.FightSpell(UseWand);
         }
-        if(_icanusewand 
-            && PriestLevelSettings.CurrentSetting.UseWand 
+        if (_icanusewand
+            && PriestLevelSettings.CurrentSetting.UseWand
             && MyTarget.HealthPercent < PriestLevelSettings.CurrentSetting.UseWandTresh)
         {
             Extension.FightSpell(UseWand);
@@ -268,9 +270,9 @@ public static class PriestLevel
                 Extension.BuffSpell(VampiricEmbrace);
             }
             Extension.FightSpell(MindBlast);
-            if(MyTarget.HaveBuff(ShadowWordPain.Id) && PriestLevelSettings.CurrentSetting.UseMindflay)
+            if (MyTarget.HaveBuff(ShadowWordPain.Id) && PriestLevelSettings.CurrentSetting.UseMindflay)
             {
-            Extension.FightSpell(MindFlay);
+                Extension.FightSpell(MindFlay);
             }
         }
         if (Me.Level > 49 && Me.Level < 60)
@@ -335,10 +337,10 @@ public static class PriestLevel
                 Extension.FightSpell(ShadowFiend);
             }
             Extension.FightSpell(MindBlast);
-            if (MyTarget.HaveBuff(VampiricTouch.Id) 
+            if (MyTarget.HaveBuff(VampiricTouch.Id)
                 && MyTarget.HaveBuff(ShadowWordPain.Id) && PriestLevelSettings.CurrentSetting.UseMindflay)
             {
-            Extension.FightSpell(MindFlay);
+                Extension.FightSpell(MindFlay);
             }
         }
         Extension.Frameunlock();
@@ -383,9 +385,9 @@ public static class PriestLevel
         {
             Extension.HealSpell(FlashHeal);
         }
-        if(Me.HealthPercent < 90 && Extension.GetAttackingUnits(20).Count() == 0)
+        if (Me.HealthPercent < 90 && Extension.GetAttackingUnits(20).Count() == 0)
         {
-            
+
             Extension.HealSpell(Renew);
             Extension.HealSpell(FlashHeal);
         }

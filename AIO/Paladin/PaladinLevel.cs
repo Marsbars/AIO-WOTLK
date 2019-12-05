@@ -69,6 +69,9 @@ public static class PaladinLevel
             //Radar3D.Pulse();
             _isLaunched = true;
             PaladinLevelSettings.Load();
+            Talents.InitTalents(PaladinLevelSettings.CurrentSetting.AssignTalents,
+                                PaladinLevelSettings.CurrentSetting.UseDefaultTalents,
+                                PaladinLevelSettings.CurrentSetting.TalentCodes.ToArray());
             Logging.Write("Paladin Low Level  Class...loading...");
             Rotation();
         }
@@ -158,16 +161,16 @@ public static class PaladinLevel
         {
             Extension.FightSpell(HandofReckoning, false);
         }
-        if(Extension.GetAttackingUnits(20).Count() >= 3)
+        if (Extension.GetAttackingUnits(20).Count() >= 3)
         {
-        Extension.BuffSpell(AvengingWrath);
+            Extension.BuffSpell(AvengingWrath);
         }
         Extension.FightSpell(HammerofWrath, false);
         if (!JudgementofWisdom.KnownSpell)
         {
             Extension.FightSpell(JudgementofLight, false);
         }
-        Extension.FightSpell(JudgementofWisdom, false);        
+        Extension.FightSpell(JudgementofWisdom, false);
         Extension.FightSpell(CrusaderStrike, false);
         Extension.FightSpell(DivineStorm, false);
         if (Me.Level < 43 && MyTarget.HealthPercent > 25) //new
@@ -221,12 +224,12 @@ public static class PaladinLevel
             {
                 Extension.BuffSpell(DivinePlea, false);
             }
-            if (Extension.GetAttackingUnits(20).Count() >2 && PaladinLevelSettings.CurrentSetting.SShield)
+            if (Extension.GetAttackingUnits(20).Count() > 2 && PaladinLevelSettings.CurrentSetting.SShield)
             {
                 Extension.BuffSpell(SacredShield, false);
                 return;
             }
-            if(Me.HealthPercent < 15 && PaladinLevelSettings.CurrentSetting.LayOnHands && !Me.HaveBuff("Forbearance"))
+            if (Me.HealthPercent < 15 && PaladinLevelSettings.CurrentSetting.LayOnHands && !Me.HaveBuff("Forbearance"))
             {
 
             }

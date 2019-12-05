@@ -46,6 +46,9 @@ public static class Warrior
     {
 
         WarriorLevelSettings.Load();
+        Talents.InitTalents(WarriorLevelSettings.CurrentSetting.AssignTalents,
+                            WarriorLevelSettings.CurrentSetting.UseDefaultTalents,
+                            WarriorLevelSettings.CurrentSetting.TalentCodes.ToArray());
         {
             _isLaunched = true;
             Logging.Write("Warrior Low Level Class...loading...");

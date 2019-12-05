@@ -105,9 +105,12 @@ public static class DruidLevel
         {
             _isLaunched = true;
             DruidLevelSettings.Load();
+            Talents.InitTalents(DruidLevelSettings.CurrentSetting.AssignTalents,
+                                DruidLevelSettings.CurrentSetting.UseDefaultTalents,
+                                DruidLevelSettings.CurrentSetting.TalentCodes.ToArray());
             Logging.Write("Druid Low Level Class...loading...");
             Groundmount = wManager.wManagerSetting.CurrentSetting.GroundMountName;
-            if(wManager.wManagerSetting.CurrentSetting.GroundMountName == string.Empty)
+            if (wManager.wManagerSetting.CurrentSetting.GroundMountName == string.Empty)
             {
                 wManager.wManagerSetting.CurrentSetting.GroundMountName = "Travel Form";
             }
@@ -231,7 +234,7 @@ public static class DruidLevel
             {
                 Extension.HealSpell(Regrowth);
             }
-            if(Me.Energy < 40 && Me.ComboPoint > 1 && MyTarget.HealthPercent > 40)
+            if (Me.Energy < 40 && Me.ComboPoint > 1 && MyTarget.HealthPercent > 40)
             {
                 Extension.BuffSpell(TigersFury);
             }
@@ -245,23 +248,23 @@ public static class DruidLevel
                 {
                     Extension.BuffSpell(BearForm);
                 }
-                if(!Me.HaveBuff(DireBearForm.Id))
-                    {
+                if (!Me.HaveBuff(DireBearForm.Id))
+                {
                     Extension.BuffSpell(DireBearForm);
-                    }
-                if(Me.Rage > 16)
+                }
+                if (Me.Rage > 16)
                 {
                     Extension.FightSpell(Maul);
-                }           
+                }
                 Extension.FightSpell(MangleBear, false, false, false, false);
                 Extension.FightSpell(FaerieFireFeral);
-                if(Extension.GetAttackingUnits(10).Count() > 3)
+                if (Extension.GetAttackingUnits(10).Count() > 3)
                 {
                     Extension.FightSpell(DemoralizingRoar);
                 }
-                        
+
             }
-            if(Extension.GetAttackingUnits(20).Count() < 2)
+            if (Extension.GetAttackingUnits(20).Count() < 2)
             {
                 if (!Me.HaveBuff(CatForm.Id))
                 {
@@ -303,7 +306,7 @@ public static class DruidLevel
                 }
                 if (MangleCat.KnownSpell && Me.ComboPoint <= 4)
                 {
-                    Extension.FightSpell(MangleCat,false,false,false,false);
+                    Extension.FightSpell(MangleCat, false, false, false, false);
                 }
                 if (MyTarget.HealthPercent < DruidLevelSettings.CurrentSetting.FBH && Me.ComboPoint >= DruidLevelSettings.CurrentSetting.FBC)
                 {
@@ -370,7 +373,7 @@ public static class DruidLevel
         }
         if (Me.Rage < 20)
         {
-        Extension.BuffSpell(Thorns);
+            Extension.BuffSpell(Thorns);
         }
         if (!Me.HaveBuff(CatForm.Id) && Me.HaveBuff(Thorns.Id) && Me.HaveBuff(MarkoftheWild.Id) && !Me.IsMounted && wManager.wManagerSetting.CurrentSetting.GroundMountName == string.Empty)
         {

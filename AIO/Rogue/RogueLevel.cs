@@ -54,6 +54,9 @@ public static class RogueLevel
         {
             _isLaunched = true;
             RogueLevelSettings.Load();
+            Talents.InitTalents(RogueLevelSettings.CurrentSetting.AssignTalents,
+                                RogueLevelSettings.CurrentSetting.UseDefaultTalents,
+                                RogueLevelSettings.CurrentSetting.TalentCodes.ToArray());
             Logging.Write("Rogue Low Level Class...loading...");
             Rotation();
         }

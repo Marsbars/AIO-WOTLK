@@ -173,11 +173,11 @@ public static class PaladinLevel
         Extension.FightSpell(JudgementofWisdom, false);
         Extension.FightSpell(CrusaderStrike, false);
         Extension.FightSpell(DivineStorm, false);
-        if (Me.Level < 43 && MyTarget.HealthPercent > 25) //new
+        if (Me.Level < 43 && MyTarget.HealthPercent > 25 && Extension.GetAttackingUnits(10).Count() > 1) //new
         {
             Extension.FightSpell(Consecration, false);
         }
-        if (Me.Level > 42 && Extension.GetAttackingUnits(20).Count() > 1) //new
+        if (Me.Level > 42 && Extension.GetAttackingUnits(10).Count() > 1) //new
         {
             Extension.FightSpell(Consecration, false);
         }

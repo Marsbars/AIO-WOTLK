@@ -108,7 +108,7 @@
     <Compile Include="Warlock\Consumables.cs" />
     <Compile Include="Warlock\WarlockLevel.cs" />
     <Compile Include="Warlock\WarlockLevelSettings.cs" />
-    <Compile Include="Warrior\Warrior.cs" />
+    <Compile Include="Warrior\WarriorLevel.cs" />
     <Compile Include="Warrior\Warriorsettingscs.cs" />
   </ItemGroup>
   <ItemGroup>

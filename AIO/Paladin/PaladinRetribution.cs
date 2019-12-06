@@ -188,7 +188,8 @@ public class PaladinRetribution
                 //Interact.InteractGameObject(healTarget.GetBaseAddress, false);
                 if (Lua.LuaDoString<bool>("for j=1,40 do local m=5; local d={UnitDebuff(\"{healTarget}\",j)}; if (d[5]==\"Poison\" or d[5]==\"Disease\") and d[7]>m then j=41 return 1 end end;"))
                 {
-                    Extension.GroupHealSpell(Purify, healTarget);
+                    ObjectManager.Me.FocusGuid = healTarget.Guid;
+                    Extension.HealSpell(Purify,false,false, true);
                     Logging.WriteDebug("Purified " + healTarget.Name);
                     return;
                 }

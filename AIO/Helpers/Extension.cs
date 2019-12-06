@@ -115,44 +115,98 @@ class Extension
         return false;
     }
 
-    public static bool GroupHealSpell(Spell spell, WoWUnit target, int buffTimeLeft = 0, int stacks = 0, Spel﻿l debuff = null, bool owner = true)
+    public static bool GroupHealSpell(Spell spell, int setting, int playercount = 0)
     {
-        bool hasDebuff;
-        if (debuff != null)
+        if(!spell.KnownSpell || !spell.IsSpellUsable || !spell.IsDistanceGood)
         {
-            hasDebuff = Extension.HasBuff(debuff, target, buffTimeLeft, stacks, owner);
+            return false;
         }
-        else
-        {
-            hasDebuff = Extension.HasBuff(spell, target, buffTimeLeft, stacks, owner);
-        }
+        var members = Partystuff.getPartymembers().Where(o => o.IsValid
+        && o.IsAlive
+        && o.HealthPercent <= setting
+        && !TraceLine.TraceLineGo(o.Position)).OrderBy(o => o.HealthPercent);
 
-        // Validate spell
-        if (!ObjectManager.Me.IsStunned && !ObjectManager.Me.IsDead && !ObjectManager.Me.IsCast && !target.IsDead && spell.KnownSpell && spell.IsSpellUsable && spell.IsDistanceGood && !hasDebuff)
+        if (members.Count() > playercount)
         {
-            if (target.Guid == ObjectManager.Me.Guid)
+            var u = members.First();
+            WoWPlayer healtarget = new WoWPlayer(u.GetBaseAddress);
+            if (!TraceLine.TraceLineGo(healtarget.Position) && healtarget.IsAlive)
             {
-                // Cast on self
-                Lua.LuaDoString($"CastSpellByID({spell.Id}, \"player\")");
-                Usefuls.WaitIsCasting();
+                ObjectManager.Me.FocusGuid = healtarget.Guid;
+                Extension.HealSpell(spell, false, false, true);
+                Logging.Write("Cast" + spell + "on " + healtarget);
+                return true;
             }
-            else
-            {
-                // Cast on target
-                Lua.LuaDoString($"CastSpellByID({spell.Id}, \"{target.Name}\")");
-                Usefuls.WaitIsCasting();
-            }
-
-            // Log
-            Logging.WriteDebug($"Cast: {spell.NameInGame}");
-
-            // Return
-            return true;
         }
-
-        // Return
         return false;
     }
+
+    public static bool TankHealSpell(Spell spell, int setting, int playercount = 0)
+    {
+        if (!spell.KnownSpell || !spell.IsSpellUsable || !spell.IsDistanceGood)
+        {
+            return false;
+        }
+        var members = Partystuff.getTanks().Where(o => o.IsValid
+        && o.IsAlive
+        && o.HealthPercent <= setting
+        && !TraceLine.TraceLineGo(o.Position)).OrderBy(o => o.HealthPercent);
+
+        if (members.Count() > playercount)
+        {
+            var u = members.First();
+            WoWPlayer tank = new WoWPlayer(u.GetBaseAddress);
+            if (!TraceLine.TraceLineGo(tank.Position) && tank.IsAlive)
+            {
+                ObjectManager.Me.FocusGuid = tank.Guid;
+                Extension.HealSpell(spell, false, false, true);
+                Logging.Write("Cast" + spell + "on " + tank);
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+
+    //public static bool GroupHealSpell1(Spell spell, WoWUnit target, int buffTimeLeft = 0, int stacks = 0, Spel﻿l debuff = null, bool owner = true)
+    //{
+    //    bool hasDebuff;
+    //    if (debuff != null)
+    //    {
+    //        hasDebuff = Extension.HasBuff(debuff, target, buffTimeLeft, stacks, owner);
+    //    }
+    //    else
+    //    {
+    //        hasDebuff = Extension.HasBuff(spell, target, buffTimeLeft, stacks, owner);
+    //    }
+
+    //    // Validate spell
+    //    if (!ObjectManager.Me.IsStunned && !ObjectManager.Me.IsDead && !ObjectManager.Me.IsCast && !target.IsDead && spell.KnownSpell && spell.IsSpellUsable && spell.IsDistanceGood && !hasDebuff)
+    //    {
+    //        if (target.Guid == ObjectManager.Me.Guid)
+    //        {
+    //            // Cast on self
+    //            Lua.LuaDoString($"CastSpellByID({spell.Id}, \"player\")");
+    //            Usefuls.WaitIsCasting();
+    //        }
+    //        else
+    //        {
+    //            // Cast on target
+    //            Lua.LuaDoString($"CastSpellByID({spell.Id}, \"{target.Name}\")");
+    //            Usefuls.WaitIsCasting();
+    //        }
+
+    //        // Log
+    //        Logging.WriteDebug($"Cast: {spell.NameInGame}");
+
+    //        // Return
+    //        return true;
+    //    }
+
+    //    // Return
+    //    return false;
+    //}
 
     public static bool HasBuff(Spell spell, WoWUnit target, double buffTimeLeft = 0, int stacks = 0, bool owner = true)
     {
@@ -365,6 +419,20 @@ class Extension
                 "end " +
             "end; ";
         Lua.LuaDoString(execute);
+    }
+
+    public static string GetSpec()
+    {
+        var Talents = new Dictionary<string, int>();
+        for (int i = 1; i <= 3; i++)
+        {
+            Talents.Add(
+                Lua.LuaDoString<string>($"local name, iconTexture, pointsSpent = GetTalentTabInfo({i}); return name"),
+                Lua.LuaDoString<int>($"local name, iconTexture, pointsSpent = GetTalentTabInfo({i}); return pointsSpent")
+            );
+        }
+        var highestTalents = Talents.Max(x => x.Value);
+        return Talents.Where(t => t.Value == highestTalents).FirstOrDefault().Key.Replace(" ", "");
     }
 
     public static int GetSpecialization()

@@ -14,7 +14,7 @@ using System.Linq;
 using wManager.Events;
 
 
-public static class Mage
+public static class MageLevel
 {
 
     private static MageFoodManager _foodManager = new MageFoodManager();

@@ -82,6 +82,7 @@
     <Compile Include="Helpers\BossList.cs" />
     <Compile Include="Helpers\Extension.cs" />
     <Compile Include="Helpers\Partystuff.cs" />
+    <Compile Include="Helpers\Talents.cs" />
     <Compile Include="Hunter\HunterBeastMastery.cs" />
     <Compile Include="Hunter\HunterBeastMasterySettings.cs" />
     <Compile Include="Hunter\HunterLevel.cs" />
@@ -107,7 +108,7 @@
     <Compile Include="Warlock\Consumables.cs" />
     <Compile Include="Warlock\WarlockLevel.cs" />
     <Compile Include="Warlock\WarlockLevelSettings.cs" />
-    <Compile Include="Warrior\Warrior.cs" />
+    <Compile Include="Warrior\WarriorLevel.cs" />
     <Compile Include="Warrior\Warriorsettingscs.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -41,7 +41,7 @@ public static class HunterLevel
     public static Spell AspecoftheDragonhawk = new Spell("Aspect of the Dragonhawk"); //Highlevel Aspect
     public static Spell RapidFire = new Spell("Rapid Fire"); //for Multimobs
     public static Spell KillCommand = new Spell("Kill Command");
-    
+
     //Pet Management
     public static Spell RevivePet = new Spell("Revive Pet");
     public static Spell CallPet = new Spell("Call Pet");
@@ -53,12 +53,15 @@ public static class HunterLevel
     public static Spell Disengage = new Spell("Disengage");
     public static Spell FrostTrap = new Spell("Frost Trap");
     public static Spell FeignDeath = new Spell("Feign Death");
-    
+
     public static void Initialize() // When product started, initialize and launch Fightclass
     {
         if (ObjectManager.Me.WowClass == WoWClass.Hunter)
         {
             HunterLevelSettings.Load();
+            Talents.InitTalents(HunterLevelSettings.CurrentSetting.AssignTalents,
+                                HunterLevelSettings.CurrentSetting.UseDefaultTalents,
+                                HunterLevelSettings.CurrentSetting.TalentCodes.ToArray());
             Logging.Write("Hunter Low Level  Class...loading...");
             RangeManager();
             _isLaunched = true;
@@ -169,8 +172,8 @@ public static class HunterLevel
             {
                 Extension.FightSpell(SerpentSting);
             }
-                Extension.FightSpell(ArcaneShot);
-            
+            Extension.FightSpell(ArcaneShot);
+
             if (MultiShotFeigndeath.IsReady && HunterLevelSettings.CurrentSetting.MultiS)
                 Extension.FightSpell(MultiShot);
 
@@ -223,7 +226,7 @@ public static class HunterLevel
     private static void RangeManager()
     {
         if (HunterLevelSettings.CurrentSetting.Backpaddle)
-        { 
+        {
             wManager.Events.FightEvents.OnFightLoop += (unit, cancelable) =>
             {
                 if (ObjectManager.Target.GetDistance < 7 && ObjectManager.Target.IsTargetingMyPet)
@@ -309,7 +312,7 @@ public static class HunterLevel
     {
         if (Me.ManaPercentage < HunterLevelSettings.CurrentSetting.AspecofViper)
             Extension.BuffSpell(AspecoftheViper);
-        
+
         if (AspecoftheCheetah.KnownSpell && HunterLevelSettings.CurrentSetting.Cheetah)
             Extension.BuffSpell(AspecoftheCheetah);
 
@@ -322,7 +325,7 @@ public static class HunterLevel
 
         if (HunterLevelSettings.CurrentSetting.Checkpet)
         {
-            if (ObjectManager.Pet.IsAlive && ObjectManager.Pet.IsValid 
+            if (ObjectManager.Pet.IsAlive && ObjectManager.Pet.IsValid
                 && ObjectManager.Pet.HealthPercent < HunterLevelSettings.CurrentSetting.PetHealth)
                 if (PetHealTimer.IsReady)
                 {

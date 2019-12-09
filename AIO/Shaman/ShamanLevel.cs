@@ -51,6 +51,9 @@ public static class ShamanLevel
     public static void Initialize()
     {
         ShamanLevelSettings.Load();
+        Talents.InitTalents(ShamanLevelSettings.CurrentSetting.AssignTalents,
+                            ShamanLevelSettings.CurrentSetting.UseDefaultTalents,
+                            ShamanLevelSettings.CurrentSetting.TalentCodes.ToArray());
         Logging.Write("Shaman Low Level Class...loading...");
         {
             lowlevel = true;
@@ -148,14 +151,14 @@ public static class ShamanLevel
         {
             Extension.BuffSpell(CurePoison);
         }
-        if(Extension.GetAttackingUnits(20).Count() > 1)
+        if (Extension.GetAttackingUnits(20).Count() > 1)
         {
             Extension.FightSpell(FeralSpirit);
         }
 
         if (Me.Level < 10)
         {
-            if(lowlevel != true)
+            if (lowlevel != true)
             {
                 lowlevel = true;
             }
@@ -202,7 +205,7 @@ public static class ShamanLevel
             {
                 Extension.FightSpell(EarthShock);
             }
-                Extension.FightSpell(FlameShock);
+            Extension.FightSpell(FlameShock);
             if (Me.ManaPercentage > 40)
             {
                 Extension.BuffSpell(LightningShield);
@@ -341,7 +344,7 @@ public static class ShamanLevel
     #region Pull
     private static void Pull()
     {
-        if(ShamanLevelSettings.CurrentSetting.LNB)
+        if (ShamanLevelSettings.CurrentSetting.LNB)
         {
             Extension.FightSpell(LightningBolt);
         }

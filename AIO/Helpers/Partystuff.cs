@@ -21,9 +21,8 @@ using wManager.Events;
         public static int maxhealrange;
 
 
-
     #region get party
-        List<WoWPlayer> getPartymembers()
+        public static List<WoWPlayer> getPartymembers()
         {
             List<WoWPlayer> ret = new List<WoWPlayer>();
             var u = Party.GetPartyHomeAndInstance().Where(p => p.GetDistance < maxhealrange && p.IsValid && !TraceLine.TraceLineGo(p.Position));
@@ -42,7 +41,7 @@ using wManager.Events;
         }
     #endregion
     #region get all Party Members
-    List<WoWPlayer> getAllPartymembers()
+    public static List<WoWPlayer> getAllPartymembers()
         {
             List<WoWPlayer> ret = new List<WoWPlayer>();
 
@@ -62,7 +61,7 @@ using wManager.Events;
         }
     #endregion
     #region get Party Targets
-    List<WoWUnit> GetPartyTargets()
+    public static List<WoWUnit> GetPartyTargets()
         {
             List<WoWPlayer> party = Party.GetPartyHomeAndInstance();
             List<WoWPlayer> partyMembers = new List<WoWPlayer>();
@@ -88,7 +87,7 @@ using wManager.Events;
         }
     #endregion
     #region get tanks
-    List<WoWPlayer> getTanks()
+    public static List<WoWPlayer> getTanks()
         {
             List<WoWPlayer> ret = new List<WoWPlayer>();
             var u = Party.GetPartyHomeAndInstance().Where(p => p.GetDistance < 80 && p.IsValid && !TraceLine.TraceLineGo(p.Position));
@@ -114,7 +113,7 @@ using wManager.Events;
             */
             return ret;
         }
-    string GetTankPlayerName()
+    public static string GetTankPlayerName()
         {
             var lua = new[]
                   {
@@ -132,7 +131,7 @@ using wManager.Events;
                       };
             return Lua.LuaDoString(lua, "partyTank");
         }
-        public bool IsTank(string unit)
+        public static bool IsTank(string unit)
         {
             var tankNaam = GetTankPlayerName();
             WoWPlayer v = new WoWPlayer(ObjectManager.Me.GetBaseAddress);
@@ -145,7 +144,7 @@ using wManager.Events;
         #endregion
 
     #region getHealers
-        List<WoWPlayer> getHealers()
+        public static List<WoWPlayer> getHealers()
         {
             List<WoWPlayer> ret = new List<WoWPlayer>();
             var u = Party.GetPartyHomeAndInstance().Where(p => p.GetDistance < 80 && p.IsValid && !TraceLine.TraceLineGo(p.Position));
@@ -164,7 +163,7 @@ using wManager.Events;
             }
             return ret;
         }
-        string GetHealerName()
+        public static string GetHealerName()
         {
             var lua = new[]
                   {
@@ -183,7 +182,7 @@ using wManager.Events;
 
             return Lua.LuaDoString(lua, "partyHealer");
         }
-        public bool IsHealer(string unit)
+        public static bool IsHealer(string unit)
         {
             var healerNaam = GetHealerName();
             if (healerNaam.Contains(unit))

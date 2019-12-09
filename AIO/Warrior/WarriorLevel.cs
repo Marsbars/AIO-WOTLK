@@ -13,7 +13,7 @@ using Timer = robotManager.Helpful.Timer;
 using wManager.Wow;
 using wManager;
 
-public static class Warrior
+public static class WarriorLevel
 {
     public static bool _isLaunched;
     public static WoWUnit MyTarget { get { return ObjectManager.Target; } }
@@ -46,6 +46,9 @@ public static class Warrior
     {
 
         WarriorLevelSettings.Load();
+        Talents.InitTalents(WarriorLevelSettings.CurrentSetting.AssignTalents,
+                            WarriorLevelSettings.CurrentSetting.UseDefaultTalents,
+                            WarriorLevelSettings.CurrentSetting.TalentCodes.ToArray());
         {
             _isLaunched = true;
             Logging.Write("Warrior Low Level Class...loading...");

@@ -57,9 +57,12 @@ public static class Warlock
             #region Loggin Settings
             Logging.Write("Warlock Low Level  Class...loading...");
             #endregion
-            wManagerSetting.CurrentSetting.UseLuaToMove = true;
+
             Logging.Write("Movement Lua enabled");
             WarlockLevelSettings.Load();
+            Talents.InitTalents(WarlockLevelSettings.CurrentSetting.AssignTalents,
+                                WarlockLevelSettings.CurrentSetting.UseDefaultTalents,
+                                WarlockLevelSettings.CurrentSetting.TalentCodes.ToArray());
             Logging.Write("WarlockLevelSettings Loaded");
             TargetSwitcher();
             Logging.Write("Targetswitcher Activated");
@@ -239,7 +242,7 @@ public static class Warlock
             {
                 Extension.BuffSpell(summonimp);
             }
-            if(WarlockLevelSettings.CurrentSetting.Pet == "VoidWalker")
+            if (WarlockLevelSettings.CurrentSetting.Pet == "VoidWalker")
             {
                 Extension.BuffSpell(summonvoid);
             }

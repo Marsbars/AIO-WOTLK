@@ -7,17 +7,18 @@ using System.Linq;
 using System;
 using System.Drawing;
 using System.Threading;
+using System.ComponentModel;
 
 public class Main : ICustomClass
 {
-    private static string wowClass = ObjectManager.Me.WowClass.ToString();
+    public static string wowClass = ObjectManager.Me.WowClass.ToString();
     public static float settingRange = 5f;
     public static bool _isLaunched;
     private static bool _debug = true;
-
+    private static readonly BackgroundWorker _talentThread = new BackgroundWorker();
     public float Range
-	{
-		get
+    {
+        get
         {
             return settingRange;
         }
@@ -31,6 +32,11 @@ public class Main : ICustomClass
         if (type != null)
         {
             _isLaunched = true;
+            if (!Talents._isRunning)
+            {
+                _talentThread.DoWork += Talents.DoTalentPulse;
+                _talentThread.RunWorkerAsync();
+            }
             type.GetMethod("Initialize").Invoke(null, null);
         }
         else
@@ -45,6 +51,9 @@ public class Main : ICustomClass
         var type = Type.GetType(ObjectManager.Me.Level < 80 ? ObjectManager.Me.WowClass + "Level" : ObjectManager.Me.WowClass + GetSpec());
         if (type != null)
             type.GetMethod("Dispose").Invoke(null, null);
+        _talentThread.DoWork -= Talents.DoTalentPulse;
+        _talentThread.Dispose();
+        Talents._isRunning = false;
         _isLaunched = false;
     }
 
@@ -90,6 +99,6 @@ public class Main : ICustomClass
             );
         }
         var highestTalents = Talents.Max(x => x.Value);
-        return Talents.Where(t => t.Value == highestTalents).FirstOrDefault().Key.Replace(" ","");
+        return Talents.Where(t => t.Value == highestTalents).FirstOrDefault().Key.Replace(" ", "");
     }
 }

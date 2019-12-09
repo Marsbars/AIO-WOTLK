@@ -48,6 +48,9 @@ public static class DeathKnightLevel
     {
 
         DeathKnightLevelSettings.Load();
+        Talents.InitTalents(DeathKnightLevelSettings.CurrentSetting.AssignTalents,
+                            DeathKnightLevelSettings.CurrentSetting.UseDefaultTalents,
+                            DeathKnightLevelSettings.CurrentSetting.TalentCodes.ToArray());
         {
             _isLaunched = true;
             Logging.Write("DeathKnight Low Level Class...loading...");
@@ -129,7 +132,7 @@ public static class DeathKnightLevel
             Logging.Write("Interrupt Target Set" + Extension.InterruptableUnit(20f).Guid);
             Extension.FightSpell(Strangulate, true);
         }
-        if(ObjectManager.Target.IsElite)
+        if (ObjectManager.Target.IsElite)
         {
             Extension.FightSpell(MarkofBlood);
         }
@@ -194,7 +197,7 @@ public static class DeathKnightLevel
         {
             Extension.BuffSpell(IceBoundFortitude);
         }
-        if(DeathKnightLevelSettings.CurrentSetting.BloodPresence)
+        if (DeathKnightLevelSettings.CurrentSetting.BloodPresence)
         {
             Extension.BuffSpell(BloodPresence);
         }

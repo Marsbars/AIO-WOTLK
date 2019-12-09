@@ -59,6 +59,7 @@ public static class HunterLevel
         if (ObjectManager.Me.WowClass == WoWClass.Hunter)
         {
             HunterLevelSettings.Load();
+            Main.kindofclass = HunterLevelSettings.CurrentSetting.ChooseTalent;
             Talents.InitTalents(HunterLevelSettings.CurrentSetting.AssignTalents,
                                 HunterLevelSettings.CurrentSetting.UseDefaultTalents,
                                 HunterLevelSettings.CurrentSetting.TalentCodes.ToArray());
@@ -84,6 +85,7 @@ public static class HunterLevel
         var settingWindow = new MarsSettingsGUI.SettingsWindow(HunterLevelSettings.CurrentSetting, ObjectManager.Me.WowClass.ToString());
         settingWindow.ShowDialog();
         HunterLevelSettings.CurrentSetting.Save();
+        Main.kindofclass = HunterLevelSettings.CurrentSetting.ChooseTalent;
     }
 
 

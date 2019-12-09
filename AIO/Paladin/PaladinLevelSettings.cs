@@ -118,9 +118,10 @@ public class PaladinLevelSettings : Settings
     [Setting]
     [DefaultValue(false)]
     [Category("Seal")]
-    [DisplayName("Seal of Command")]
-    [Description("Set if you want Seal of command used by FC")]
-    public bool SOC { get; set; }
+    [DisplayName("Seal of Command or other")]
+    [Description("Set the Seal you want to used by the FC")]
+    [DropdownList(new string[] { "Seal of Command", "Seal of Righteousness", "Seal of Justice" })]
+    public string Seal { get; set; }
 
     [Category("Talents")]
     [DisplayName("Talents Codes")]
@@ -140,6 +141,15 @@ public class PaladinLevelSettings : Settings
     [Description("Will automatically assign your talent points.")]
     public bool AssignTalents { get; set; }
 
+    [Setting]
+    [DefaultValue(false)]
+    [Category("Talents")]
+    [DisplayName("Talent Tree")]
+    [Description("Choose which Talent Tree you want for leveling")]
+    [DropdownList(new string[] { "PaladinRetribution", "PaladinHoly", "PaladinProtection" })]
+    public string ChooseTalent { get; set; }
+
+
     //[Setting]
     //[DefaultValue(false)]
     //[Category("Other")]
@@ -152,6 +162,7 @@ public class PaladinLevelSettings : Settings
         AssignTalents = true;
         TalentCodes = new List<string> { };
         UseDefaultTalents = true;
+        ChooseTalent = "PaladinRetribution";
         Framelock = false;
         Crusader = false;
         Buffing = true;
@@ -165,7 +176,7 @@ public class PaladinLevelSettings : Settings
         HL = 50;
         FL = 30;
         Aura = "Devotion Aura";
-        SOC = false;
+        Seal = "Seal of Righteousness";
         Delay = 50;
     }
 

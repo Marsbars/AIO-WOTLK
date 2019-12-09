@@ -42,6 +42,7 @@ public static class PaladinLevel
     public static Spell SealofCommand = new Spell("Seal of Command");
     public static Spell SealofWisdom = new Spell("Seal of Wisdom");
     public static Spell SealofCorruption = new Spell("Seal of Corruption");
+    public static Spell SealofJustice = new Spell("Seal of Justice");
     //Buff General
     public static Spell DivinePlea = new Spell("Divine Plea");
     public static Spell AvengingWrath = new Spell("Avenging Wrath");
@@ -69,6 +70,7 @@ public static class PaladinLevel
             //Radar3D.Pulse();
             _isLaunched = true;
             PaladinLevelSettings.Load();
+            Main.kindofclass = PaladinLevelSettings.CurrentSetting.ChooseTalent;
             Talents.InitTalents(PaladinLevelSettings.CurrentSetting.AssignTalents,
                                 PaladinLevelSettings.CurrentSetting.UseDefaultTalents,
                                 PaladinLevelSettings.CurrentSetting.TalentCodes.ToArray());
@@ -91,6 +93,7 @@ public static class PaladinLevel
         var settingWindow = new MarsSettingsGUI.SettingsWindow(PaladinLevelSettings.CurrentSetting, Me.WowClass.ToString());
         settingWindow.ShowDialog();
         PaladinLevelSettings.CurrentSetting.Save();
+        Main.kindofclass = PaladinLevelSettings.CurrentSetting.ChooseTalent;
     }
 
     public static void Rotation()
@@ -181,11 +184,11 @@ public static class PaladinLevel
         {
             Extension.FightSpell(Consecration, false);
         }
-        if (Me.HaveBuff(TheartofWar.Id))
+        if (Me.HaveBuff("The Art of War") && MyTarget.HealthPercent > 20)
         {
             Extension.FightSpell(Exorcism, false);
         }
-        if (Me.Level < 43 && MyTarget.HealthPercent > 10)
+        if (Me.Level < 50 && MyTarget.Health > 20)
         {
             Extension.FightSpell(Exorcism, false);
         }
@@ -200,6 +203,18 @@ public static class PaladinLevel
             {
                 Extension.BuffSpell(CrusaderAura, true);
             }
+            if(PaladinLevelSettings.CurrentSetting.Seal == "Seal of Command" && !Me.HaveBuff(SealofCommand.Id))
+            {
+                Extension.BuffSpell(SealofCommand);
+            }
+            if (PaladinLevelSettings.CurrentSetting.Seal == "Seal of Righteousness" && !Me.HaveBuff(SealofRighteousness.Id))
+            {
+                Extension.BuffSpell(SealofRighteousness);
+            }
+            if (PaladinLevelSettings.CurrentSetting.Seal == "Seal of Justice" && !Me.HaveBuff(SealofJustice.Id))
+            {
+                Extension.BuffSpell(SealofJustice);
+            }
             if (!Me.HaveBuff(GreaterBlessingOfMight.Id))
             {
                 Extension.BuffSpell(BlessingofMight, false);
@@ -212,14 +227,6 @@ public static class PaladinLevel
             {
                 Extension.BuffSpell(DevotionAura, false);
             }
-            if (Extension.GetAttackingUnits(20).Count() >= 3 && PaladinLevelSettings.CurrentSetting.SOC)
-            {
-                Extension.BuffSpell(SealofCommand, false);
-            }
-            if (Extension.GetAttackingUnits(20).Count() <= 2)
-            {
-                Extension.BuffSpell(SealofRighteousness, false);
-            }
             if (Me.ManaPercentage < 80 && !Fight.InFight)
             {
                 Extension.BuffSpell(DivinePlea, false);
@@ -231,7 +238,8 @@ public static class PaladinLevel
             }
             if (Me.HealthPercent < 15 && PaladinLevelSettings.CurrentSetting.LayOnHands && !Me.HaveBuff("Forbearance"))
             {
-
+                Extension.BuffSpell(LayonHands);
+                return;
             }
             if (Me.HealthPercent < 20 && PaladinLevelSettings.CurrentSetting.HoProtection && !Me.HaveBuff("Forbearance"))
             {

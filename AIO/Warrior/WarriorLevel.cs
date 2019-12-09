@@ -46,6 +46,7 @@ public static class WarriorLevel
     {
 
         WarriorLevelSettings.Load();
+        Main.kindofclass = WarriorLevelSettings.CurrentSetting.ChooseTalent;
         Talents.InitTalents(WarriorLevelSettings.CurrentSetting.AssignTalents,
                             WarriorLevelSettings.CurrentSetting.UseDefaultTalents,
                             WarriorLevelSettings.CurrentSetting.TalentCodes.ToArray());
@@ -76,6 +77,7 @@ public static class WarriorLevel
         var settingWindow = new MarsSettingsGUI.SettingsWindow(WarriorLevelSettings.CurrentSetting, ObjectManager.Me.WowClass.ToString());
         settingWindow.ShowDialog();
         WarriorLevelSettings.CurrentSetting.Save();
+        Main.kindofclass = WarriorLevelSettings.CurrentSetting.ChooseTalent;
     }
 
     internal static void Rotation()

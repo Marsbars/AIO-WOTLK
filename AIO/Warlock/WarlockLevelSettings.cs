@@ -106,11 +106,21 @@ public class WarlockLevelSettings : Settings
     [DisplayName("Auto assign talents")]
     [Description("Will automatically assign your talent points.")]
     public bool AssignTalents { get; set; }
+
+    [Setting]
+    [DefaultValue(false)]
+    [Category("Talents")]
+    [DisplayName("Talent Tree")]
+    [Description("Choose which Talent Tree you want for leveling")]
+    [DropdownList(new string[] { "WarlockAffliction", "WarlockDestruction", "WarlockDemonology" })]
+    public string ChooseTalent { get; set; }
+
     private WarlockLevelSettings()
     {
         AssignTalents = true;
         TalentCodes = new List<string> { };
         UseDefaultTalents = true;
+        ChooseTalent = "WarlockAffliction";
         Framelock = false;
         Delay = 50;
         Pet = "VoidWalker";

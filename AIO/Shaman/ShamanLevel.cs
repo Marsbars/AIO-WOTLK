@@ -38,6 +38,8 @@ public static class ShamanLevel
     private static Spell HealingWave = new Spell("Healing Wave");
     private static Spell LesserHealingWave = new Spell("Lesser Healing Wave");
     private static Spell CurePoison = new Spell("Cure Toxins");
+    private static Spell EarthShield = new Spell("Earth Shield");
+    private static Spell ChainHeal = new Spell("Chain Heal");
 
     //BuffSpells
     private static Spell LightningShield = new Spell("Lightning Shield");
@@ -46,11 +48,15 @@ public static class ShamanLevel
     private static Spell WindfuryWeapon = new Spell("Windfury Weapon");
     private static Spell RockbiterWeapon = new Spell("Rockbiter Weapon");
     private static Spell FlametongueWeapon = new Spell("Flametongue Weapon");
+    private static Spell EarthlivingWeapon = new Spell("Earthliving Weapon");
+    private static Spell ManaTide = new Spell("Mana Tide");
 
+    private static String Spec;
 
     public static void Initialize()
     {
         ShamanLevelSettings.Load();
+        Main.kindofclass = ShamanLevelSettings.CurrentSetting.ChooseTalent;
         Talents.InitTalents(ShamanLevelSettings.CurrentSetting.AssignTalents,
                             ShamanLevelSettings.CurrentSetting.UseDefaultTalents,
                             ShamanLevelSettings.CurrentSetting.TalentCodes.ToArray());
@@ -58,8 +64,24 @@ public static class ShamanLevel
         {
             lowlevel = true;
             _isLaunched = true;
-
+            if (Me.Level < 10)
+            {
+                Spec = "Under10";
+            }
+            if (Extension.GetSpec() == "Elemental")
+            {
+                Spec = "Elemental";
+            }
+            if (Extension.GetSpec() == "Enhancement")
+            {
+                Spec = "Enhancement";
+            }
+            if (Extension.GetSpec() == "Restoration")
+            {
+                Spec = "Restoration";
+            }
             Rotation();
+
         }
     }
 
@@ -78,6 +100,7 @@ public static class ShamanLevel
         var settingWindow = new MarsSettingsGUI.SettingsWindow(ShamanLevelSettings.CurrentSetting, ObjectManager.Me.WowClass.ToString());
         settingWindow.ShowDialog();
         ShamanLevelSettings.CurrentSetting.Save();
+        Main.kindofclass = ShamanLevelSettings.CurrentSetting.ChooseTalent;
     }
 
     internal static void Rotation()
@@ -98,24 +121,54 @@ public static class ShamanLevel
                     }
                     if (!Fight.InFight)
                     {
-                        EnchantWeapon();
+                        if (Spec == "Under10")
+                        {
+                            Under10Rotation();
+                            Under10HealRotation();
+                        }
+                        if (Spec == "Elemental")
+                        {
+                            ElementalRotation();
+                            ElementalHealRotation();
+                        }
+                        if (Spec == "Enhancement")
+                        {
+                            EnhancementRotation();
+                            EnhancementHealRotation();
+                        }
+                        if (Spec == "Restoration")
+                        {
+                            RestorationRotation();
+                            RestorationHealRotation();
+                        }
                         TotemManager.CheckForTotemicCall();
                         BuffRotation();
-                        Pull();
+                        EnchantWeapon();
                     }
 
                     if (Fight.InFight && ObjectManager.Me.HasTarget)
                     {
-
-                        if (ShamanLevelSettings.CurrentSetting.Framelock)
+                        if (Spec == "Under10")
                         {
-                            Extension.Framelock();
+                            Under10Rotation();
+                            Under10HealRotation();
                         }
-                        CombatRotation();
-                        if (ShamanLevelSettings.CurrentSetting.Framelock)
+                        if (Spec == "Elemental")
                         {
-                            Extension.Frameunlock();
+                            ElementalRotation();
+                            ElementalHealRotation();
                         }
+                        if (Spec == "Enhancement")
+                        {
+                            EnhancementRotation();
+                            EnhancementHealRotation();
+                        }
+                        if (Spec == "Restoration")
+                        {
+                            RestorationRotation();
+                            RestorationHealRotation();
+                        }
+                        EnchantWeapon();
                     }
                 }
             }
@@ -127,7 +180,36 @@ public static class ShamanLevel
         }
 
     }
-    private static void CombatRotation()
+    internal static void Under10Rotation()
+    {
+        if (lowlevel != true)
+        {
+            lowlevel = true;
+        }
+
+        if (MyTarget.GetDistance < 20)
+        {
+            TotemManager.CastTotems();
+        }
+        if (Me.Level < 4)
+        {
+            Extension.FightSpell(LightningBolt);
+        }
+        if (MyTarget.GetDistance > 7)
+        {
+            Extension.FightSpell(LightningBolt);
+        }
+        Extension.FightSpell(EarthShock);
+        if (Me.ManaPercentage > 40)
+        {
+            Extension.BuffSpell(LightningShield);
+        }
+    }
+    internal static void ElementalRotation()
+    {
+
+    }
+    internal static void EnhancementRotation()
     {
         bool Poison = Extension.HasPoisonDebuff();
         bool Disease = Extension.HasDiseaseDebuff();
@@ -308,8 +390,36 @@ public static class ShamanLevel
             }
         }
     }
+    internal static void RestorationRotation()
+    {
+        Extension.FightSpell(EarthShock);
+        Extension.FightSpell(LightningBolt);
+    }
 
+    private static void Under10HealRotation()
+    {
+        if(Me.HealthPercent<40)
+        {
+            Extension.HealSpell(HealingWave);
+        }
+    }
+    internal static void ElementalHealRotation()
+    {
 
+    }
+    internal static void EnhancementHealRotation()
+    {
+        if (Me.HealthPercent < 40)
+        {
+            Extension.HealSpell(HealingWave);
+        }
+    }
+    internal static void RestorationHealRotation()
+    {
+        Extension.TankHealSpell(EarthShield, 99);
+        Extension.GroupHealSpell(ChainHeal, 95);
+        Extension.GroupHealSpell(HealingWave, 85);
+    }
     private static void BuffRotation()
     {
 
@@ -374,21 +484,35 @@ public static class ShamanLevel
         bool hasoffHandWeapon = Lua.LuaDoString<bool>(@"local hasWeapon = OffhandHasWeapon()
             return hasWeapon");
 
-        if (!hasMainHandEnchant || (hasoffHandWeapon && !hasOffHandEnchant))
+        if (Extension.GetSpec() == "Enhancement")
         {
-            if (!WindfuryWeapon.KnownSpell && RockbiterWeapon.KnownSpell && !FlametongueWeapon.KnownSpell)
+            if (!hasMainHandEnchant || (hasoffHandWeapon && !hasOffHandEnchant))
             {
-                Extension.BuffSpell(RockbiterWeapon);
+                if (!WindfuryWeapon.KnownSpell && RockbiterWeapon.KnownSpell && !FlametongueWeapon.KnownSpell)
+                {
+                    Extension.BuffSpell(RockbiterWeapon);
+                }
+                if (!WindfuryWeapon.KnownSpell && FlametongueWeapon.KnownSpell)
+                {
+                    Extension.BuffSpell(FlametongueWeapon);
+                }
+
+                if (WindfuryWeapon.KnownSpell)
+                {
+                    Extension.BuffSpell(WindfuryWeapon);
+                }
             }
-            if (!WindfuryWeapon.KnownSpell && FlametongueWeapon.KnownSpell)
+        }
+        if (Extension.GetSpec() == "Restoration")
+        {
+            if(!hasMainHandEnchant)
             {
-                Extension.BuffSpell(FlametongueWeapon);
+                if (EarthlivingWeapon.KnownSpell)
+                {
+                    Extension.BuffSpell(EarthlivingWeapon);
+                }
             }
 
-            if (WindfuryWeapon.KnownSpell)
-            {
-                Extension.BuffSpell(WindfuryWeapon);
-            }
         }
     }
 

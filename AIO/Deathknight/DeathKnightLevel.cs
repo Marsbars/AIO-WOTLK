@@ -48,6 +48,7 @@ public static class DeathKnightLevel
     {
 
         DeathKnightLevelSettings.Load();
+        Main.kindofclass = DeathKnightLevelSettings.CurrentSetting.ChooseTalent;
         Talents.InitTalents(DeathKnightLevelSettings.CurrentSetting.AssignTalents,
                             DeathKnightLevelSettings.CurrentSetting.UseDefaultTalents,
                             DeathKnightLevelSettings.CurrentSetting.TalentCodes.ToArray());
@@ -74,6 +75,7 @@ public static class DeathKnightLevel
         var settingWindow = new MarsSettingsGUI.SettingsWindow(DeathKnightLevelSettings.CurrentSetting, ObjectManager.Me.WowClass.ToString());
         settingWindow.ShowDialog();
         DeathKnightLevelSettings.CurrentSetting.Save();
+        Main.kindofclass = DeathKnightLevelSettings.CurrentSetting.ChooseTalent;
     }
 
     internal static void Rotation()

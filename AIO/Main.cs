@@ -16,6 +16,7 @@ public class Main : ICustomClass
     public static bool _isLaunched;
     private static bool _debug = true;
     private static readonly BackgroundWorker _talentThread = new BackgroundWorker();
+    public static string kindofclass;
     public float Range
     {
         get
@@ -88,7 +89,7 @@ public class Main : ICustomClass
             Logging.WriteDebug($"[WOTLK - {wowClass}]: { message}");
     }
 
-    private string GetSpec()
+    public static string GetSpec()
     {
         var Talents = new Dictionary<string, int>();
         for (int i = 1; i <= 3; i++)

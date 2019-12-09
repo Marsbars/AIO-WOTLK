@@ -54,6 +54,7 @@ public static class RogueLevel
         {
             _isLaunched = true;
             RogueLevelSettings.Load();
+            Main.kindofclass = RogueLevelSettings.CurrentSetting.ChooseTalent;
             Talents.InitTalents(RogueLevelSettings.CurrentSetting.AssignTalents,
                                 RogueLevelSettings.CurrentSetting.UseDefaultTalents,
                                 RogueLevelSettings.CurrentSetting.TalentCodes.ToArray());
@@ -75,6 +76,7 @@ public static class RogueLevel
         var settingWindow = new MarsSettingsGUI.SettingsWindow(RogueLevelSettings.CurrentSetting, ObjectManager.Me.WowClass.ToString());
         settingWindow.ShowDialog();
         RogueLevelSettings.CurrentSetting.Save();
+        Main.kindofclass = RogueLevelSettings.CurrentSetting.ChooseTalent;
     }
 
     public static void Rotation()

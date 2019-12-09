@@ -25,7 +25,7 @@ using wManager.Events;
         public static List<WoWPlayer> getPartymembers()
         {
             List<WoWPlayer> ret = new List<WoWPlayer>();
-            var u = Party.GetPartyHomeAndInstance().Where(p => p.GetDistance < maxhealrange && p.IsValid && !TraceLine.TraceLineGo(p.Position));
+            var u = Party.GetPartyHomeAndInstance().Where(p => p.GetDistance < 40 && p.IsValid && !TraceLine.TraceLineGo(p.Position));
 
             if (u.Count() > 0)
             {

@@ -68,7 +68,18 @@ public class DeathKnightLevelSettings : Settings
     [Category("General")]
     [DisplayName("Delay")]
     [Description("Set your Delay in MS (for bad PC´s) ")]
+
     public int Delay { get; set; }
+
+    [Setting]
+    [DefaultValue(false)]
+    [Category("Talents")]
+    [DisplayName("Talent Tree")]
+    [Description("Choose which Talent Tree you want for leveling")]
+    [DropdownList(new string[] { "DeathKnightBlood", "DeathKnightFrost", "DeathKnightUnholy" })]
+    public string ChooseTalent { get; set; }
+
+
     [Category("Talents")]
     [DisplayName("Talents Codes")]
     [Description("Use a talent calculator to generate your own codes: https://talentcalculator.org/wotlk/. " +
@@ -91,6 +102,7 @@ public class DeathKnightLevelSettings : Settings
         AssignTalents = true;
         TalentCodes = new List<string> { };
         UseDefaultTalents = true;
+        ChooseTalent = "DeathKnightBlood";
         DeathGrip = true;
         BloodPresence = true;
         bloodstrike = 1;

@@ -31,14 +31,14 @@ public class ShamanLevelSettings : Settings
 
     [Setting]
     [DefaultValue(true)]
-    [Category("Combat")]
+    [Category("Enhancement")]
     [DisplayName("Ghostwolf")]
     [Description("Use Ghostwolfform?")]
     public bool Ghostwolf { get; set; }
 
     [Setting]
     [DefaultValue(10)]
-    [Category("Combat")]
+    [Category("Enhancement")]
     [DisplayName("Selfheal")]
     [Description("Set the Enemytreshold in % when to heal?")]
     [Percentage(true)]
@@ -46,7 +46,7 @@ public class ShamanLevelSettings : Settings
 
     [Setting]
     [DefaultValue(false)]
-    [Category("Combat")]
+    [Category("Enhancement")]
     [DisplayName("Lightning Bolt")]
     [Description("Use LNB for Pull?")]
     public bool LNB { get; set; }
@@ -54,7 +54,7 @@ public class ShamanLevelSettings : Settings
     [Setting]
     [DefaultValue(true)]
     [Category("Totem")]
-    [DisplayName("Totemic Revall")]
+    [DisplayName("Totemic Recall")]
     [Description("Use Totemic Recall?")]
     public bool UseTotemicCall { get; set; }
 
@@ -122,11 +122,20 @@ public class ShamanLevelSettings : Settings
     [Description("Will automatically assign your talent points.")]
     public bool AssignTalents { get; set; }
 
+    [Setting]
+    [DefaultValue(false)]
+    [Category("Talents")]
+    [DisplayName("Talent Tree")]
+    [Description("Choose which Talent Tree you want for leveling")]
+    [DropdownList(new string[] { "ShamanEnhancement", "ShamanElemental", "ShamanRestoration" })]
+    public string ChooseTalent { get; set; }
+
     private ShamanLevelSettings()
     {
         AssignTalents = true;
         TalentCodes = new List<string> { };
         UseDefaultTalents = true;
+        ChooseTalent = "ShamanEnhancement";
         Framelock = false;
         Delay = 50;
         Ghostwolf = true;

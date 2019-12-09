@@ -35,7 +35,7 @@ public class PriestLevelSettings : Settings
     [Description("Enemy Life Treshold for Wandusage?")]
     [Percentage(true)]
     public int UseWandTresh { get; set; }
-
+    
     [Setting]
     [DefaultValue(50)]
     [Category("General")]
@@ -153,6 +153,12 @@ public class PriestLevelSettings : Settings
     [Percentage(false)]
     public int HolyGuardianSpiritCountTreshGroup { get; set; }
 
+    [Category("Holy")]
+    [DefaultValue(false)]
+    [DisplayName("Damage Spells")]
+    [Description("If True, do Damage mostly for afk Botbases")]
+    public bool HolyDamage { get; set; }
+
     [Category("Talents")]
     [DisplayName("Talents Codes")]
     [Description("Use a talent calculator to generate your own codes: https://talentcalculator.org/wotlk/. " +
@@ -171,6 +177,14 @@ public class PriestLevelSettings : Settings
     [Description("Will automatically assign your talent points.")]
     public bool AssignTalents { get; set; }
 
+    [Setting]
+    [DefaultValue(false)]
+    [Category("Talents")]
+    [DisplayName("Talent Tree")]
+    [Description("Choose which Talent Tree you want for leveling")]
+    [DropdownList(new string[] { "PriestShadow", "PriestHoly", "PriestDiscipline" })]
+    public string ChooseTalent { get; set; }
+
     public static PriestLevelSettings CurrentSetting { get; set; }
 
     private PriestLevelSettings()
@@ -178,6 +192,7 @@ public class PriestLevelSettings : Settings
         AssignTalents = false;
         TalentCodes = new List<string> { };
         UseDefaultTalents = true;
+        ChooseTalent = "PriestShadow";
         UseWand = true;
         UseWandTresh = 20;
         ShadowUseShieldTresh = 75;
@@ -193,6 +208,7 @@ public class PriestLevelSettings : Settings
         HolyCircleofHealingTreshGroup = 80;
         HolyPrayerofMendingTreshGroup = 80;
         HolyPrayerofHealingTreshGroup = 70;
+        HolyDamage = false;
         Framelock = false;
         Delay = 50;
 

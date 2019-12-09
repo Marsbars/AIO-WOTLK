@@ -115,6 +115,8 @@ class Extension
         return false;
     }
 
+
+
     public static bool GroupHealSpell(Spell spell, int setting, int playercount = 0)
     {
         if(!spell.KnownSpell || !spell.IsSpellUsable || !spell.IsDistanceGood)
@@ -168,6 +170,31 @@ class Extension
         return false;
     }
 
+    public static bool GroupBuffSpell(Spell spell, int playercount = 0)
+    {
+        if (!spell.KnownSpell || !spell.IsSpellUsable || !spell.IsDistanceGood)
+        {
+            return false;
+        }
+        var members = Partystuff.getPartymembers().Where(o => o.IsValid
+        && o.IsAlive
+        && !o.HaveBuff(spell.Id)
+        && !TraceLine.TraceLineGo(o.Position)).OrderBy(o => o.HealthPercent);
+
+        if (members.Count() > playercount)
+        {
+            var u = members.First();
+            WoWPlayer bufftarget = new WoWPlayer(u.GetBaseAddress);
+            if (!TraceLine.TraceLineGo(bufftarget.Position) && bufftarget.IsAlive)
+            {
+                ObjectManager.Me.FocusGuid = bufftarget.Guid;
+                Extension.HealSpell(spell, false, false, true);
+                Logging.Write("Cast" + spell + "on " + bufftarget);
+                return true;
+            }
+        }
+        return false;
+    }
 
     //public static bool GroupHealSpell1(Spell spell, WoWUnit target, int buffTimeLeft = 0, int stacks = 0, Spel﻿l debuff = null, bool owner = true)
     //{

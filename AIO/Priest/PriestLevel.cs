@@ -87,6 +87,7 @@ public static class PriestLevel
             Logging.Write("Priest Low Level Class...loading...");
             #endregion
             PriestLevelSettings.Load();
+            Main.kindofclass = PriestLevelSettings.CurrentSetting.ChooseTalent;
             Talents.InitTalents(PriestLevelSettings.CurrentSetting.AssignTalents,
                                 PriestLevelSettings.CurrentSetting.UseDefaultTalents,
                                 PriestLevelSettings.CurrentSetting.TalentCodes.ToArray());
@@ -132,11 +133,19 @@ public static class PriestLevel
                 Main.settingRange = 29f;
                 if (Conditions.InGameAndConnectedAndAliveAndProductStartedNotInPause && !Fight.InFight)
                 {
+                    if(Spec == "Under10")
+                        {
+                        Under10Healrotation();
+                        }
+                    if(Spec == "Holy")
+                        {
+                            HolyHealRotation();
+                        }
                     BuffRotation();
                 }
                 else
                 {
-                    if (Spec == "under10")
+                    if (Spec == "Under10")
                     {
                         Under10Rotation();
                         Under10Healrotation();
@@ -175,6 +184,7 @@ public static class PriestLevel
         var settingWindow = new MarsSettingsGUI.SettingsWindow(PriestLevelSettings.CurrentSetting, ObjectManager.Me.WowClass.ToString());
         settingWindow.ShowDialog();
         PriestLevelSettings.CurrentSetting.Save();
+        Main.kindofclass = PriestLevelSettings.CurrentSetting.ChooseTalent;
     }
 
 
@@ -373,18 +383,17 @@ public static class PriestLevel
     }
     private static void HolyRotation()
     {
-
+        if(PriestLevelSettings.CurrentSetting.HolyDamage)
+        {
+        Extension.FightSpell(Smite);
+        Extension.FightSpell(HolyFire);
+        }
     }
     private static void Under10Healrotation()
     {
-        if(Me.HealthPercent<90)
-        {
-            Extension.HealSpell(Renew);
-        }
-        if(Me.HealthPercent<50)
-        {
-            Extension.HealSpell(LesserHeal);
-        }
+        Extension.GroupHealSpell(Shield, 99);
+        Extension.GroupHealSpell(Renew, 90);
+        Extension.GroupHealSpell(LesserHeal, 75);
     }
     private static void ShadowHealRotation()
     {
@@ -429,7 +438,7 @@ public static class PriestLevel
     }
     private static void BuffRotation()
     {
-        Extension.BuffSpell(Fortitude);
+        Extension.GroupBuffSpell(Fortitude);
         Extension.BuffSpell(ShadowForm);
         Extension.BuffSpell(DivineSpirit);
         if (Me.ManaPercentage < 25)

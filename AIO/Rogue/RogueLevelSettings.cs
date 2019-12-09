@@ -53,6 +53,14 @@ public class RogueLevelSettings : Settings
     [Description("Will automatically assign your talent points.")]
     public bool AssignTalents { get; set; }
 
+    [Setting]
+    [DefaultValue(false)]
+    [Category("Talents")]
+    [DisplayName("Talent Tree")]
+    [Description("Choose which Talent Tree you want for leveling")]
+    [DropdownList(new string[] { "RogueCombat", "RogueAssasination", "RogueSublety" })]
+    public string ChooseTalent { get; set; }
+
     public static RogueLevelSettings CurrentSetting { get; set; }
 
     private RogueLevelSettings()
@@ -60,6 +68,7 @@ public class RogueLevelSettings : Settings
         AssignTalents = true;
         TalentCodes = new List<string> { };
         UseDefaultTalents = true;
+        ChooseTalent = "RogueCombat";
         Framelock = false;
         Stealth = true;
         Delay = 50;

@@ -70,6 +70,16 @@ public class DruidLevelSettings : Settings
     [DisplayName("Dash")]
     [Description("Use Dash while stealthed?")]
     public bool Dash { get; set; }
+
+    [Setting]
+    [DefaultValue(false)]
+    [Category("Talents")]
+    [DisplayName("Talent Tree")]
+    [Description("Choose which Talent Tree you want for leveling")]
+    [DropdownList(new string[] { "DruidFeral", "DruidBalance", "DruidRestoration" })]
+    public string ChooseTalent { get; set; }
+
+
     [Category("Talents")]
     [DisplayName("Talents Codes")]
     [Description("Use a talent calculator to generate your own codes: https://talentcalculator.org/wotlk/. " +
@@ -94,6 +104,7 @@ public class DruidLevelSettings : Settings
         AssignTalents = true;
         TalentCodes = new List<string> { };
         UseDefaultTalents = true;
+        ChooseTalent = "DruidFeral";
         Framelock = false;
         Prowl = true;
         TF = false;

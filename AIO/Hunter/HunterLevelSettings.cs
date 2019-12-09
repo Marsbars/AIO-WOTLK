@@ -112,6 +112,14 @@ public class HunterLevelSettings : Settings
     [Description("Will automatically assign your talent points.")]
     public bool AssignTalents { get; set; }
 
+    [Setting]
+    [DefaultValue(false)]
+    [Category("Talents")]
+    [DisplayName("Talent Tree")]
+    [Description("Choose which Talent Tree you want for leveling")]
+    [DropdownList(new string[] { "HunterBeastMastery", "HunterSurvival", "HunterMarksmanship" })]
+    public string ChooseTalent { get; set; }
+
     public static HunterLevelSettings CurrentSetting { get; set; }
 
     private HunterLevelSettings()
@@ -119,6 +127,7 @@ public class HunterLevelSettings : Settings
         AssignTalents = true;
         TalentCodes = new List<string> { };
         UseDefaultTalents = true;
+        ChooseTalent = "HunterBeastMastery";
         Framelock = false;
         PetHealth = 80;
         AspecofViper = 20;

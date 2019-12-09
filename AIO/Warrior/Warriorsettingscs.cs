@@ -47,11 +47,21 @@ public class WarriorLevelSettings : Settings
     [Description("Will automatically assign your talent points.")]
     public bool AssignTalents { get; set; }
 
+    [Setting]
+    [DefaultValue(false)]
+    [Category("Talents")]
+    [DisplayName("Talent Tree")]
+    [Description("Choose which Talent Tree you want for leveling")]
+    [DropdownList(new string[] { "WarriorFury", "WarriorArms", "WarriorProtection" })]
+    public string ChooseTalent { get; set; }
+
+
     private WarriorLevelSettings()
     {
         AssignTalents = true;
         TalentCodes = new List<string> { };
         UseDefaultTalents = true;
+        ChooseTalent = "WarriorFury";
         Framelock = false;
         Delay = 50;
     }

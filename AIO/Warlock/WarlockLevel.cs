@@ -14,7 +14,7 @@ using System.Linq;
 using wManager.Events;
 
 
-public static class Warlock
+public static class WarlockLevel
 {
 
 
@@ -60,6 +60,7 @@ public static class Warlock
 
             Logging.Write("Movement Lua enabled");
             WarlockLevelSettings.Load();
+            Main.kindofclass = WarlockLevelSettings.CurrentSetting.ChooseTalent;
             Talents.InitTalents(WarlockLevelSettings.CurrentSetting.AssignTalents,
                                 WarlockLevelSettings.CurrentSetting.UseDefaultTalents,
                                 WarlockLevelSettings.CurrentSetting.TalentCodes.ToArray());
@@ -132,6 +133,7 @@ public static class Warlock
         var settingWindow = new MarsSettingsGUI.SettingsWindow(WarlockLevelSettings.CurrentSetting, ObjectManager.Me.WowClass.ToString());
         settingWindow.ShowDialog();
         WarlockLevelSettings.CurrentSetting.Save();
+        Main.kindofclass = WarlockLevelSettings.CurrentSetting.ChooseTalent;
     }
 
 

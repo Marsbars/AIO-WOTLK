@@ -105,6 +105,7 @@ public static class DruidLevel
         {
             _isLaunched = true;
             DruidLevelSettings.Load();
+            Main.kindofclass = DruidLevelSettings.CurrentSetting.ChooseTalent;
             Talents.InitTalents(DruidLevelSettings.CurrentSetting.AssignTalents,
                                 DruidLevelSettings.CurrentSetting.UseDefaultTalents,
                                 DruidLevelSettings.CurrentSetting.TalentCodes.ToArray());
@@ -132,6 +133,7 @@ public static class DruidLevel
         var settingWindow = new MarsSettingsGUI.SettingsWindow(DruidLevelSettings.CurrentSetting, ObjectManager.Me.WowClass.ToString());
         settingWindow.ShowDialog();
         DruidLevelSettings.CurrentSetting.Save();
+        Main.kindofclass = DruidLevelSettings.CurrentSetting.ChooseTalent;
     }
 
     public static void Rotation()

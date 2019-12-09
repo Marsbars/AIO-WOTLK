@@ -58,6 +58,7 @@ public static class MageLevel
             Logging.Write("Mage Low Level  Class...loading...");
             #endregion
             MageLevelSettings.Load();
+            Main.kindofclass = MageLevelSettings.CurrentSetting.ChooseTalent;
             Talents.InitTalents(MageLevelSettings.CurrentSetting.AssignTalents,
                                 MageLevelSettings.CurrentSetting.UseDefaultTalents,
                                 MageLevelSettings.CurrentSetting.TalentCodes.ToArray());
@@ -131,6 +132,7 @@ public static class MageLevel
         var settingWindow = new MarsSettingsGUI.SettingsWindow(MageLevelSettings.CurrentSetting, ObjectManager.Me.WowClass.ToString());
         settingWindow.ShowDialog();
         MageLevelSettings.CurrentSetting.Save();
+        Main.kindofclass = MageLevelSettings.CurrentSetting.ChooseTalent;
     }
 
 

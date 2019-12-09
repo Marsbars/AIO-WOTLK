@@ -61,11 +61,20 @@ public class MageLevelSettings : Settings
     [Description("Will automatically assign your talent points.")]
     public bool AssignTalents { get; set; }
 
+    [Setting]
+    [DefaultValue(false)]
+    [Category("Talents")]
+    [DisplayName("Talent Tree")]
+    [Description("Choose which Talent Tree you want for leveling")]
+    [DropdownList(new string[] { "MageFrost", "MageFire", "MageArcane" })]
+    public string ChooseTalent { get; set; }
+
     private MageLevelSettings()
     {
         AssignTalents = true;
         TalentCodes = new List<string> { };
         UseDefaultTalents = true;
+        ChooseTalent = "MageFrost";
         Framelock = false;
         Sheep = false;
         Manastone = 10;
